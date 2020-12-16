@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Admin\Controllers;
+
+use App\Models\{Event, EventType};
+use App\Http\Controllers\Controller;
+use Encore\Admin\Layout\Content;
+use Encore\Admin\Widgets\Box;
+
+class EventStatController extends Controller
+{
+
+	public function index(Content $content)
+    {
+		$stat['all'] = Event::stn()->count();
+		$stat['solved'] = Event::stn()->where('event_status', 1)->count();
+		$stat['unsolved'] = Event::stn()->where('event_status', 0)->count();
+
+		$types = EventType::all();
+		foreach($types as $item) {
+			$data[$item->etype_name] = Event::stn()->where('event_type_id', $item->id)->count();
+		}
+
+        return $content
+			->title('事件统计')
+            ->body(new Box('', view('admin.event-stat', compact('stat', 'data'))));
+    }
+}
