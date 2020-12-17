@@ -72,6 +72,8 @@ add mobile varchar(12) default '' comment '手机',
 add job_desc varchar(255) default '' comment '工作内容',
 add remark varchar(255) default '' comment '备注',
 add organ_id int default 0 comment '组织id',
+add organ_id2 int default 0 comment '组织id2',
+add organ_id3 int default 0 comment '组织id3',
 add status tinyint default 0 comment '0正常, 1禁用',
 add type tinyint default 0 comment '0管理员, 1工作人员',
 add token varchar(32) not null default '' comment 'token',
@@ -213,7 +215,7 @@ create table w_room_users (
 create table w_organs (
 	id int NOT NULL AUTO_INCREMENT primary key,
 	organ_name varchar(255) not null default '' comment '组织名',
-	level tinyint not null default 1 comment '等级',
+	sort tinyint not null default 0 comment '排序',
 	pid int default 0 comment '父级id',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'

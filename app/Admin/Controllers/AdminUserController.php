@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{AdminUser, Station};
+use App\Models\{AdminUser, Station, Organ};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -41,6 +41,10 @@ class AdminUserController extends AdminController
 		$grid->column('station_id', '所属站点')->display(function($v) {
 			$st = Station::find($v);
 			return $st->station_name ?? '';
+		});
+		$grid->column('organ_id', '所属组织')->display(function($v) {
+			$organ = Organ::find($v);
+			return $organ->organ_name ?? '';
 		});
 		$grid->column('gender', '性别')->display(function($v) {
 			$arr = ['女', '男'];
@@ -113,7 +117,15 @@ class AdminUserController extends AdminController
             ->updateRules(['required', "unique:{$connection}.{$userTable},username,{{id}}"]);
 
         $form->text('name', '姓名')->rules('required');
-        $form->select('organ_id', '组织')->options([0 => '默认组织']);
+        $form->select('organ_id', '组织')->options(Organ::where('pid',0)->pluck('organ_name', 'id'))->load('organ_id2', '/admin/organs/lists')->rules('required');
+		$form->select('organ_id2', '二级组织')->options(function() {
+			$organId = $this->organ_id;
+			return Organ::where('pid', $organId)->pluck('organ_name', 'id');
+		})->load('organ_id3', '/admin/organs/lists');
+		$form->select('organ_id3', '三级组织')->options(function() {
+			$organId = $this->organ_id2;
+			return Organ::where('pid', $organId)->pluck('organ_name', 'id');
+		});
         $form->text('mobile', '电话')->rules('required');
 		$form->radio('status', '账号状态')->options(['启用', '禁用'])->default(0);
         $form->multipleSelect('roles', '职务')->options($roleModel::all()->pluck('name', 'id'));
