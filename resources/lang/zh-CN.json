@@ -62,5 +62,7 @@
 	"Used gas":"用气量(L)",
 	"Data pic":"数据凭证",
 	"Report user name":"上报人",
-	"Report time":"上报时间"
+	"Report time":"上报时间",
+	"Organ name":"组织名",
+	"Pid":"父级"
 }

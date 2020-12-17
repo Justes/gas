@@ -32,4 +32,5 @@ Route::group([
 	$router->resource('bottle-stds', BottleStdController::class);
 	$router->resource('gas-stats', GasStatController::class);
 	$router->resource('gas-used-details', GasUsedDetailController::class);
+	$router->resource('organs', OrganController::class);
 });

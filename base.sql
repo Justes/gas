@@ -209,3 +209,12 @@ create table w_room_users (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '聊天室用户';
+
+create table w_organs (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	organ_name varchar(255) not null default '' comment '组织名',
+	level tinyint not null default 1 comment '等级',
+	pid int default 0 comment '父级id',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '组织管理';

@@ -390,7 +390,7 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         ),
         'Fruitcake\\Cors\\' => 
         array (
-            0 => __DIR__ . '/..' . '/barryvdh/laravel-cors/src',
+            0 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
         ),
         'Fideloper\\Proxy\\' => 
         array (
@@ -510,6 +510,7 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Admin\\Controllers\\GasUsedDetailController' => __DIR__ . '/../..' . '/app/Admin/Controllers/GasUsedDetailController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\NoticeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/NoticeController.php',
+        'App\\Admin\\Controllers\\OrganController' => __DIR__ . '/../..' . '/app/Admin/Controllers/OrganController.php',
         'App\\Admin\\Controllers\\StationController' => __DIR__ . '/../..' . '/app/Admin/Controllers/StationController.php',
         'App\\Admin\\Controllers\\StoreController' => __DIR__ . '/../..' . '/app/Admin/Controllers/StoreController.php',
         'App\\Admin\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserController.php',
@@ -553,6 +554,7 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Models\\EventType' => __DIR__ . '/../..' . '/app/Models/EventType.php',
         'App\\Models\\GasStat' => __DIR__ . '/../..' . '/app/Models/GasStat.php',
         'App\\Models\\GasUsedDetail' => __DIR__ . '/../..' . '/app/Models/GasUsedDetail.php',
+        'App\\Models\\Organ' => __DIR__ . '/../..' . '/app/Models/Organ.php',
         'App\\Models\\Room' => __DIR__ . '/../..' . '/app/Models/Room.php',
         'App\\Models\\RoomUser' => __DIR__ . '/../..' . '/app/Models/RoomUser.php',
         'App\\Models\\Standard' => __DIR__ . '/../..' . '/app/Models/Standard.php',
@@ -1921,8 +1923,8 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
         'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
-        'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-cors/src/CorsServiceProvider.php',
-        'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/barryvdh/laravel-cors/src/HandleCors.php',
+        'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
+        'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
         'Hamcrest\\Arrays\\IsArrayContaining' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
         'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',
