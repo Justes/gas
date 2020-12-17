@@ -98,4 +98,22 @@ class UserController extends BaseController {
 		$user->save();
 		return err();
 	}
+
+	public function info(Request $req) {
+		$userId = $req->user_id ?? $this->uid();
+		$user = AdminUser::find($userId);
+		if($user) {
+			$arr['avatar'] = $user->avatar;
+			$arr['name'] = $user->name;
+			$arr['mobile'] = $user->mobile;
+			$arr['station_name'] = $user->station->station_name ?? '';
+			$arr['company_name'] = $user->station->company->company_name ?? '';
+			$roleUser =	AdminRoleUser::where('user_id', $user->id)->first();
+			$arr['role_name'] = $roleUser->role->name ?? '';
+			return err(0, $arr);
+		} else {
+			return err(4000);
+		}
+		
+	}
 }
