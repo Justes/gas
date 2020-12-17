@@ -18,11 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Api'], function() {
+	Route::get('/', 'IndexController@index');
 	Route::post('user/login', 'UserController@login');
 	Route::get('user/check', 'UserController@check');
 });
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
+	Route::post('user/update', 'UserController@update');
 	Route::post('user/reset', 'UserController@reset');
 	Route::get('user/contacters', 'UserController@contacters');
+	Route::resource('room', 'RoomController');
 });

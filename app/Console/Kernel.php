@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Article;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +27,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+		$schedule->call(function() {
+			$this->articles();
+		})->dailyAt('02:00');
     }
 
     /**
@@ -39,4 +43,16 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+	protected function articles() {
+		$arts = Article::where(['effect_status' => 0, 'effect_type' => 1])->get();
+		$now = time();
+		foreach($arts as $item) {
+			$end = strtotime($item->send_time) + $item->effect_days * 86400;
+			if($end < $now) {
+				$item->effect_status = 1;
+				$item->save();
+			}
+		}
+	}
 }

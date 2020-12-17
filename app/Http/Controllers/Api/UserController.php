@@ -77,9 +77,25 @@ class UserController extends BaseController {
 		}
 
 		$roomIds = RoomUser::where('user_id', $this->uid())->groupBy('room_id')->pluck('room_id')->toArray();
-		$list['rooms'] = Room::whereIn('id', $roomIds)->get(['id as room_id', 'room_name', 'room_pic']);
+		$list['rooms'] = Room::whereIn('id', $roomIds)->get(['id as room_id', 'room_name', 'room_pic', 'user_cnt']);
 		$list['users'] = $arr;
 
 		return err(0, $list);
+	}
+
+	public function update(Request $req) {
+		$editable = ['avatar', 'name', 'mobile'];
+		$data = $req->all();
+
+		$user = $this->user();
+
+		foreach($data as $key => $item) {
+			if(in_array($key, $editable)) {
+				$user->$key = $item;
+			}
+		}
+
+		$user->save();
+		return err();
 	}
 }

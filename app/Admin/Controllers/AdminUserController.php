@@ -47,8 +47,9 @@ class AdminUserController extends AdminController
 			return $arr[$v];
 		});
         $grid->column('mobile', '联系电话');
-        $grid->column('roles', '职务')->pluck('name')->label();
-
+        $grid->column('roles', '职务')->display(function($v) {
+			return $v[0]['name'];
+		});
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->getKey() == 1) {
                 $actions->disableDelete();

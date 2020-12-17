@@ -75,7 +75,7 @@ add organ_id int default 0 comment '组织id',
 add status tinyint default 0 comment '0正常, 1禁用',
 add type tinyint default 0 comment '0管理员, 1工作人员',
 add token varchar(32) not null default '' comment 'token',
-add cid int default 0 comment '连接id';
+add uuid varchar(255) default '' comment '连接id';
 
 create table w_zones (
 	id int NOT NULL AUTO_INCREMENT primary key,
@@ -99,6 +99,7 @@ create table w_articles (
 	content text default null comment '内容',
 	effect_type tinyint default 0 comment '有效 0 永久, 1限时',
 	effect_days int default 0 comment '有效天数',
+	effect_status tinyint default 0 comment '有效状态 0正常 1已过期',
 	send_type tinyint default 0 comment '发送 0立即, 1定时',
 	send_time varchar(32) default null comment '发送时间',
 	receive_type tinyint default 0 comment '接收 0全部 1指定人',
@@ -195,6 +196,7 @@ create table w_rooms (
 	id int NOT NULL AUTO_INCREMENT primary key,
 	room_name varchar(32) not null default '' comment '群组名',
 	room_pic varchar(255) not null default '' comment '群组图标',
+	user_cnt int default 0 comment '用户数',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '聊天室';
@@ -203,6 +205,7 @@ create table w_room_users (
 	id int NOT NULL AUTO_INCREMENT primary key,
 	room_id int not null default 0 comment '聊天室id',
 	user_id int not null default 0 comment '用户id',
+	user_type int not null default 0 comment '用户类型 0普通用户 1群主',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '聊天室用户';

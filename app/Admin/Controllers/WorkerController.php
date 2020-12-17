@@ -47,7 +47,9 @@ class WorkerController extends AdminController
 			return $arr[$v];
 		});
         $grid->column('mobile', '联系电话');
-        $grid->column('roles', '职务')->pluck('name')->label();
+		$grid->column('roles', '职务')->display(function($v) {
+			return $v[0]['name'];
+		});
         $grid->column('job_desc', '工作职责');
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {

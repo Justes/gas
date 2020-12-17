@@ -130,6 +130,7 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         ),
         'F' => 
         array (
+            'Fruitcake\\Cors\\' => 15,
             'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
         ),
@@ -163,6 +164,7 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         ),
         'A' => 
         array (
+            'Asm89\\Stack\\' => 12,
             'App\\' => 4,
         ),
     );
@@ -386,6 +388,10 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
         ),
+        'Fruitcake\\Cors\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-cors/src',
+        ),
         'Fideloper\\Proxy\\' => 
         array (
             0 => __DIR__ . '/..' . '/fideloper/proxy/src',
@@ -458,6 +464,10 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         array (
             0 => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src',
         ),
+        'Asm89\\Stack\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/asm89/stack-cors/src',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -488,15 +498,18 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Admin\\Controllers\\ArticleSecController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ArticleSecController.php',
         'App\\Admin\\Controllers\\AttachmentController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AttachmentController.php',
         'App\\Admin\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AuthController.php',
+        'App\\Admin\\Controllers\\BottleStdController' => __DIR__ . '/../..' . '/app/Admin/Controllers/BottleStdController.php',
         'App\\Admin\\Controllers\\CategoryController' => __DIR__ . '/../..' . '/app/Admin/Controllers/CategoryController.php',
         'App\\Admin\\Controllers\\CompanyController' => __DIR__ . '/../..' . '/app/Admin/Controllers/CompanyController.php',
         'App\\Admin\\Controllers\\DeviceController' => __DIR__ . '/../..' . '/app/Admin/Controllers/DeviceController.php',
         'App\\Admin\\Controllers\\EventController' => __DIR__ . '/../..' . '/app/Admin/Controllers/EventController.php',
-        'App\\Admin\\Controllers\\EventLimitController' => __DIR__ . '/../..' . '/app/Admin/Controllers/EventLimitController.php',
         'App\\Admin\\Controllers\\EventStatController' => __DIR__ . '/../..' . '/app/Admin/Controllers/EventStatController.php',
         'App\\Admin\\Controllers\\EventTypeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/EventTypeController.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
+        'App\\Admin\\Controllers\\GasStatController' => __DIR__ . '/../..' . '/app/Admin/Controllers/GasStatController.php',
+        'App\\Admin\\Controllers\\GasUsedDetailController' => __DIR__ . '/../..' . '/app/Admin/Controllers/GasUsedDetailController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
+        'App\\Admin\\Controllers\\NoticeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/NoticeController.php',
         'App\\Admin\\Controllers\\StationController' => __DIR__ . '/../..' . '/app/Admin/Controllers/StationController.php',
         'App\\Admin\\Controllers\\StoreController' => __DIR__ . '/../..' . '/app/Admin/Controllers/StoreController.php',
         'App\\Admin\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserController.php',
@@ -506,6 +519,10 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Admin\\Extensions\\WangEditor' => __DIR__ . '/../..' . '/app/Admin/Extensions/Form/WangEditor.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\Api\\BaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/BaseController.php',
+        'App\\Http\\Controllers\\Api\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/IndexController.php',
+        'App\\Http\\Controllers\\Api\\RoomController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RoomController.php',
+        'App\\Http\\Controllers\\Api\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/UserController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -514,6 +531,7 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
+        'App\\Http\\Middleware\\AuthToken' => __DIR__ . '/../..' . '/app/Http/Middleware/AuthToken.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -521,6 +539,9 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Traits\\ValidTrait' => __DIR__ . '/../..' . '/app/Http/Traits/ValidTrait.php',
+        'App\\Models\\AdminRole' => __DIR__ . '/../..' . '/app/Models/AdminRole.php',
+        'App\\Models\\AdminRoleUser' => __DIR__ . '/../..' . '/app/Models/AdminRoleUser.php',
         'App\\Models\\AdminUser' => __DIR__ . '/../..' . '/app/Models/AdminUser.php',
         'App\\Models\\Article' => __DIR__ . '/../..' . '/app/Models/Article.php',
         'App\\Models\\Attachment' => __DIR__ . '/../..' . '/app/Models/Attachment.php',
@@ -530,6 +551,11 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Models\\Device' => __DIR__ . '/../..' . '/app/Models/Device.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
         'App\\Models\\EventType' => __DIR__ . '/../..' . '/app/Models/EventType.php',
+        'App\\Models\\GasStat' => __DIR__ . '/../..' . '/app/Models/GasStat.php',
+        'App\\Models\\GasUsedDetail' => __DIR__ . '/../..' . '/app/Models/GasUsedDetail.php',
+        'App\\Models\\Room' => __DIR__ . '/../..' . '/app/Models/Room.php',
+        'App\\Models\\RoomUser' => __DIR__ . '/../..' . '/app/Models/RoomUser.php',
+        'App\\Models\\Standard' => __DIR__ . '/../..' . '/app/Models/Standard.php',
         'App\\Models\\Station' => __DIR__ . '/../..' . '/app/Models/Station.php',
         'App\\Models\\Zone' => __DIR__ . '/../..' . '/app/Models/Zone.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -537,7 +563,10 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Providers\\TelescopeServiceProvider' => __DIR__ . '/../..' . '/app/Providers/TelescopeServiceProvider.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
+        'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
@@ -1892,6 +1921,8 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
         'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
+        'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-cors/src/CorsServiceProvider.php',
+        'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/barryvdh/laravel-cors/src/HandleCors.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
         'Hamcrest\\Arrays\\IsArrayContaining' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
         'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',
