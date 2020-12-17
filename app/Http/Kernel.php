@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Barryvdh\Cors\HandleCors;
 
 class Kernel extends HttpKernel
 {
@@ -20,6 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+		\Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -62,7 +62,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 		'auth.token'    => \App\Http\Middleware\AuthToken::class,
-		'barryvdhcors'  => HandleCors::class,
     ];
 
     /**
