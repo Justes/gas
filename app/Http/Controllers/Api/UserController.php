@@ -70,6 +70,10 @@ class UserController extends BaseController {
 		$users = AdminUser::where('status', 0)->get();
 		$arr = [];
 		foreach($users as $user) {
+			if($this->uid() == $user->id) {
+				continue;
+			}
+
 			$tmp['user_id'] = $user->id;
 			$tmp['name'] = $user->station->station_name . '('.$user->name.')';
 			$tmp['avatar'] = $user->avatar ?? '';
