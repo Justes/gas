@@ -107,7 +107,7 @@ class UserController extends BaseController {
 		$userId = $req->user_id ?? $this->uid();
 		$user = AdminUser::find($userId);
 		if($user) {
-			$arr['avatar_url'] = $user->avatar_url;
+			$arr['avatar'] = $user->avatar_url;
 			$arr['name'] = $user->name;
 			$arr['mobile'] = $user->mobile;
 			$arr['station_name'] = $user->station->station_name ?? '';
