@@ -111,6 +111,9 @@ class UserController extends BaseController {
 		$user = AdminUser::find($userId);
 		if($user) {
 			$arr['avatar'] = $user->avatar;
+			if($user->avatar) {
+				$arr['avatar'] = \Storage::disk('admin')->url($user->avatar);
+			}
 			$arr['name'] = $user->name;
 			$arr['mobile'] = $user->mobile;
 			$arr['station_name'] = $user->station->station_name ?? '';
@@ -122,5 +125,8 @@ class UserController extends BaseController {
 			return err(4000);
 		}
 		
+	}
+
+	public function upload() {
 	}
 }
