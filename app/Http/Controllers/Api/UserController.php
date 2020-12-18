@@ -121,6 +121,22 @@ class UserController extends BaseController {
 		
 	}
 
-	public function upload() {
+	public function upload(Request $req) {
+		$file = $req->file('file');
+		$name = $file->getClientOriginalName();
+		$rand = '_'.mt_rand(1000, 9999);
+		$ext = '';
+		if(strpos($name, '.')) {
+			$arr = explode('.', $name);
+			$ext = end($arr);
+			$name = $arr[0];
+		}
+		$name .= $rand.'.'.$ext;
+
+		$path = \Storage::disk('admin')->putFileAs('files', $file, $name);
+		$data['file_url'] = \Storage::disk('admin')->url($path);
+		$data['file_name'] = $name;
+		$data['file_ext'] = $ext;
+		return err(0, $data);
 	}
 }

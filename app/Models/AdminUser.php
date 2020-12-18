@@ -12,8 +12,11 @@ class AdminUser extends BaseModel {
 
 	public function getAvatarUrlAttribute() {
 		if($this->avatar) {
-			return \Storage::disk('admin')->url($this->avatar);
+			if(strpos($this->avatar, 'http') === false) {
+				return \Storage::disk('admin')->url($this->avatar);
+			}
 		}
+		return $this->avatar;
 	}
 
 }
