@@ -76,7 +76,10 @@ class UserController extends BaseController {
 
 			$tmp['user_id'] = $user->id;
 			$tmp['name'] = $user->station->station_name . '('.$user->name.')';
-			$tmp['avatar'] = $user->avatar ?? '';
+			$tmp['avatar'] = '';
+			if($user->avatar) {
+				$tmp['avatar'] = \Storage::disk('admin')->url($user->avatar);
+			}
 			$arr[] = $tmp;
 		}
 
