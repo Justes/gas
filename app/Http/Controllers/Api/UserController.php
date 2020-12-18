@@ -76,10 +76,7 @@ class UserController extends BaseController {
 
 			$tmp['user_id'] = $user->id;
 			$tmp['name'] = $user->station->station_name . '('.$user->name.')';
-			$tmp['avatar'] = '';
-			if($user->avatar) {
-				$tmp['avatar'] = \Storage::disk('admin')->url($user->avatar);
-			}
+			$tmp['avatar'] = $user->avatar_url;
 			$arr[] = $tmp;
 		}
 
@@ -110,10 +107,7 @@ class UserController extends BaseController {
 		$userId = $req->user_id ?? $this->uid();
 		$user = AdminUser::find($userId);
 		if($user) {
-			$arr['avatar'] = $user->avatar;
-			if($user->avatar) {
-				$arr['avatar'] = \Storage::disk('admin')->url($user->avatar);
-			}
+			$arr['avatar_url'] = $user->avatar_url;
 			$arr['name'] = $user->name;
 			$arr['mobile'] = $user->mobile;
 			$arr['station_name'] = $user->station->station_name ?? '';
