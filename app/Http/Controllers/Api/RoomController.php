@@ -28,17 +28,61 @@ class RoomController extends BaseController {
 		return err(0, $users);
 	}
 
-	public function store(Request $req) {
-		$rules = $this->required($req, ['user_ids']);
+	public function add(Request $req) {
+		$rules = $this->required($req, ['room_id', 'user_ids']);
 		if($rules) return err(4001, $rules);
 
-		$userIds[] = $this->uid();
 		$uids = json_decode($req->user_ids, true);
 		if(empty($uids)) {
 			return err(4000);
 		}
 
-		$userIds = array_merge($userIds, $uids);
+		$userIds = array_flip(array_flip($uids));
+
+		foreach($userIds as $uid) {
+			$data = ['room_id' => $req->room_id, 'user_id' => $uid];
+			RoomUser::firstOrCreate($data, $data);
+		}
+
+		$cnt = RoomUser::where('room_id', $req->room_id)->count();
+		Room::where('id', $req->room_id)->update(['user_cnt' => $cnt]);
+
+		return err();
+	}
+
+	public function del(Request $req) {
+		$rules = $this->required($req, ['room_id', 'user_ids']);
+		if($rules) return err(4001, $rules);
+
+		$ruser = RoomUser::where(['id' => $req->room_id, 'user_id' => $this->uid()])->first();
+		if(empty($ruser->user_type)) {
+			return err(4000);
+		}
+
+		$uids = json_decode($req->user_ids, true);
+		if(empty($uids)) {
+			return err(4000);
+		}
+
+		$userIds = array_flip(array_flip($uids));
+		RoomUser::where('room_id', $req->room_id)->whereIn('user_id', $userIds)->delete();
+
+		$cnt = RoomUser::where('room_id', $req->room_id)->count();
+		Room::where('id', $req->room_id)->update(['user_cnt' => $cnt]);
+
+		return err();
+	}
+
+	public function store(Request $req) {
+		$rules = $this->required($req, ['user_ids']);
+		if($rules) return err(4001, $rules);
+
+		$uids = json_decode($req->user_ids, true);
+		if(empty($uids)) {
+			return err(4000);
+		}
+
+		$userIds = array_flip(array_flip($uids));
 
 		$room = Room::create(['user_cnt' => count($userIds)]);
 		$room->room_name = '聊天群'.$room->id;
@@ -57,4 +101,41 @@ class RoomController extends BaseController {
 
 		return err(0, $arr);
 	}
+
+	public function update(Request $req) {
+		$rules = $this->required($req, ['room_id']);
+		if($rules) return err(4001, $rules);
+
+		$v = $req->all();
+		$roomModel = new Room;
+		Room::where('id', $req->room_id)->update($roomModel->trims($v));
+		return err();
+	}
+
+	public function uexit(Request $req) {
+		$rules = $this->required($req, ['room_id']);
+		if($rules) return err(4001, $rules);
+
+		$ruser = RoomUser::where(['room_id' => $req->room_id, 'user_id' => $this->uid()])->first();
+		if($ruser) {
+			$utype = $ruser->user_type;
+			$ruser->delete();
+
+			if($utype) {
+				$ru = RoomUser::where(['room_id' => $req->room_id])->first();
+				if($ru) {
+					$ru->user_type = 1;
+					$ru->save();
+				} else {
+					Room::where('id', $req->room_id)->delete();
+				}
+			}
+
+		}
+
+		$cnt = RoomUser::where('room_id', $req->room_id)->count();
+		Room::where('id', $req->room_id)->update(['user_cnt' => $cnt]);
+		return err();
+	}
+
 }

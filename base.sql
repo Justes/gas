@@ -220,3 +220,31 @@ create table w_organs (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '组织管理';
+
+create table w_im_msgs (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	msgid varchar(32) not null default '' comment '消息id',
+	timestamp int not null default 0 comment '时间戳',
+	type int not null default 1 comment '类型 1聊天 2公告 9登录',
+	chat_type int not null default 1 comment '1 单聊, 2群聊',
+	msg_type int not null default 0 comment '消息类型 1文本 2语音 3图片 4文件',
+	msg varchar(1000) not null default '' comment '消息内容',
+	token varchar(32) not null default '' comment '用户token',
+	user_id int not null default 0 comment '用户id',
+	`to` int not null default 0 comment '接收方 用户id/群组id',
+	file_url varchar(255) not null default '' comment '文件url',
+	file_name varchar(255) not null default '' comment '文件名',
+	file_ext varchar(255) not null default '' comment '文件扩展',
+	is_send int not null default 0 comment '是否已发送 0否 1是',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间',
+	`deleted_at` datetime DEFAULT NULL COMMENT '删除时间'
+) comment '历史消息';
+
+create table w_article_views (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	article_id int default 0 comment '文章id',
+	user_id int not null default 0 comment '用户id',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '文章浏览记录';

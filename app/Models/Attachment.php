@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Attachment extends BaseModel {
 
-	protected $appends = ['article_title', 'file_name', 'file_ext', 'post_user_name'];
+	protected $appends = ['article_title', 'file_name', 'file_ext', 'post_user_name', 'file_url'];
 
 	public function article() {
 		return $this->belongsTo('App\Models\Article');
@@ -29,6 +29,10 @@ class Attachment extends BaseModel {
 
 	public function getPostUserNameAttribute() {
 		return $this->article->admin->name ?? '';
+	}
+
+	public function getFileUrlAttribute() {
+		return \Storage::disk('admin')->url($this->path);
 	}
 
 }

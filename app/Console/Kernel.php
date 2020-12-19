@@ -30,6 +30,10 @@ class Kernel extends ConsoleKernel
 		$schedule->call(function() {
 			$this->articles();
 		})->dailyAt('02:00');
+
+		$schedule->call(function() {
+			$this->postArticles();
+		})->hourly();
     }
 
     /**
@@ -51,6 +55,17 @@ class Kernel extends ConsoleKernel
 			$end = strtotime($item->send_time) + $item->effect_days * 86400;
 			if($end < $now) {
 				$item->effect_status = 1;
+				$item->save();
+			}
+		}
+	}
+
+	protected function postArticles() {
+		$arts = Article::where(['effect_status' => 0, 'send_type' => 1, 'post_status' => 1])->get();
+		$now = time();
+		foreach($arts as $item) {
+			if($now > strtotime($item->send_time)) {
+				$item->post_status = 0;
 				$item->save();
 			}
 		}

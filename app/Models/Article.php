@@ -22,6 +22,10 @@ class Article extends BaseModel {
         return $this->hasMany(Attachment::class);
     }
 
+	public function views() {
+        return $this->hasMany(ArticleView::class);
+    }
+
 	public function getEffectTypeTextAttribute() {
 		return $this->effectArr[$this->effect_type];
 	}

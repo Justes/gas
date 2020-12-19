@@ -29,5 +29,18 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
 	Route::post('user/update', 'UserController@update');
 	Route::post('user/reset', 'UserController@reset');
 	Route::get('user/contacters', 'UserController@contacters');
+
+	Route::post('room/uexit', 'RoomController@uexit');
+	Route::post('room/update', 'RoomController@update');
+	Route::post('room/del', 'RoomController@del');
+	Route::post('room/add', 'RoomController@add');
 	Route::resource('room', 'RoomController');
+
+	Route::resource('imsg', 'ImMsgController');
+
+	Route::get('article/view', 'ArticleController@view');
+	Route::resource('article', 'ArticleController');
+
+	Route::post('event/solve', 'EventController@solve');
+	Route::resource('event', 'EventController');
 });

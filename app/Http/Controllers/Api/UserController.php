@@ -18,6 +18,7 @@ class UserController extends BaseController {
 				return err(4113);
 			}
 
+			$info['user_id'] = $user->id;
 			$info['name'] = $user->name;
 			$info['avatar'] = $user->avatar ?? '';
 			$info['company_name'] = $user->station->company->company_name;
@@ -75,7 +76,7 @@ class UserController extends BaseController {
 			}
 
 			$tmp['user_id'] = $user->id;
-			$tmp['name'] = $user->station->station_name . '('.$user->name.')';
+			$tmp['name'] = $user->sname;
 			$tmp['avatar'] = $user->avatar_url;
 			$arr[] = $tmp;
 		}
@@ -107,6 +108,7 @@ class UserController extends BaseController {
 		$userId = $req->user_id ?? $this->uid();
 		$user = AdminUser::find($userId);
 		if($user) {
+			$arr['user_id'] = $user->id;
 			$arr['avatar'] = $user->avatar_url;
 			$arr['name'] = $user->name;
 			$arr['mobile'] = $user->mobile;
