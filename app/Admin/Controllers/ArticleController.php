@@ -26,7 +26,7 @@ class ArticleController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Article());
-		$grid->model()->orderBy('id', 'desc');
+		$grid->model()->where('article_type', 0)->orderBy('id', 'desc');
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
