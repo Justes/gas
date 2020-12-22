@@ -236,10 +236,22 @@ create table w_im_msgs (
 	file_name varchar(255) not null default '' comment '文件名',
 	file_ext varchar(255) not null default '' comment '文件扩展',
 	is_send int not null default 0 comment '是否已发送 0否 1是',
+	name varchar(255) not null default '' comment '用户名',
+	avatar varchar(255) not null default '' comment '用户头像',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间',
 	`deleted_at` datetime DEFAULT NULL COMMENT '删除时间'
 ) comment '历史消息';
+
+create table w_chats ( 
+	id int NOT NULL AUTO_INCREMENT primary key,
+	user_id int not null default 0 comment '用户id',
+	`to` int not null default 0 comment '接收方 用户id/群组id',
+	chat_type int not null default 1 comment '1 单聊, 2群聊',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间',
+	`deleted_at` datetime DEFAULT NULL COMMENT '删除时间'
+) comment '用户会话';
 
 create table w_article_views (
 	id int NOT NULL AUTO_INCREMENT primary key,
@@ -248,3 +260,9 @@ create table w_article_views (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '文章浏览记录';
+
+create table w_station_reports (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '场站上报';

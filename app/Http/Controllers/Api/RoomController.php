@@ -17,8 +17,8 @@ class RoomController extends BaseController {
 			if($user) {
 				$stationName = $user->station->station_name ?? '';
 				$tmp['user_id'] = $user->id;
-				$tmp['name'] = $stationName .'('.$user->name.')';
-				$tmp['avatar'] = $user->avatar ?? '';
+				$tmp['name'] = $user->sname ?? '';
+				$tmp['avatar'] = $user->avatar_url ?? '';
 				$tmp['user_type'] = $ru->user_type;
 
 				$users[] = $tmp;
