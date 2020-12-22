@@ -41,7 +41,19 @@ class ImMsgController extends BaseController {
 			}
 		}
 
-
 		return err(0, $msgArr);
+	}
+
+	public function files() {
+		$msgs = ImMsg::where(['chat_type' => 1, 'to' => $this->uid(), 'msg_type' => 4])->orderBy('id', 'desc')->paginate();
+		$arr = [];
+		foreach($msgs as $msg) {
+			$tmp = $msg->toArray();
+			$user = AdminUser::find($msg->user_id);
+			$tmp['name'] = $user->sname;
+			$tmp['avatar'] = $user->avatar_url;
+			$arr[] = $tmp;
+		}
+		return err(0, $arr);
 	}
 }

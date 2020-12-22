@@ -36,8 +36,10 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
 	Route::post('room/add', 'RoomController@add');
 	Route::resource('room', 'RoomController');
 
+	Route::get('imsg/files', 'ImMsgController@files');
 	Route::resource('imsg', 'ImMsgController');
 
+	Route::get('article/files', 'ArticleController@files');
 	Route::get('article/view', 'ArticleController@view');
 	Route::resource('article', 'ArticleController');
 

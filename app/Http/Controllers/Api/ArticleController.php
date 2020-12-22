@@ -6,9 +6,11 @@ use App\Models\{Article, ArticleView, Attachment};
 
 class ArticleController extends BaseController {
 
-	public function index() {
+	public function index(Request $req) {
+		$articleType = $req->article_type;
+
 		$uid = $this->uid();
-		$arts = Article::where(['effect_status' => 0, 'post_status' => 0])->where(function($query) use ($uid) {
+		$arts = Article::where(['effect_status' => 0, 'post_status' => 0, 'article_type' => $articleType])->where(function($query) use ($uid) {
 			$query->where('receive_type', 0)
 				->orWhere('receive_user_ids', 'like', "%{$uid}%");
 
@@ -43,7 +45,7 @@ class ArticleController extends BaseController {
 
 		$data['articles'] = $arr;
 
-		$artIds = Article::where(['effect_status' => 0, 'post_status' => 0])->where(function($query) use ($uid) {
+		$artIds = Article::where(['effect_status' => 0, 'post_status' => 0, 'article_type' => $articleType])->where(function($query) use ($uid) {
 			$query->where('receive_type', 0)
 				->orWhere('receive_user_ids', 'like', "%{$uid}%");
 		})->pluck('id');
@@ -68,6 +70,17 @@ class ArticleController extends BaseController {
 		$data = ['article_id' => $req->article_id, 'user_id' => $this->uid()];
 		ArticleView::firstOrCreate($data, $data);
 		return err();
+	}
+
+	public function files() {
+		$attaches = Attachment::orderBy('id', 'desc')->paginate();
+		$arr = [];
+		foreach($attaches as $attach) {
+			$tmp = $attach->toArray();
+			unset($tmp['article']);
+			$arr[] = $tmp;
+		}
+		return err(0, $arr);
 	}
 
 }
