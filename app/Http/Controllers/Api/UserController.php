@@ -144,7 +144,7 @@ class UserController extends BaseController {
 
 	public function chat() {
 		$roomIds = RoomUser::where('user_id', $this->uid())->groupBy('room_id')->pluck('room_id');
-		$chats = Chat::where(['chat_type' => 1, 'user_id' => $this->uid()])->orWhere(function($query) use ($roomIds) {
+		$chats = Chat::where(['chat_type' => 1, 'to' => $this->uid()])->orWhere(function($query) use ($roomIds) {
 			$query->where('chat_type', 2)->whereIn('to', $roomIds);
 		})->orderBy('updated_at', 'desc')->get();
 
