@@ -147,6 +147,24 @@ class UserController extends BaseController {
 		$chats = Chat::where(['chat_type' => 1, 'user_id' => $this->uid()])->orWhere(function($query) use ($roomIds) {
 			$query->where('chat_type', 2)->whereIn('to', $roomIds);
 		})->orderBy('updated_at', 'desc')->get();
+
+		foreach($chats as $item) {
+			if($item->chat_type == 2) {
+				$room = Room::find($item->to);
+				$user = AdminUser::find($item->user_id);
+				$item->msg = $item->name . ':' . $item->msg;
+				$item->name = $room->room_name ?? '';
+				$item->avatar = $room->room_pic ?? '';
+			}
+		}
 		return err(0, $chats);
+	}
+
+	public function chatDel(Request $req) {
+		$rules = $this->required($req, ['id']);
+		if($rules) return err(4001, $rules);
+
+		Chat::destroy($req->id);
+		return err();
 	}
 }

@@ -24,6 +24,8 @@ Route::group(['namespace' => 'Api'], function() {
 });
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
+	Route::post('user/chatDel', 'UserController@chatDel');
+	Route::get('user/chat', 'UserController@chat');
 	Route::post('user/upload', 'UserController@upload');
 	Route::get('user/info', 'UserController@info');
 	Route::post('user/update', 'UserController@update');
