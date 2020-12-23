@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
-use App\Models\{AdminUser, AdminRoleUser, AdminRole, Room, RoomUser};
+use App\Models\{AdminUser, AdminRoleUser, AdminRole, Room, RoomUser, Chat};
 
 class UserController extends BaseController {
 
@@ -20,7 +20,7 @@ class UserController extends BaseController {
 
 			$info['user_id'] = $user->id;
 			$info['name'] = $user->name;
-			$info['avatar'] = $user->avatar ?? '';
+			$info['avatar'] = $user->avatar_url ?? '';
 			$info['company_name'] = $user->station->company->company_name;
 			$info['station_name'] = $user->station->station_name;
 			$roleUser = AdminRoleUser::where('user_id', $user->id)->first();
@@ -140,5 +140,13 @@ class UserController extends BaseController {
 		$data['file_name'] = $name;
 		$data['file_ext'] = $ext;
 		return err(0, $data);
+	}
+
+	public function chat() {
+		$roomIds = RoomUser::where('user_id', $this->uid())->groupBy('room_id')->pluck('room_id');
+		$chats = Chat::where(['chat_type' => 1, 'user_id' => $this->uid()])->orWhere(function($query) use ($roomIds) {
+			$query->where('chat_type', 2)->whereIn('to', $roomIds);
+		})->orderBy('updated_at', 'desc')->get();
+		return err(0, $chats);
 	}
 }
