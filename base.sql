@@ -243,7 +243,7 @@ create table w_im_msgs (
 	`deleted_at` datetime DEFAULT NULL COMMENT '删除时间'
 ) comment '历史消息';
 
-create table w_chats ( 
+create table w_chats (
 	id int NOT NULL AUTO_INCREMENT primary key,
 	user_id int not null default 0 comment '用户id',
 	`to` int not null default 0 comment '接收方 用户id/群组id',

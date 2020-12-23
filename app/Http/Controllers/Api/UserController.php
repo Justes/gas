@@ -144,7 +144,7 @@ class UserController extends BaseController {
 
 	public function chat() {
 		$roomIds = RoomUser::where('user_id', $this->uid())->groupBy('room_id')->pluck('room_id');
-		$chats = Chat::where(['chat_type' => 1, 'to' => $this->uid()])->orWhere(function($query) use ($roomIds) {
+		$chats = Chat::where(['chat_type' => 1, 'user_id' => $this->uid()])->orWhere(function($query) use ($roomIds) {
 			$query->where('chat_type', 2)->whereIn('to', $roomIds);
 		})->orderBy('updated_at', 'desc')->get();
 
@@ -155,6 +155,10 @@ class UserController extends BaseController {
 				$item->msg = $item->name . ':' . $item->msg;
 				$item->name = $room->room_name ?? '';
 				$item->avatar = $room->room_pic ?? '';
+			} else {
+				$user = AdminUser::find($item->to);
+				$item->name = $user->sname ?? '';
+				$item->avatar = $user->avatar_url ?? '';
 			}
 		}
 		return err(0, $chats);
