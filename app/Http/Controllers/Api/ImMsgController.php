@@ -36,7 +36,7 @@ class ImMsgController extends BaseController {
 				$tmp = $item->toArray();
 				$user = $userArr[$item->user_id];
 				$tmp['name'] = $user->sname;
-				$tmp['avatar_url'] = $user->avatar_url;
+				$tmp['avatar'] = $user->avatar_url;
 				$msgArr[] = $tmp;
 			}
 		}
