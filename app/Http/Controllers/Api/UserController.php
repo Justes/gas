@@ -148,6 +148,8 @@ class UserController extends BaseController {
 			$query->where('chat_type', 2)->whereIn('to', $roomIds);
 		})->orderBy('updated_at', 'desc')->get();
 
+		$arr = [];
+
 		foreach($chats as $item) {
 			if($item->chat_type == 2) {
 				$room = Room::find($item->to);
@@ -160,8 +162,18 @@ class UserController extends BaseController {
 				$item->name = $user->sname ?? '';
 				$item->avatar = $user->avatar_url ?? '';
 			}
+
+			$tmp = $item->toArray();
+			$tmp['oid'] = $item->to;
+			if($item->chat_type == 1) {
+				if($item->to == $this->uid()) {
+					$tmp['oid'] = $item->user_id;
+				}
+			}
+
+			$arr[] = $tmp;
 		}
-		return err(0, $chats);
+		return err(0, $arr);
 	}
 
 	public function chatDel(Request $req) {
