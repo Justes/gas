@@ -37,6 +37,15 @@ class ImMsgController extends BaseController {
 				$user = $userArr[$item->user_id];
 				$tmp['name'] = $user->sname;
 				$tmp['avatar'] = $user->avatar_url;
+				if($item->chat_type == 1) {
+					if($item->to == $uid) {
+						$tmp['msg_from'] = $item->user_id;
+					} else {
+						$tmp['msg_from'] = $item->to;
+					}
+				} else {
+					$tmp['msg_from'] = $item->to;
+				}
 				$msgArr[] = $tmp;
 			}
 		}
