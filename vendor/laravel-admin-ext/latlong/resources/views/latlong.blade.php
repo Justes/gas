@@ -1,5 +1,4 @@
 <div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
-
     <label for="{{$id['lat']}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
@@ -24,14 +23,9 @@
                 </div>
             </div>
             @endif
-
         </div>
-
         <br>
-
-        <div id="map_{{$id['lat'].$id['lng']}}" style="width: 100%;height: {{ $height }}px"></div>
-
+        <div id="map_latlng" style="width: 100%;height: {{ $height }}px"></div>
         @include('admin::form.help-block')
-
     </div>
 </div>

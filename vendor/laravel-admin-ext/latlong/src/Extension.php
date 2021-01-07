@@ -20,6 +20,7 @@ class Extension extends BaseExtension
         'amap'    => Map\Amap::class,
         'google'  => Map\Google::class,
         'yandex'  => Map\Yandex::class,
+		'supermap'=> Map\Supermap::class,
     ];
 
     /**

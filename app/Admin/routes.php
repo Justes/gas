@@ -36,4 +36,15 @@ Route::group([
 	$router->post('organs/update', 'OrganController@update');
 	$router->get('organs/lists', 'OrganController@lists');
 	$router->resource('organs', OrganController::class);
+	$router->resource('station-stds', StationStdController::class);
+	$router->resource('station-exams', StationExamController::class);
+	$router->resource('station-exam-stds', StationExamStdController::class);
+	$router->resource('event-exams', EventExamController::class);
+	$router->resource('event-stds', EventStdController::class);
+	$router->resource('fire-exams', FireExamController::class);
+	$router->resource('fire-stds', FireStdController::class);
+	$router->resource('sec-exams', SecExamController::class);
+	$router->resource('sec-stds', SecStdController::class);
+	$router->resource('manage-exams', ManageExamController::class);
+	$router->resource('manage-stds', ManageStdController::class);
 });

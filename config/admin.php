@@ -403,7 +403,7 @@ return [
             'enable' => true,
 
             // Specify the default provider
-            'default' => 'baidu',
+            'default' => 'supermap',
 
             // According to the selected provider above, fill in the corresponding api_key
             'providers' => [
@@ -427,6 +427,10 @@ return [
                 'amap' => [
                     'api_key' => '3693fe745aea0df8852739dac08a22fb',
                 ],
+
+				'supermap' => [
+					'api_key' => '',
+				],
             ]
         ],
 

@@ -162,8 +162,6 @@ create table w_standards (
 	weight int default 0 comment '权重',
 	standard int default 0 comment '标准',
 	bonus int default 0 comment '补贴金额',
-	real_data int default 0 comment '实际数据',
-	result varchar(32) default null comment '结果 0未通过 1通过',
 	std_type tinyint default 0 comment '0 液化气 1自采暖 2经营许可 3考核记录 4事件处理 5消防设施 6 安全作业 7管理制度',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
@@ -238,6 +236,8 @@ create table w_im_msgs (
 	is_send int not null default 0 comment '是否已发送 0否 1是',
 	name varchar(255) not null default '' comment '用户名',
 	avatar varchar(255) not null default '' comment '用户头像',
+	room_name varchar(255) not null default '' comment '群名',
+	room_pic varchar(255) not null default '' comment '群图标',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间',
 	`deleted_at` datetime DEFAULT NULL COMMENT '删除时间'
@@ -268,8 +268,44 @@ create table w_article_views (
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '文章浏览记录';
 
-create table w_station_reports (
+create table w_station_exams (
 	id int NOT NULL AUTO_INCREMENT primary key,
+	period tinyint default 0 comment '考核周期 0周 1月 2季 3年',
+	quarter tinyint default 0 comment '季度 1,2,3,4',
+	station_id int default 0 comment '站点id',
+	score int default 0 comment '评分',
+	exam_status int default 0 comment '考核状态 0未考核 1已考核',
+	exam_date varchar(32) default 0 comment '考核时间',
+	remark varchar(2000) default null comment '备注',
+	std_type tinyint default 0 comment '0 液化气 1自采暖 2经营许可 3考核记录 4事件处理 5消防设施 6 安全作业 7管理制度',
+	event_deal_cnt int default 0 comment '事件处理数',
+	event_cnt int default 0 comment '事件数',
+	event_per varchar(32) default '' comment '事件完成率',
+	report_user_id int default 0 comment '上报人id',
+	year varchar(12) not null default '' comment '上报年',
+	report_time varchar(32) not null default '' comment '上报时间',
+	manage_file varchar(255) not null default '' comment '管理文件',
+	fire_num int default 0 comment '消防设施数量',
+	fire_result varchar(32) not null default '' comment '消防合格率',
+	sec_ck_num int default 0 comment '检查次数',
+	sec_ck_result varchar(32) not null default '' comment '检查合格率',
+	sec_fix_num int default 0 comment '维修次数',
+	sec_fix_result varchar(32) not null default '' comment '维修合格率',
+	extras varchar(2000) not null default '' comment '扩展',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
-) comment '场站上报';
+) comment '场站考核';
+
+create table w_station_exam_stds (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	station_exam_id int default 0 comment '考核id',
+	standard_id int default 0 comment '标准id',
+	project varchar(255) default '' comment '项目',
+	weight int default 0 comment '权重',
+	standard int default 0 comment '标准',
+	bonus int default 0 comment '补贴金额',
+	real_data int default 0 comment '实际数据',
+	result varchar(32) default null comment '结果 0未通过 1通过',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '考核项目结果';
