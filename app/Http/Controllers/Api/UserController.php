@@ -22,6 +22,7 @@ class UserController extends BaseController {
 			$info['name'] = $user->name;
 			$info['avatar'] = $user->avatar_url ?? '';
 			$info['company_name'] = $user->station->company->company_name;
+			$info['station_id'] = $user->station_id;
 			$info['station_name'] = $user->station->station_name;
 			$roleUser = AdminRoleUser::where('user_id', $user->id)->first();
 			$info['role_name'] = $roleUser->role->name ?? '';
