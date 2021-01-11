@@ -27,13 +27,13 @@
   <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page" @if(config('admin.login_background_image'))style="background: url({{config('admin.login_background_image')}}) no-repeat;background-size: cover;"@endif>
-<div class="login-box">
+<body class="hold-transition" style="background:#1B2637" @if(config('admin.login_background_image'))style="background: url({{config('admin.login_background_image')}}) no-repeat;background-size: cover;"@endif>
+<div class="login-box" style="width:500px;">
   <div class="login-logo">
-    <a href="{{ admin_url('/') }}"><b>{{config('admin.name')}}</b></a>
+    <a href="{{ admin_url('/') }}"><b style="color:#FFF">{{config('admin.name')}}</b></a>
   </div>
   <!-- /.login-logo -->
-  <div class="login-box-body">
+  <div class="login-box-body" style="width:360px;margin:0 auto;">
     <p class="login-box-msg">{{ trans('admin.login') }}</p>
 
     <form action="{{ admin_url('auth/login') }}" method="post">
