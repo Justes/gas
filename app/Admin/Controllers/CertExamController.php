@@ -2,21 +2,21 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{StationExam, Station, StationExamStd, Standard, Event};
+use App\Models\{StationExam, Station, StationExamStd, Standard, Event, CertPeriod};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 
-class EventExamController extends AdminController
+class CertExamController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '事件考核管理';
+    protected $title = '经营许可证审核';
 
     /**
      * Make a grid builder.
@@ -27,12 +27,12 @@ class EventExamController extends AdminController
     {
         $grid = new Grid(new StationExam());
 
-		$grid->model()->where('std_type', 4)->orderBy('id', 'desc');
+		$grid->model()->where('std_type', 2)->orderBy('id', 'desc');
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
 			$filter->equal('station_id', __('场站名'))->select(Station::all()->pluck('station_name', 'id'));
-			$filter->equal('period', '考核周期')->select(['周度', '月度', '季度', '年度']);
+			$filter->equal('quarter', '考核季度')->select(['','第一季度', '第二季度', '第三季度', '第四季度']);
 			$filter->equal('exam_status', '考核状态')->select(['未考核', '已考核']);
 		});
 
@@ -40,12 +40,10 @@ class EventExamController extends AdminController
         $grid->column('year', __('Year'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('period_text', __('Period'));
-        $grid->column('score', __('Score'));
-        $grid->column('event_deal_cnt', __('Event deal cnt'));
-        $grid->column('event_per', __('Event per'));
+        $grid->column('effect_begin', __('Effect begin'));
+        $grid->column('effect_end', __('Effect end'));
         $grid->column('exam_date', __('Exam date'));
-        $grid->column('exam_status_text', __('Exam status'));
+        $grid->column('exam_status_text', __('Ck status'));
 
 		$grid->actions(function($row) {
 			$row->disableView();
@@ -96,7 +94,7 @@ class EventExamController extends AdminController
 		if($form->isCreating()) {
 			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
 
-			$stds = Standard::where('std_type', 4)->get();
+			$stds = Standard::where('std_type', 2)->get();
 			foreach($stds as $item) {
 				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']"/ >', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
 			}
@@ -107,7 +105,7 @@ class EventExamController extends AdminController
 			$form->display('station.company.legal_name', __('Legal name'));
 			$form->display('station.company.legal_mobile', __('Legal mobile'));
 
-			$id = request()->route()->parameters()['event_exam'];
+			$id = request()->route()->parameters()['cert_exam'];
 
 			$stds = StationExamStd::where('station_exam_id', $id)->get();
 			foreach($stds as $item) {
@@ -122,30 +120,19 @@ class EventExamController extends AdminController
 		$form->html($table->render());
 
 		$form->divider();
-        $form->number('score', __('Score'))->default(0);
-        $form->date('exam_date', __('Exam date'))->default(date("Y-m-d"));
-        $form->radio('exam_status', __('Exam status'))->options(['未考核', '已考核']);
-        $form->radio('period', __('Period'))->options([1 => '周度', 2 => '月度', 3 => '季度', 4 => '年度'])->default(3);
-		$form->hidden('std_type')->default(4);
-		$form->hidden('event_deal_cnt')->default(0);
-		$form->hidden('event_cnt')->default(0);
-		$form->hidden('event_per');
-		$form->hidden('year');
+		$form->year('year', '年度')->default(date("Y"));
+        $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
+        $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);
+		$form->hidden('std_type')->default(2);
+		$form->hidden('effect_begin');
+		$form->hidden('effect_end');
 
 		$form->saving(function(Form $form) {
-			if($form->isCreating()) {
-				$st = StationExam::where('std_type', 4)->orderBy('id', 'desc')->first();
-				$begin = 0;
-				if($st) {
-					$begin = $st->exam_date;
-				}
-				$form->event_deal_cnt = Event::where([['station_id',  $form->station_id], ['event_status', 1], ['created_day', '>=', $begin], ['created_day', '<=', $form->exam_date]])->count();
-				$form->event_cnt = Event::where([['station_id',  $form->station_id], ['created_day', '>=', $begin], ['created_day', '<=', $form->exam_date]])->count();
-				if($form->event_cnt) {
-					$form->event_per = ceil(($form->event_deal_cnt / $form->event_cnt) * 100) .'%';
-				}
+			if($form->exam_status == 1) {
+				$form->effect_begin = $form->exam_date;
 
-				$form->year = date("Y");
+				$per = CertPeriod::first();
+				$form->effect_end = date("Y-m-d", strtotime($form->effect_begin . ' 00:00:00') + $per->effect_type * 365 * 86400);
 			}
 		});
 
@@ -188,3 +175,4 @@ class EventExamController extends AdminController
         return $form;
     }
 }
+

@@ -2,21 +2,21 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{StationExam, Station, StationExamStd, Standard, Event};
+use App\Models\{StationExam, Station, StationExamStd, Standard, Event, Company};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 
-class EventExamController extends AdminController
+class SaleStatController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '事件考核管理';
+    protected $title = '换瓶站销量';
 
     /**
      * Make a grid builder.
@@ -26,26 +26,21 @@ class EventExamController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new StationExam());
+		$grid->disableCreateButton();
 
-		$grid->model()->where('std_type', 4)->orderBy('id', 'desc');
+		$grid->model()->where('std_type', 0)->orderBy('id', 'desc');
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
 			$filter->equal('station_id', __('场站名'))->select(Station::all()->pluck('station_name', 'id'));
-			$filter->equal('period', '考核周期')->select(['周度', '月度', '季度', '年度']);
-			$filter->equal('exam_status', '考核状态')->select(['未考核', '已考核']);
+			$filter->equal('company_id', __('公司名'))->select(Company::all()->pluck('company_name', 'id'));
 		});
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('period_text', __('Period'));
-        $grid->column('score', __('Score'));
-        $grid->column('event_deal_cnt', __('Event deal cnt'));
-        $grid->column('event_per', __('Event per'));
-        $grid->column('exam_date', __('Exam date'));
-        $grid->column('exam_status_text', __('Exam status'));
+        $grid->column('consume', __('Sales'));
 
 		$grid->actions(function($row) {
 			$row->disableView();
@@ -91,14 +86,14 @@ class EventExamController extends AdminController
         //$form->textarea('remark', __('Remark'));
 
 		$rows = [];
-		$headers = ['编号', '项目', '权重', '标准', '实际数据', '结果'];
+		$headers = ['编号', '项目', '权重', '标准', '补贴金额', '实际数据', '应补贴金额(元)'];
 
 		if($form->isCreating()) {
-			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
+			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'));
 
-			$stds = Standard::where('std_type', 4)->get();
+			$stds = Standard::where('std_type', 0)->get();
 			foreach($stds as $item) {
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']"/ >', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
+				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, $item->bonus, '<input class="real" name="real['.$item->id.']"/ >', '<input name="res['.$item->id.']" value="'.$item->real_bonus.'" />'];
 			}
 		} else {
 			$form->display('station.company.company_name', __('Company id'));
@@ -107,45 +102,43 @@ class EventExamController extends AdminController
 			$form->display('station.company.legal_name', __('Legal name'));
 			$form->display('station.company.legal_mobile', __('Legal mobile'));
 
-			$id = request()->route()->parameters()['event_exam'];
+			$form->divider();
+			$form->display('consume', __('Sales'));
+			$form->file('manage_file', '数据凭证')->readonly();
+			$form->display('user_name', '上报人');
+			$form->display('report_time', '上报时间');
+
+			$id = request()->route()->parameters()['sale_stat'];
 
 			$stds = StationExamStd::where('station_exam_id', $id)->get();
 			foreach($stds as $item) {
 				$sel = empty($item->result) ? "" : "selected";
 
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" value="'.$item->real_data.'" / >', '<select name="res['.$item->id.']"><option value="0"'.$sel.'>不通过</option><option value="1"'.$sel.'>通过</option></select>'];
+				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, $item->bonus, '<input class="real" name="real['.$item->id.']" value="'.$item->real_data.'" / >', '<input name="res['.$item->id.']" value="'.$item->real_bonus.'" />'];
 			}
 		}
+
+		/*
 		$table = new Table($headers, $rows);
 
 		$form->divider();
 		$form->html($table->render());
 
 		$form->divider();
-        $form->number('score', __('Score'))->default(0);
-        $form->date('exam_date', __('Exam date'))->default(date("Y-m-d"));
-        $form->radio('exam_status', __('Exam status'))->options(['未考核', '已考核']);
-        $form->radio('period', __('Period'))->options([1 => '周度', 2 => '月度', 3 => '季度', 4 => '年度'])->default(3);
-		$form->hidden('std_type')->default(4);
-		$form->hidden('event_deal_cnt')->default(0);
-		$form->hidden('event_cnt')->default(0);
-		$form->hidden('event_per');
-		$form->hidden('year');
+        $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
+        $form->number('real_bonus', __('Real bonus'))->default(0);
+        $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);
+		 */
+		$form->hidden('std_type')->default(0);
 
 		$form->saving(function(Form $form) {
-			if($form->isCreating()) {
-				$st = StationExam::where('std_type', 4)->orderBy('id', 'desc')->first();
-				$begin = 0;
-				if($st) {
-					$begin = $st->exam_date;
+			if($form->res) {
+				$res = $form->res;
+				$realBonus = 0;
+				foreach($res as $item) {
+					$realBonus += $item;
 				}
-				$form->event_deal_cnt = Event::where([['station_id',  $form->station_id], ['event_status', 1], ['created_day', '>=', $begin], ['created_day', '<=', $form->exam_date]])->count();
-				$form->event_cnt = Event::where([['station_id',  $form->station_id], ['created_day', '>=', $begin], ['created_day', '<=', $form->exam_date]])->count();
-				if($form->event_cnt) {
-					$form->event_per = ceil(($form->event_deal_cnt / $form->event_cnt) * 100) .'%';
-				}
-
-				$form->year = date("Y");
+				$form->real_bonus = $realBonus;
 			}
 		});
 
@@ -157,13 +150,14 @@ class EventExamController extends AdminController
 				foreach($real as $key => $item) {
 					$data['station_exam_id'] = $form->model()->id;
 					$data['real_data'] = $item;
-					$data['result'] = $res[$key];
+					$data['real_bonus'] = $res[$key];
 					
 					if($form->isCreating()) {
 						$std = Standard::find($key);
 						$data['project'] = $std->project;
 						$data['weight'] = $std->weight;
 						$data['standard'] = $std->standard;
+						$data['bonus'] = $std->bonus;
 						$data['standard_id'] = $key;
 						StationExamStd::create($data);
 					} else {
@@ -188,3 +182,4 @@ class EventExamController extends AdminController
         return $form;
     }
 }
+

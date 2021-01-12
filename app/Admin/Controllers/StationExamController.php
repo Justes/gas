@@ -91,7 +91,7 @@ class StationExamController extends AdminController
 		$headers = ['编号', '项目', '权重', '标准', '实际数据', '结果'];
 
 		if($form->isCreating()) {
-			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'));
+			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
 
 			$stds = Standard::where('std_type', 3)->get();
 			foreach($stds as $item) {

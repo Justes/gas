@@ -16,12 +16,12 @@
 
     function inputScript(url) {
         var script = '<script type="text/javascript" src="' + url + '"><' + '/script>';
-        //document.writeln(script);
+        document.writeln(script);
     }
 
     function inputCSS(url) {
         var css = '<link rel="stylesheet" href="' + url + '">';
-        //document.writeln(css);
+        document.writeln(css);
     }
 
     function inArray(arr, item) {
@@ -41,14 +41,14 @@
         inputScript(examplesPath + "/js/tokengenerator.js");
         var jQueryInclude = false;
         if (!inArray(excludes, 'example-i18n')) {
-            inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
+            //inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
 
             inputScript("https://cdn.bootcss.com/i18next/10.0.7/i18next.min.js");
             inputScript("https://cdn.bootcss.com/jquery-i18next/1.2.1/jquery-i18next.min.js");
 
             inputScript(examplesPath + "/js/utils.js");
             inputScript(examplesPath + "/js/localization.js");
-            //document.writeln("<script>Localization.initializeI18N('"+examplesPath+"', function () {Localization.localize();Localization.initGlobal();}); </script>");
+            document.writeln("<script>Localization.initializeI18N('"+examplesPath+"', function () {Localization.localize();Localization.initGlobal();}); </script>");
             jQueryInclude = true;
         }
         if (inArray(includes, 'jquery') && !jQueryInclude) {

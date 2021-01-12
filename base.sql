@@ -169,9 +169,12 @@ create table w_standards (
 
 create table w_gas_stats (
 	id int NOT NULL AUTO_INCREMENT primary key,
-	used_year char(12) default '' comment '使用年份',
+	year varchar(12) not null default '' comment '上报年',
 	company_id int default 0 comment '公司id',
-	used_gas int default 0 comment '用气量(L)',
+	used_gas int default 0 comment '用量(L)',
+	receipt varchar(255) not null default '' comment '凭证',
+	gas_type tinyint default 0 comment '1用气量 2销量 3自采暖',
+	quarter tinyint default 0 comment '季度 1,2,3,4',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '用气量统计';
@@ -273,11 +276,12 @@ create table w_station_exams (
 	period tinyint default 0 comment '考核周期 0周 1月 2季 3年',
 	quarter tinyint default 0 comment '季度 1,2,3,4',
 	station_id int default 0 comment '站点id',
+	company_id int default 0 comment '公司id',
 	score int default 0 comment '评分',
 	exam_status int default 0 comment '考核状态 0未考核 1已考核',
 	exam_date varchar(32) default 0 comment '考核时间',
 	remark varchar(2000) default null comment '备注',
-	std_type tinyint default 0 comment '0 液化气 1自采暖 2经营许可 3考核记录 4事件处理 5消防设施 6 安全作业 7管理制度',
+	std_type tinyint default 0 comment '0 液化气 1自采暖 2经营许可 3考核记录 4事件处理 5消防设施 6 安全作业 7管理制度 8用气量 9评价',
 	event_deal_cnt int default 0 comment '事件处理数',
 	event_cnt int default 0 comment '事件数',
 	event_per varchar(32) default '' comment '事件完成率',
@@ -291,6 +295,10 @@ create table w_station_exams (
 	sec_ck_result varchar(32) not null default '' comment '检查合格率',
 	sec_fix_num int default 0 comment '维修次数',
 	sec_fix_result varchar(32) not null default '' comment '维修合格率',
+	consume int default 0 comment '用量',
+	real_bonus int default 0 comment '实际补贴金额',
+	effect_begin varchar(32) default null comment '生效时间',
+	effect_end varchar(32) default null comment '失效时间',
 	extras varchar(2000) not null default '' comment '扩展',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
@@ -305,7 +313,27 @@ create table w_station_exam_stds (
 	standard int default 0 comment '标准',
 	bonus int default 0 comment '补贴金额',
 	real_data int default 0 comment '实际数据',
+	real_bonus int default 0 comment '实际补贴金额',
 	result varchar(32) default null comment '结果 0未通过 1通过',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '考核项目结果';
+
+create table w_cert_periods (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	effect_type int default 1 comment '1一年一审 2两年一审',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '许可证审核周期';
+
+create table w_bottles (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	bottle_no varchar(32) not null default '' comment '钢瓶编号',
+	station_id int default 0 comment '站点id',
+	volume int default 0 comment '容积(L)',
+	guest varchar(32) not null default '' comment '客户',
+	flow_time varchar(32) not null default '' comment '流转时间',
+	status tinyint default 0 comment '0正常 1异常',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '钢瓶记录';

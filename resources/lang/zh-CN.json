@@ -82,5 +82,14 @@
 	"Sec ck num":"设备巡检次数",
 	"Sec ck result":"巡检合格率",
 	"Sec fix num":"阀门维修次数",
-	"Sec fix result":"维修合格率"
+	"Sec fix result":"维修合格率",
+	"Status":"状态",
+	"Sales":"销量(L)",
+	"Real bonus":"应补贴金额",
+	"Effect begin":"生效时间",
+	"Effect end":"失效时间",
+	"Bottle no":"钢瓶编号",
+	"Volume":"容积(L)",
+	"Guest":"客户",
+	"Flow time":"流转时间"
 }

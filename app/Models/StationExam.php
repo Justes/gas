@@ -4,10 +4,11 @@ namespace App\Models;
 
 class StationExam extends BaseModel {
 
-	protected $appends = ['station_name', 'company_name', 'period_text', 'exam_status_text', 'user_name', 'quarter_text'];
+	protected $appends = ['station_name', 'company_name', 'period_text', 'exam_status_text', 'user_name', 'quarter_text', 'status_text'];
 
 	protected $periods = ['周度', '月度', '季度', '年度'];
 	protected $exams = ['未考核', '已考核'];
+	protected $status = ['未审核', '已审核', '驳回'];
 	protected $quarters = ['', '第一季度', '第二季度', '第三季度', '第四季度'];
 
 	public function station() {
@@ -40,5 +41,9 @@ class StationExam extends BaseModel {
 
 	public function getQuarterTextAttribute() {
 		return $this->quarters[$this->quarter];
+	}
+
+	public function getStatusTextAttribute() {
+		return $this->status[$this->exam_status];
 	}
 }

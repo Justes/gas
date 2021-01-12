@@ -7,15 +7,19 @@ use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use App\Models\{Company, Station};
 
 class HomeController extends Controller
 {
     public function index(Content $content)
     {
-        return $content
+
+		$stations = Station::all();
+		$companies = Company::all();
+        return $content->view('admin.home', compact('stations', 'companies'));
+			/*
             ->title('Dashboard')
             ->description('Description...');
-			/*
             ->row(Dashboard::title())
             ->row(function (Row $row) {
 

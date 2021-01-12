@@ -27,14 +27,19 @@ class GasStatController extends AdminController
         $grid = new Grid(new GasStat());
 
         $grid->column('id', __('Id'));
-        $grid->column('used_year', __('Used year'));
+        $grid->column('year', __('Year'));
         $grid->column('company_name', __('Company id'));
         $grid->column('used_gas', __('Used gas'));
 
 		$grid->actions(function ($actions) {
+			$actions->disableView();
+			$actions->disableEdit();
+			$actions->disableDelete();
+
 			$row = $actions->row;
 			// append一个操作
-			$actions->prepend('<a href="/admin/gas-used-details?company_id='.$row['company_id'].'"><i class="fa fa-line-chart">用气量监控</i></a>');
+			//$actions->prepend('<a href="/admin/gas-used-details?company_id='.$row['company_id'].'"><i class="fa fa-line-chart">用气量监控</i></a>');
+			$actions->prepend('<a href="/admin/gas-exams?company_id='.$row['company_id'].'&report_time='.$row['year'].'"><i class="fa fa-line-chart">用气量监控</i></a>');
 		});
 
         return $grid;
@@ -51,7 +56,7 @@ class GasStatController extends AdminController
         $show = new Show(GasStat::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('used_year', __('Used year'));
+        $show->field('year', __('Year'));
         $show->field('company_name', __('Company name'));
         $show->field('used_gas', __('Used gas'));
         $show->field('created_at', __('Created at'));
@@ -68,7 +73,7 @@ class GasStatController extends AdminController
     {
         $form = new Form(new GasStat());
 
-        $form->text('used_year', __('Used year'));
+        $form->text('year', __('Year'));
         $form->select('company_id', __('Company id'))->options(Company::all()->pluck('company_name', 'id'));
         $form->number('used_gas', __('Used gas'));
 

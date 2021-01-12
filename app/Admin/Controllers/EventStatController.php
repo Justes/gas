@@ -102,7 +102,7 @@ class EventStatController extends AdminController
 			$data = [];
 
 			foreach($types as $key => $item) {
-				$data[$item] = $cntArr[$key];
+				$data[$item] = $cntArr[$key] ?? 0;
 			}
 
 			ksort($bar);

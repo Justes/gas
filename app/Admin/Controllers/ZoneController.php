@@ -40,7 +40,7 @@ class ZoneController extends AdminController
 			$s = Station::whereIn('id', $v)->pluck('station_name')->toArray();
 			return implode(',', $s);
 		});
-        $grid->column('gas_type', __('Gas type'));
+        //$grid->column('gas_type', __('Gas type'));
         $grid->column('tube_length', __('Tube length'));
         $grid->column('cover_area', __('Cover area'));
         $grid->column('population', __('Population'));
@@ -67,7 +67,7 @@ class ZoneController extends AdminController
 			$s = Station::whereIn('id', $v)->pluck('station_name')->toArray();
 			return implode(',', $s);
 		});
-        $show->field('gas_type', __('Gas type'));
+        //$show->field('gas_type', __('Gas type'));
         $show->field('tube_length', __('Tube length'));
         $show->field('cover_area', __('Cover area'));
         $show->field('population', __('Population'));
@@ -89,7 +89,7 @@ class ZoneController extends AdminController
         $form->text('zone_name', __('Zone name'))->rules('required');
         $form->text('zone_range', __('Zone range'))->rules('required');
         $form->multipleSelect('station_ids', __('Station ids'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
-        $form->select('gas_type', __('Gas type'))->options([1, 2, 3]);
+        //$form->select('gas_type', __('Gas type'))->options([1, 2, 3]);
         $form->number('tube_length', __('Tube length'))->min(0)->rules('required');
         $form->number('cover_area', __('Cover area'))->min(0)->rules('required');
         $form->number('population', __('Population'))->min(0)->rules('required');

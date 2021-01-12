@@ -21,6 +21,7 @@ Route::group(['namespace' => 'Api'], function() {
 	Route::get('/', 'IndexController@index');
 	Route::post('user/login', 'UserController@login');
 	Route::get('user/check', 'UserController@check');
+	Route::get('callback', 'CallbackController@index');
 });
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
@@ -48,6 +49,8 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
 	Route::post('event/solve', 'EventController@solve');
 	Route::resource('event', 'EventController');
 
+	Route::post('report/gas', 'ReportController@gas');
+	Route::post('report/consume', 'ReportController@consume');
 	Route::post('report/fire', 'ReportController@fire');
 	Route::post('report/secure', 'ReportController@secure');
 	Route::post('report/manage', 'ReportController@manage');

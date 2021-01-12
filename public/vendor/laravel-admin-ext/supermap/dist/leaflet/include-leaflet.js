@@ -18,12 +18,12 @@
 
     function inputScript(url) {
         var script = '<script type="text/javascript" src="' + url + '"><' + '/script>';
-        //document.writeln(script);
+        document.writeln(script);
     }
 
     function inputCSS(url) {
         var css = '<link rel="stylesheet" href="' + url + '">';
-        //document.writeln(css);
+        document.writeln(css);
     }
 
     function inArray(arr, item) {

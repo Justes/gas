@@ -47,4 +47,17 @@ Route::group([
 	$router->resource('sec-stds', SecStdController::class);
 	$router->resource('manage-exams', ManageExamController::class);
 	$router->resource('manage-stds', ManageStdController::class);
+	$router->resource('gas-exams', GasExamController::class);
+	$router->resource('sale-exams', SaleExamController::class);
+	$router->resource('sale-stds', SaleStdController::class);
+	$router->resource('sale-stats', SaleStatController::class);
+	$router->resource('warm-exams', WarmExamController::class);
+	$router->resource('warm-stds', WarmStdController::class);
+	$router->resource('cert-exams', CertExamController::class);
+	$router->resource('cert-stds', CertStdController::class);
+	$router->resource('eval-exams', EvalExamController::class);
+	$router->resource('eval-stds', EvalStdController::class);
+	$router->resource('eval-stats', EvalStatController::class);
+	$router->resource('cert-periods', CertPeriodController::class);
+	$router->resource('bottles', BottleController::class);
 });
