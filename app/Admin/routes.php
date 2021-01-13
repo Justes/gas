@@ -60,4 +60,5 @@ Route::group([
 	$router->resource('eval-stats', EvalStatController::class);
 	$router->resource('cert-periods', CertPeriodController::class);
 	$router->resource('bottles', BottleController::class);
+	$router->resource('bottle-sale-logs', BottleSaleLogController::class);
 });

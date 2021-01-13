@@ -70,7 +70,7 @@ class UserController extends BaseController {
 
 	public function contacters() {
 		$users = AdminUser::where('status', 0)->get();
-		$arr = [];
+		$arr = $unknown = [];
 		foreach($users as $user) {
 			if($this->uid() == $user->id) {
 				continue;
@@ -79,8 +79,14 @@ class UserController extends BaseController {
 			$tmp['user_id'] = $user->id;
 			$tmp['name'] = $user->sname;
 			$tmp['avatar'] = $user->avatar_url;
-			$arr[] = $tmp;
+			$ch = getfirstchar($tmp['name']);
+			if($ch) {
+				$arr[$ch][] = $tmp;
+			} else {
+				$unknown['#'][] = $tmp;
+			}
 		}
+		$arr = array_merge($arr, $unknown);
 
 		$roomIds = RoomUser::where('user_id', $this->uid())->groupBy('room_id')->pluck('room_id')->toArray();
 		$list['rooms'] = Room::whereIn('id', $roomIds)->get(['id as room_id', 'room_name', 'room_pic', 'user_cnt']);

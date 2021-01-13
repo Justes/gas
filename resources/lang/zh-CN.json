@@ -89,7 +89,10 @@
 	"Effect begin":"生效时间",
 	"Effect end":"失效时间",
 	"Bottle no":"钢瓶编号",
-	"Volume":"容积(L)",
+	"Volume":"钢瓶容积(L)",
 	"Guest":"客户",
-	"Flow time":"流转时间"
+	"Flow time":"流转时间",
+	"Bottle num":"销售量(瓶)",
+	"Sale num":"销售总量(L)",
+	"Sale date":"销售日期"
 }

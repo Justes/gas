@@ -25,11 +25,17 @@ class GasStatController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new GasStat());
+		$grid->model()->orderBy('id', 'desc');
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
         $grid->column('company_name', __('Company id'));
         $grid->column('used_gas', __('Used gas'));
+
+		$grid->filter(function($filter) {
+			$filter->disableIdFilter();
+			$filter->equal('company_id', __('公司名'))->select(Company::all()->pluck('company_name', 'id'));
+		});
 
 		$grid->actions(function ($actions) {
 			$actions->disableView();

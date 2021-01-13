@@ -337,3 +337,35 @@ create table w_bottles (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '钢瓶记录';
+
+create table w_bottle_sale_logs (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	station_id int default 0 comment '站点id',
+	company_id int default 0 comment '公司id',
+	zone_id int default 0 comment '区域id',
+	bottle_num int default 0 comment '钢瓶数',
+	volume int default 0 comment '容积(L)',
+	sale_num int default 0 comment '销售总量',
+	sale_date varchar(12) not null default '' comment '销售日期',
+	sale_time varchar(12) not null default '' comment '销售日期',
+	year varchar(12) not null default '' comment '年',
+	month varchar(12) not null default '' comment '月',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '换站瓶销售记录';
+
+create table w_api_settings (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	client_id varchar(255) not null default '' comment 'client_id',
+	client_secret varchar(255) not null default '' comment 'client secret',
+	project_id int not null default 0 comment 'project id',
+	url varchar(255) not null default '' comment 'url',
+	access_token varchar(255) not null default '' comment 'token',
+	token_type varchar(255) not null default '' comment 'token 类型',
+	refresh_token varchar(255) not null default '' comment '刷新token',
+	create_token_time char(10) not null default '' comment '获取token 时间',
+	expires_in int not null default 0 comment '过期时间',
+	scope varchar(255) not null default '' comment 'scope',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '接口设置';

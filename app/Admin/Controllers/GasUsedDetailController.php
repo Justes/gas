@@ -65,7 +65,7 @@ class GasUsedDetailController extends AdminController
 			$month = request('created_at') ?? date('m');
 			if($month == 1) {
 				$lastMonth = 12;
-				$year = $year--;
+				$year--;
 			} else {
 				$lastMonth = $month - 1;
 			}

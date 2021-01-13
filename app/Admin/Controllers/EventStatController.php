@@ -28,6 +28,12 @@ class EventStatController extends AdminController
     {
 
         $grid = new Grid(new Event());
+		$grid->model()->orderBy('id', 'desc');
+		$grid->disableCreateButton();
+		$grid->disableExport();
+		$grid->disableColumnSelector();
+		$grid->disablePagination();
+
 		if(empty(request('created_at'))) {
 			$year = request()->created_year = date('Y');
 			$grid->model()->where('created_year', $year);
@@ -36,11 +42,6 @@ class EventStatController extends AdminController
 			$month = request()->created_month = date('m');
 			$grid->model()->where('created_month', $month);
 		}
-
-		$grid->model()->orderBy('id', 'desc');
-		$grid->disableCreateButton();
-		$grid->disableExport();
-		$grid->disableColumnSelector();
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
