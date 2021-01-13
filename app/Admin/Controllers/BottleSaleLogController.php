@@ -67,7 +67,7 @@ class BottleSaleLogController extends AdminController
 
 		$grid->header(function ($query) {
 			$d = $query->get();
-			$dates = [];
+			$dates = $datas = [];
 			if($d->count()) {
 				$datas = collect($d->toArray());
 				$datas = $datas->sortBy('sale_date');
