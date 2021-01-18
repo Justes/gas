@@ -43,6 +43,7 @@ class WarmExamController extends AdminController
         $grid->column('consume', __('Sales'));
 		$grid->column('real_bonus', __('Real bonus'));
         $grid->column('status_text', __('Ck status'));
+        $grid->column('report_text', __('Report status'));
 
 		$grid->actions(function($row) {
 			$row->disableView();

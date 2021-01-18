@@ -94,5 +94,9 @@
 	"Flow time":"流转时间",
 	"Bottle num":"销售量(瓶)",
 	"Sale num":"销售总量(L)",
-	"Sale date":"销售日期"
+	"Sale date":"销售日期",
+	"Begin time":"开始时间",
+	"End time":"结束时间",
+	"Final time":"截止时间",
+	"Report status":"上报状态"
 }

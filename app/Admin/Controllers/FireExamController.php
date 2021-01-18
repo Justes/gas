@@ -41,12 +41,12 @@ class FireExamController extends AdminController
         $grid->column('year', __('Year'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('quarter_text', __('Quarter'));
         $grid->column('score', __('Score'));
 		$grid->column('fire_num', __('Fire num'));
 		$grid->column('fire_result', __('Fire result'));
         $grid->column('exam_date', __('Exam date'));
         $grid->column('exam_status_text', __('Exam status'));
+		$grid->column('report_text', __('Report status'));
 
 		$grid->actions(function($row) {
 			$row->disableView();

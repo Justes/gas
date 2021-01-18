@@ -43,16 +43,22 @@ Route::group([
 	$router->resource('event-stds', EventStdController::class);
 	$router->resource('fire-exams', FireExamController::class);
 	$router->resource('fire-stds', FireStdController::class);
+	$router->resource('fire-reports', FireReportController::class);
 	$router->resource('sec-exams', SecExamController::class);
 	$router->resource('sec-stds', SecStdController::class);
+	$router->resource('sec-reports', SecReportController::class);
 	$router->resource('manage-exams', ManageExamController::class);
 	$router->resource('manage-stds', ManageStdController::class);
+	$router->resource('manage-reports', ManageReportController::class);
 	$router->resource('gas-exams', GasExamController::class);
+	$router->resource('gas-reports', GasReportController::class);
 	$router->resource('sale-exams', SaleExamController::class);
 	$router->resource('sale-stds', SaleStdController::class);
 	$router->resource('sale-stats', SaleStatController::class);
+	$router->resource('sale-reports', SaleReportController::class);
 	$router->resource('warm-exams', WarmExamController::class);
 	$router->resource('warm-stds', WarmStdController::class);
+	$router->resource('warm-reports', WarmReportController::class);
 	$router->resource('cert-exams', CertExamController::class);
 	$router->resource('cert-stds', CertStdController::class);
 	$router->resource('eval-exams', EvalExamController::class);
@@ -61,4 +67,5 @@ Route::group([
 	$router->resource('cert-periods', CertPeriodController::class);
 	$router->resource('bottles', BottleController::class);
 	$router->resource('bottle-sale-logs', BottleSaleLogController::class);
+	$router->resource('chats', ChatController::class);
 });

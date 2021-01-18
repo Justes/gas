@@ -604,6 +604,13 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
+        'F' => 
+        array (
+            'FuseSource' => 
+            array (
+                0 => __DIR__ . '/..' . '/fusesource/stomp-php/src/main',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -2084,6 +2091,13 @@ class ComposerStaticInitd6701b0b0c8a9d888223cca66d53c41d
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
         'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
         'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
+        'FuseSource\\Stomp\\ExceptionInterface' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/ExceptionInterface.php',
+        'FuseSource\\Stomp\\Exception\\StompException' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/Exception/StompException.php',
+        'FuseSource\\Stomp\\Frame' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/Frame.php',
+        'FuseSource\\Stomp\\Message' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/Message.php',
+        'FuseSource\\Stomp\\Message\\Bytes' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/Message/Bytes.php',
+        'FuseSource\\Stomp\\Message\\Map' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/Message/Map.php',
+        'FuseSource\\Stomp\\Stomp' => __DIR__ . '/..' . '/fusesource/stomp-php/src/main/FuseSource/Stomp/Stomp.php',
         'HTMLPurifier' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
         'HTMLPurifier_Arborize' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/Arborize.php',
         'HTMLPurifier_AttrCollections' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/AttrCollections.php',

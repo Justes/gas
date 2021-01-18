@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Admin\Actions\Refresh;
 
 class WorkerController extends AdminController
 {
@@ -62,6 +63,8 @@ class WorkerController extends AdminController
             $tools->batch(function (Grid\Tools\BatchActions $actions) {
                 $actions->disableDelete();
             });
+
+			$tools->append(new Refresh);
         });
 
         return $grid;

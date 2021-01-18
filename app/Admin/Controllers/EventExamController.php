@@ -123,9 +123,10 @@ class EventExamController extends AdminController
 
 		$form->divider();
         $form->number('score', __('Score'))->default(0);
+		$form->date('begin_time', __('Begin time'));
+        $form->date('end_time', __('End time'));
         $form->date('exam_date', __('Exam date'))->default(date("Y-m-d"));
         $form->radio('exam_status', __('Exam status'))->options(['未考核', '已考核']);
-        $form->radio('period', __('Period'))->options([1 => '周度', 2 => '月度', 3 => '季度', 4 => '年度'])->default(3);
 		$form->hidden('std_type')->default(4);
 		$form->hidden('event_deal_cnt')->default(0);
 		$form->hidden('event_cnt')->default(0);

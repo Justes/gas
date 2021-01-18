@@ -45,6 +45,8 @@ class ManageExamController extends AdminController
         $grid->column('score', __('Score'));
         $grid->column('exam_date', __('Exam date'));
         $grid->column('exam_status_text', __('Exam status'));
+		$grid->column('report_text', __('Report status'));
+
 
 		$grid->actions(function($row) {
 			$row->disableView();

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7223fa18618db28fde28a811d1be70b1",
+    "content-hash": "347396ec51f0d3071a01fe9453ca2fac",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -967,6 +967,62 @@
                 "laravel"
             ],
             "time": "2020-05-31T07:30:16+00:00"
+        },
+        {
+            "name": "fusesource/stomp-php",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dejanb/stomp-php.git",
+                "reference": "7dde75c4690d68665334e8fc3a98275c8f658300"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dejanb/stomp-php/zipball/7dde75c4690d68665334e8fc3a98275c8f658300",
+                "reference": "7dde75c4690d68665334e8fc3a98275c8f658300",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FuseSource": "src/main"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Dejan Bosnanac",
+                    "email": "dejan@nighttale.net",
+                    "homepage": "http://www.nighttale.net"
+                },
+                {
+                    "name": "Sören Rohweder",
+                    "email": "s.rohweder@blage.net",
+                    "homepage": "http://www.monofone.de"
+                }
+            ],
+            "description": "stomp support for PHP",
+            "homepage": "http://github.com/dejanb/stomp-php",
+            "keywords": [
+                "activeMQ",
+                "jms",
+                "messaging",
+                "stomp"
+            ],
+            "abandoned": "stomp-php/stomp-php",
+            "time": "2012-07-13T13:40:27+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

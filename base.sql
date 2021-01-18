@@ -78,6 +78,9 @@ add status tinyint default 0 comment '0正常, 1禁用',
 add type tinyint default 0 comment '0管理员, 1工作人员',
 add token varchar(32) not null default '' comment 'token',
 add uuid varchar(255) default '' comment '连接id';
+add user_id int default 0 comment '外部用户id',
+add extras varchar(2000) not null default '' comment '扩展',
+
 
 create table w_zones (
 	id int NOT NULL AUTO_INCREMENT primary key,
@@ -299,6 +302,10 @@ create table w_station_exams (
 	real_bonus int default 0 comment '实际补贴金额',
 	effect_begin varchar(32) default null comment '生效时间',
 	effect_end varchar(32) default null comment '失效时间',
+	`begin_time` datetime DEFAULT NULL COMMENT '周期开始时间',
+	`end_time` datetime DEFAULT NULL COMMENT '周期结束时间',
+	`final_time` datetime DEFAULT NULL COMMENT '上报截止时间',
+	report_status tinyint default 0 comment '上报状态 0未上报 1已上报',
 	extras varchar(2000) not null default '' comment '扩展',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
@@ -369,3 +376,14 @@ create table w_api_settings (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '接口设置';
+
+create table w_report_periods (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	year varchar(12) not null default '' comment '年',
+	`begin_time` datetime DEFAULT NULL COMMENT '周期开始时间',
+	`end_time` datetime DEFAULT NULL COMMENT '周期结束时间',
+	`final_time` datetime DEFAULT NULL COMMENT '上报截止时间',
+	std_type tinyint default 0 comment '0 液化气 1自采暖 2经营许可 3考核记录 4事件处理 5消防设施 6 安全作业 7管理制度 8用气量 9评价',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '上报周期';

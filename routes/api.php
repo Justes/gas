@@ -49,10 +49,12 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
 	Route::post('event/solve', 'EventController@solve');
 	Route::resource('event', 'EventController');
 
+	Route::post('report/job', 'ReportController@job');
 	Route::post('report/gas', 'ReportController@gas');
 	Route::post('report/consume', 'ReportController@consume');
 	Route::post('report/fire', 'ReportController@fire');
 	Route::post('report/secure', 'ReportController@secure');
 	Route::post('report/manage', 'ReportController@manage');
 	Route::get('report/logs', 'ReportController@logs');
+	Route::resource('report', 'ReportController');
 });

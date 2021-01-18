@@ -41,7 +41,6 @@ class SecExamController extends AdminController
         $grid->column('year', __('Year'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('quarter_text', __('Quarter'));
         $grid->column('score', __('Score'));
 		$grid->column('sec_ck_num', __('Sec ck num'));
 		$grid->column('sec_ck_result', __('Sec ck result'));
@@ -49,6 +48,7 @@ class SecExamController extends AdminController
 		$grid->column('sec_fix_result', __('Sec fix result'));
         $grid->column('exam_date', __('Exam date'));
         $grid->column('exam_status_text', __('Exam status'));
+		$grid->column('report_text', __('Report status'));
 
 		$grid->actions(function($row) {
 			$row->disableView();

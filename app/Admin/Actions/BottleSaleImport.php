@@ -17,7 +17,7 @@ class BottleSaleImport extends Action
 		$file = $request->file('file');
 		Excel::import(new SaleImport, $file);
 
-        return $this->response()->success('Success message...')->refresh();
+        return $this->response()->success('导入成功')->refresh();
     }
 
 	public function form() {

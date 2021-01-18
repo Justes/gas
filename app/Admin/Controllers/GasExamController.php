@@ -42,6 +42,7 @@ class GasExamController extends AdminController
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
         $grid->column('consume', '用气量数据(L)');
+        $grid->column('report_text', __('Report status'));
 
 		$grid->actions(function($actions) {
 			$actions->disableView();
