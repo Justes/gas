@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model {
 	protected $guarded = [];
-	protected $hidden = ['updated_at', 'deleted_at'];
+	protected $hidden = ['deleted_at'];
 
 	public $checkArr = ['未审核', '已审核'];
 

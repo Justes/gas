@@ -30,17 +30,17 @@ class CompanyController extends AdminController
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
 			$filter->equal('id', '编号');
-			$filter->like('company_name', '公司名');
+			$filter->like('company_name', __('Company name'));
 			$filter->equal('ck_status', '审核状态')->select(['未审核', '已通过']);
 		});
 
         $grid->column('id', __('编号'));
-        $grid->column('company_name', __('公司名'));
+        $grid->column('company_name', __('Company name'));
+        $grid->column('addr', __('企业地址'));
+		/*
 		$grid->column('station_ids', __('站点'))->display(function($v) {
 			return Station::where('company_id', $this->id)->get()->implode('station_name', ',');
 		});
-        $grid->column('addr', __('地址'));
-		/*
 		$grid->column('position', __('Position'));
         $grid->column('contact_user', __('联系人'));
         $grid->column('contact_user_mobile', __('联系人电话'));
@@ -54,7 +54,23 @@ class CompanyController extends AdminController
         $grid->column('secure_idnum', __('Secure idnum'));
 		 */
         $grid->column('legal_name', __('法人'));
-        $grid->column('secure_name', __('安全责任人'));
+        $grid->column('company_type', __('Company type'));
+        $grid->column('address', __('属地'));
+		$grid->column('permit', __('经营许可'))->display(function($v) {
+			$arr = [1 => '有', 0 => '无'];
+			if($v == 1) {
+				return $arr[$v] . '<a href="/admin/companies/'.$this->id.'/edit">详情</a>';
+			} 
+			return $arr[$v];
+		});
+
+		/*
+		$grid->column('permit_pic', __('经营许可证'))->display(function($v) {
+			return '<img width="40px" src="/pics/'. $v .'" />';
+		});
+		 */
+
+        //$grid->column('secure_name', __('安全责任人'));
         $grid->column('created_at', __('录入时间'));
 		$grid->column('ck_status_text', __('审核状态'));
 
@@ -72,9 +88,9 @@ class CompanyController extends AdminController
         $show = new Show(Company::findOrFail($id));
 
         $show->field('id', __('编号'));
-        $show->field('company_name', __('公司名'));
+        $show->field('company_name', __('Company name'));
         //$show->field('gas_stations', __('Gas stations'));
-        $show->field('addr', __('公司地址'));
+        $show->field('addr', __('企业地址'));
         $show->field('lng', __('经度'));
         $show->field('lat', __('纬度'));
         $show->field('contact_user', __('联系人'));
@@ -110,9 +126,9 @@ class CompanyController extends AdminController
     {
         $form = new Form(new Company());
 
-        $form->text('company_name', __('公司名'))->rules('required');
+        $form->text('company_name', __('Company name'))->rules('required');
         //$form->text('gas_stations', __('Gas stations'));
-        $form->text('addr', __('公司地址'))->rules('required');
+        $form->text('addr', __('企业地址'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600);
         $form->text('contact_user', __('联系人'))->rules('required');
         $form->text('contact_user_mobile', __('联系人手机'))->rules('required', );

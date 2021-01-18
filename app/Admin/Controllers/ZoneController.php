@@ -33,7 +33,7 @@ class ZoneController extends AdminController
 			$filter->like('zone_range', __('Zone range'));
 		});
 
-        $grid->column('id', __('Id'));
+        //$grid->column('id', __('Id'));
         $grid->column('zone_name', __('Zone name'));
         $grid->column('zone_range', __('Zone range'));
 		$grid->column('station_ids', __('Station ids'))->display(function($v) {
@@ -41,11 +41,12 @@ class ZoneController extends AdminController
 			return implode(',', $s);
 		});
         //$grid->column('gas_type', __('Gas type'));
-        $grid->column('tube_length', __('Tube length'));
+        //$grid->column('tube_length', __('Tube length'));
         $grid->column('cover_area', __('Cover area'));
         $grid->column('population', __('Population'));
         $grid->column('zone_status_text', __('Zone status'));
-        $grid->column('created_at', __('Created at'));
+        //$grid->column('created_at', __('Created at'));
+        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }

@@ -37,8 +37,9 @@ class StationController extends AdminController
 
         $grid->column('id', __('编号'));
         $grid->column('station_name', __('场站名称'));
-        $grid->column('company_name', __('所属公司'));
-		$grid->column('permit_text', __('经营许可'));
+        $grid->column('company_name', __('所属企业'));
+        $grid->column('addr', __('位置'));
+		//$grid->column('permit_text', __('经营许可'));
 
 		/*
 		$grid->column('permit_text', __('许可证'))->modal('222', function($model) {
@@ -46,10 +47,9 @@ class StationController extends AdminController
 		});
 		 */
 
-        $grid->column('type_text', __('类型'));
-        $grid->column('addr', __('地址'));
-        $grid->column('contact_user', __('管理员'));
-        $grid->column('contact_user_mobile', __('手机号'));
+        $grid->column('contact_user', __('安全负责人'));
+        $grid->column('contact_user_mobile', __('负责人联系方式'));
+        $grid->column('type_text', __('供气类型'));
 		/*
 		$grid->column('device_ids', __('设备'))->display(function($v) {
 			return '设备';
@@ -82,6 +82,7 @@ class StationController extends AdminController
 		$grid->actions(function ($actions) {
 			$row = $actions->row;
 			// append一个操作
+			$actions->prepend('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-calendar">值班信息</i></a>');
 			$actions->prepend('<a href="/admin/workers?station_id='.$row['id'].'"><i class="fa fa-users">人员</i></a>');
 			$actions->prepend('<a href="/admin/devices?station_id='.$row['id'].'"><i class="fa fa-cubes">设备</i></a>');
 		});
@@ -103,9 +104,9 @@ class StationController extends AdminController
         $show->field('station_name', __('站点名称'));
         $show->field('company_name', __('所属公司'));
         $show->field('type_text', __('类型'));
-        $show->field('addr', __('地址'));
-        $show->field('contact_user', __('联系人'));
-        $show->field('contact_user_mobile', __('联系人手机'));
+        $show->field('addr', __('位置'));
+        $show->field('contact_user', __('安全负责人'));
+        $show->field('contact_user_mobile', __('负责人联系方式'));
         $show->field('contact_user_tel', __('联系人电话'));
         $show->field('permit', __('经营许可'));
         $show->field('permit_no', __('许可证编号'));
@@ -134,14 +135,14 @@ class StationController extends AdminController
         $form = new Form(new Station());
 
         $form->text('station_name', __('站点名称'))->rules('required');
-        $form->select('company_id', __('所属公司'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
+        $form->select('company_id', __('所属企业'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
         $form->select('type', __('类型'))->options(['换瓶站', 'LNG气站', 'CNG气站']);
-        $form->text('addr', __('地址'))->rules('required');
+        $form->text('addr', __('位置'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600);
 		$form->divider();
 
-        $form->text('contact_user', __('联系人'))->rules('required');
-        $form->text('contact_user_mobile', __('联系人手机'))->rules('required');
+        $form->text('contact_user', __('安全负责人'))->rules('required');
+        $form->text('contact_user_mobile', __('负责人联系方式'))->rules('required');
         $form->text('contact_user_tel', __('联系人电话'));
 
         $form->radio('permit', __('经营许可'))->options([1 => '有', 0 => '无'])->default(1);

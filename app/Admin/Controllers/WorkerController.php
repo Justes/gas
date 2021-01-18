@@ -39,7 +39,7 @@ class WorkerController extends AdminController
         $grid->column('id', '编号')->sortable();
         $grid->column('username', trans('admin.username'));
         $grid->column('name', '姓名');
-		$grid->column('station_id', '所属站点')->display(function($v) {
+		$grid->column('station_id', '所属场站')->display(function($v) {
 			$st = Station::find($v);
 			return $st->station_name ?? '';
 		});
@@ -47,7 +47,7 @@ class WorkerController extends AdminController
 			$arr = ['女', '男'];
 			return $arr[$v];
 		});
-        $grid->column('mobile', '联系电话');
+        $grid->column('mobile', '联系方式');
 		$grid->column('roles', '职务')->display(function($v) {
 			return $v[0]['name'] ?? '';
 		});
@@ -86,7 +86,7 @@ class WorkerController extends AdminController
         $show->field('id', 'ID');
         $show->field('username', trans('admin.username'));
         $show->field('name', trans('admin.name'));
-		$show->field('station_id', '所属站点')->as(function($v) {
+		$show->field('station_id', '所属场站')->as(function($v) {
 			$st = Station::find($v);
 			return $st->station_name ?? '';
 		});
@@ -95,7 +95,7 @@ class WorkerController extends AdminController
 			return $arr[$v];
 		});
 		$show->field('age', '年龄');
-	    $show->field('mobile', '联系电话');
+	    $show->field('mobile', '联系方式');
         $show->field('job_desc', '工作职责');
 
         $show->field('roles', trans('admin.roles'))->as(function ($roles) {
@@ -132,10 +132,10 @@ class WorkerController extends AdminController
             ->updateRules(['required', "unique:{$connection}.{$userTable},username,{{id}}"]);
 
         $form->text('name', '姓名')->rules('required');
-        $form->select('station_id', '站点')->options(Station::all()->pluck('station_name', 'id'));
+        $form->select('station_id', '所属场站')->options(Station::all()->pluck('station_name', 'id'))->rules('required');
 		$form->radio('gender', '性别')->options([1 => '男', 0 => '女'])->default(1);
 		$form->number('age', '年龄')->min(0);
-        $form->text('mobile', '电话')->rules('required');
+        $form->text('mobile', '联系方式')->rules('required');
         $form->multipleSelect('roles', '职务')->options($roleModel::all()->pluck('name', 'id'))->rules('required');
         $form->text('job_desc', '工作职责')->rules('required');
         $form->image('avatar', trans('admin.avatar'));
