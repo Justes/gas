@@ -34,7 +34,7 @@ class GasExamController extends AdminController
 			$filter->disableIdFilter();
 			//$filter->equal('station_id', __('场站名'))->select(Station::all()->pluck('station_name', 'id'));
 			$filter->equal('company_id', __('公司名'))->select(Company::all()->pluck('company_name', 'id'));
-			$filter->year('report_time', '年')->default(date('Y'));
+			$filter->equal('year', '年')->default(date('Y'));
 		});
 
         $grid->column('id', __('Id'));

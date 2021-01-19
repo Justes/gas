@@ -32,4 +32,13 @@ trait ApiTrait {
 
 		return $token;
 	}
+
+	public function getAdminUser($token) {
+		$api = ApiSetting::first();
+		$url = $api->url. '/oauth2/user/getUserInfo';
+		$params['token'] = $token;
+
+		$result = curl($url, $params);
+		return $result;
+	}
 }

@@ -31,7 +31,8 @@ class Refresh extends Action
 				if(empty($adminUser)) {
 					$u['type'] = 1;
 					$u['user_id'] = $user['userId'];
-					$u['username'] = $u['name'] = $user['userName'];
+					$u['username'] = $user['userNo'];
+				   	$u['name'] = $user['userName'];
 					$u['extras'] = json_encode($u);
 					AdminUser::create($u);
 				}

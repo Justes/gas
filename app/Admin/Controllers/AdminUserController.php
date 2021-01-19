@@ -52,7 +52,7 @@ class AdminUserController extends AdminController
 		});
         $grid->column('mobile', '联系电话');
         $grid->column('roles', '职务')->display(function($v) {
-			return $v[0]['name'];
+			return $v[0]['name'] ?? '';
 		});
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->getKey() == 1) {
