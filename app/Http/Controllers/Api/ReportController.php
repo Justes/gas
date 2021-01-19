@@ -122,14 +122,12 @@ class ReportController extends BaseController {
 		if($rules) return err(4001, $rules);
 
 		$arr = [];
-		if(in_array($req->std_type, [5, 6, 7, 8])) {
-			$exams = StationExam::where(['station_id' => $req->station_id, 'std_type' => $req->std_type, 'report_status' => 1])->orderBy('id', 'desc')->paginate()->items();
+		$exams = StationExam::where(['station_id' => $req->station_id, 'std_type' => $req->std_type, 'report_status' => 1])->orderBy('id', 'desc')->paginate()->items();
 
-			foreach($exams as $item) {
-				$tmp = $item->toArray();
-				unset($tmp['station'], $tmp['user']);
-				$arr[] = $tmp;
-			}
+		foreach($exams as $item) {
+			$tmp = $item->toArray();
+			unset($tmp['station'], $tmp['user']);
+			$arr[] = $tmp;
 		}
 
 		return err(0, $arr);
