@@ -25,8 +25,9 @@ class ReportController extends BaseController {
 		if($rules) return err(4001, $rules);
 
 		$data = $req->all();
+		$se = StationExam::find($req->id);
 		$data['report_user_id'] = $this->uid();
-		$data['report_time'] = date('Y-m-d H:i:s');
+		$data['report_time'] = $se->year . '-01-01 00:00:00';
 		$data['exam_date'] = date('Y-m-d');
 		$data['report_status'] = 1;
 
@@ -138,8 +139,10 @@ class ReportController extends BaseController {
 		if($rules) return err(4001, $rules);
 
 		$data = $req->all();
+		
+		$se = StationExam::find($req->id);
 		$data['report_user_id'] = $this->uid();
-		$data['report_time'] = date('Y-m-d H:i:s');
+		$data['report_time'] = $se->year . '-01-01 00:00:00';
 		$data['exam_date'] = date('Y-m-d');
 		$data['report_status'] = 1;
 
