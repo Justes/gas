@@ -45,7 +45,7 @@ class GasStatController extends AdminController
 			$row = $actions->row;
 			// append一个操作
 			//$actions->prepend('<a href="/admin/gas-used-details?company_id='.$row['company_id'].'"><i class="fa fa-line-chart">用气量监控</i></a>');
-			$actions->prepend('<a href="/admin/gas-exams?company_id='.$row['company_id'].'&report_time='.$row['year'].'"><i class="fa fa-line-chart">用气量监控</i></a>');
+			$actions->prepend('<a href="/admin/gas-exams?company_id='.$row['company_id'].'&year='.$row['year'].'"><i class="fa fa-line-chart">用气量监控</i></a>');
 		});
 
         return $grid;
