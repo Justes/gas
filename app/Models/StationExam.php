@@ -41,14 +41,14 @@ class StationExam extends BaseModel {
 	}
 
 	public function getQuarterTextAttribute() {
-		return $this->quarters[$this->quarter];
+		return $this->quarters[$this->quarter] ?? '';
 	}
 
 	public function getStatusTextAttribute() {
-		return $this->status[$this->exam_status];
+		return $this->status[$this->exam_status] ?? '';
 	}
 
 	public function getReportTextAttribute() {
-		return $this->report[$this->report_status];
+		return $this->report[$this->report_status] ?? '';
 	}
 }
