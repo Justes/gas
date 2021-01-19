@@ -8,6 +8,7 @@
 	"Company id":"企业名称",
 	"Company name":"企业名称",
 	"Company type":"企业类型",
+	"Belongs":"属地",
 	"Station id":"场站",
 	"Station name":"场站名",
 	"Addr":"地址",
@@ -99,5 +100,7 @@
 	"Begin time":"开始时间",
 	"End time":"结束时间",
 	"Final time":"截止时间",
-	"Report status":"上报状态"
+	"Report status":"上报状态",
+	"Permit no":"许可证编号",
+	"Store gas":"储气量"
 }

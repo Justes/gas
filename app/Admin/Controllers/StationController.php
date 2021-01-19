@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{Station, AdminUser, Company};
+use App\Models\{Station, AdminUser, Company, Zone};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -50,6 +50,18 @@ class StationController extends AdminController
         $grid->column('contact_user', __('安全负责人'));
         $grid->column('contact_user_mobile', __('负责人联系方式'));
         $grid->column('type_text', __('供气类型'));
+		$grid->column('scope', __('供气范围'))->display(function($v) {
+			$zones = Zone::all();
+			$str = '';
+			foreach($zones as $item) {
+				if(is_array($item->station_ids) && in_array($this->id, $item->station_ids)) {
+					$str .= $item->zone_range.', ';
+				}
+			}
+			$str = rtrim($str, ', ');
+			return $str;
+		});
+        $grid->column('store_gas', __('Store gas'));
 		/*
 		$grid->column('device_ids', __('设备'))->display(function($v) {
 			return '设备';
@@ -85,6 +97,7 @@ class StationController extends AdminController
 			$actions->prepend('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-calendar">值班信息</i></a>');
 			$actions->prepend('<a href="/admin/workers?station_id='.$row['id'].'"><i class="fa fa-users">人员</i></a>');
 			$actions->prepend('<a href="/admin/devices?station_id='.$row['id'].'"><i class="fa fa-cubes">设备</i></a>');
+			$actions->prepend('<a href="/admin/zones?station_names='.$row['station_name'].'"><i class="fa fa-globe">供气区域</i></a>');
 		});
 
         return $grid;
@@ -104,6 +117,7 @@ class StationController extends AdminController
         $show->field('station_name', __('站点名称'));
         $show->field('company_name', __('所属公司'));
         $show->field('type_text', __('类型'));
+        $show->field('store_gas', __('Store gas'));
         $show->field('addr', __('位置'));
         $show->field('contact_user', __('安全负责人'));
         $show->field('contact_user_mobile', __('负责人联系方式'));
@@ -137,6 +151,7 @@ class StationController extends AdminController
         $form->text('station_name', __('站点名称'))->rules('required');
         $form->select('company_id', __('所属企业'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
         $form->select('type', __('类型'))->options(['换瓶站', 'LNG气站', 'CNG气站']);
+        $form->number('store_gas', __('Store gas'))->rules('required');
         $form->text('addr', __('位置'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600);
 		$form->divider();

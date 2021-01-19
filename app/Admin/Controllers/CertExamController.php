@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{StationExam, Station, StationExamStd, Standard, Event, CertPeriod};
+use App\Models\{StationExam, Station, StationExamStd, Standard, Event, CertPeriod, Company};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -31,15 +31,15 @@ class CertExamController extends AdminController
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
-			$filter->equal('station_id', __('场站名'))->select(Station::all()->pluck('station_name', 'id'));
-			$filter->equal('quarter', '考核季度')->select(['','第一季度', '第二季度', '第三季度', '第四季度']);
+			$filter->equal('company_id', __('Company name'))->select(Company::all()->pluck('company_name', 'id'));
 			$filter->equal('exam_status', '考核状态')->select(['未考核', '已考核']);
+			//$filter->equal('quarter', '考核季度')->select(['','第一季度', '第二季度', '第三季度', '第四季度']);
 		});
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
-        $grid->column('station_name', __('Station id'));
-        $grid->column('company_name', __('Company id'));
+        //$grid->column('station_name', __('Station id'));
+        $grid->column('company.company_name', __('Company id'));
         $grid->column('effect_begin', __('Effect begin'));
         $grid->column('effect_end', __('Effect end'));
         $grid->column('exam_date', __('Exam date'));
@@ -92,18 +92,19 @@ class CertExamController extends AdminController
 		$headers = ['编号', '项目', '权重', '标准', '实际数据', '结果'];
 
 		if($form->isCreating()) {
-			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
+			$form->select('company_id', __('Company id'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
 
 			$stds = Standard::where('std_type', 2)->get();
 			foreach($stds as $item) {
 				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']"/ >', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
 			}
 		} else {
-			$form->display('station.company.company_name', __('Company id'));
-			$form->display('station.company.addr', __('Addr'));
-			$form->display('station.station_name', __('Station id'));
-			$form->display('station.company.legal_name', __('Legal name'));
-			$form->display('station.company.legal_mobile', __('Legal mobile'));
+			$form->display('company.company_name', __('Company id'));
+			$form->display('company.permit_no', __('Permit no'));
+			$form->display('company.addr', __('Addr'));
+			$form->display('company.legal_name', __('Legal name'));
+			$form->display('company.legal_mobile', __('Legal mobile'));
+			$form->display('company.legal_mobile', __('Legal mobile'));
 
 			$id = request()->route()->parameters()['cert_exam'];
 

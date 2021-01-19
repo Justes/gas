@@ -54,12 +54,12 @@ class CompanyController extends AdminController
         $grid->column('secure_idnum', __('Secure idnum'));
 		 */
         $grid->column('legal_name', __('法人'));
-        $grid->column('company_type', __('Company type'));
-        $grid->column('address', __('属地'));
+        $grid->column('company_type_text', __('Company type'));
+        $grid->column('belongs', __('Belongs'));
 		$grid->column('permit', __('经营许可'))->display(function($v) {
 			$arr = [1 => '有', 0 => '无'];
 			if($v == 1) {
-				return $arr[$v] . '<a href="/admin/companies/'.$this->id.'/edit">详情</a>';
+				return $arr[$v] . '<a href="/admin/cert-exams?company_id='.$this->id.'">详情</a>';
 			} 
 			return $arr[$v];
 		});
@@ -89,6 +89,8 @@ class CompanyController extends AdminController
 
         $show->field('id', __('编号'));
         $show->field('company_name', __('Company name'));
+        $show->field('company_type_text', __('Company type'));
+        $show->field('belongs', __('Belongs'));
         //$show->field('gas_stations', __('Gas stations'));
         $show->field('addr', __('企业地址'));
         $show->field('lng', __('经度'));
@@ -98,6 +100,7 @@ class CompanyController extends AdminController
         $show->field('contact_user_tel', __('联系人电话'));
         $show->field('permit', __('经营许可'));
         $show->field('permit_pic', __('经营许可证'))->image();
+        $show->field('permit_no', __('许可证编号'));
         $show->field('website', __('网站'));
 		$show->divider();
 
@@ -127,6 +130,8 @@ class CompanyController extends AdminController
         $form = new Form(new Company());
 
         $form->text('company_name', __('Company name'))->rules('required');
+		$form->radio('company_type', __('Company type'))->options(['私企', '国企'])->default(0);
+        $form->text('belongs', __('Belongs'))->rules('required');
         //$form->text('gas_stations', __('Gas stations'));
         $form->text('addr', __('企业地址'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600);
@@ -135,6 +140,7 @@ class CompanyController extends AdminController
         $form->text('contact_user_tel', __('联系人电话'));
 		$form->radio('permit', __('经营许可'))->options([1 => '有', 0 => '无'])->default(1);
 		$form->image('permit_pic', '经营许可证')->disk('admin')->uniqueName();
+        $form->text('permit_no', __('许可证编号'));
         $form->text('website', __('网站'));
         $form->select('ck_status', __('审核状态'))->options([0 => '未审核', 1 => '已审核']);
 		$form->divider();

@@ -16,6 +16,10 @@ class StationExam extends BaseModel {
 		return $this->belongsTo(Station::class);
 	}
 
+	public function company() {
+		return $this->belongsTo(Company::class);
+	}
+
 	public function user() {
 		return $this->hasOne(AdminUser::class, 'id', 'report_user_id');
 	}

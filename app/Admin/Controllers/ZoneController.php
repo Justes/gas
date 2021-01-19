@@ -29,6 +29,7 @@ class ZoneController extends AdminController
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
+			$filter->like('station_names', __('Station id'))->select(Station::all()->pluck('station_name', 'station_name'));
 			$filter->like('zone_name', __('Zone name'));
 			$filter->like('zone_range', __('Zone range'));
 		});
@@ -95,6 +96,12 @@ class ZoneController extends AdminController
         $form->number('cover_area', __('Cover area'))->min(0)->rules('required');
         $form->number('population', __('Population'))->min(0)->rules('required');
         $form->radio('zone_status', __('Zone status'))->options(['可用', '禁用'])->default(0);
+		$form->hidden('station_names');
+
+		$form->saving(function(Form $form) {
+			$names = Station::whereIn('id', $form->station_ids)->pluck('station_name')->toArray();
+			$form->station_names = implode(',', $names);
+		});
 
         return $form;
     }
