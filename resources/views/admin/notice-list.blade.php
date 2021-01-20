@@ -25,7 +25,7 @@
 -->
 
     <div class="box-header with-border filter-box" id="filter-box">
-    <form action="http://gas.com/admin/notices" class="form-horizontal" pjax-container method="get">
+    <form action="/admin/notices" class="form-horizontal" pjax-container method="get">
         <div class="row">
 			<div class="col-md-12">
                 <div class="box-body">
