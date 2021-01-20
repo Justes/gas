@@ -111,7 +111,7 @@ class FireExamController extends AdminController
 			$form->divider();
 			$form->display('quarter_text', '上报周期');
 			$form->display('fire_num', __('Fire num'));
-			$form->file('manage_file', '消防设施情况');
+			$form->file('manage_file', '消防设施情况')->readonly();
 			$form->display('user_name', '上报人');
 			$form->display('report_time', '上报时间');
 

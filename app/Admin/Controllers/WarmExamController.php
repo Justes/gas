@@ -107,7 +107,7 @@ class WarmExamController extends AdminController
 
 			$form->divider();
 			$form->display('consume', __('Sales'));
-			$form->file('manage_file', '数据凭证');
+			$form->file('manage_file', '数据凭证')->readonly();
 			$form->display('user_name', '上报人');
 			$form->display('report_time', '上报时间');
 

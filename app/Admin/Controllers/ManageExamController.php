@@ -110,7 +110,7 @@ class ManageExamController extends AdminController
 
 			$form->divider();
 			$form->display('quarter_text', '上报周期');
-			$form->file('manage_file', '管理制度文件');
+			$form->file('manage_file', '管理制度文件')->readonly();
 			$form->display('user_name', '上报人');
 			$form->display('report_time', '上报时间');
 

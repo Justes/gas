@@ -114,7 +114,7 @@ class SecExamController extends AdminController
 			$form->display('quarter_text', '上报周期');
 			$form->display('sec_ck_num', __('Sec ck num'));
 			$form->display('sec_fix_num', __('Sec fix num'));
-			$form->file('manage_file', '安全作业情况');
+			$form->file('manage_file', '安全作业情况')->readonly();
 			$form->display('user_name', '上报人');
 			$form->display('report_time', '上报时间');
 
