@@ -36,14 +36,20 @@ class CertExamController extends AdminController
 			//$filter->equal('quarter', '考核季度')->select(['','第一季度', '第二季度', '第三季度', '第四季度']);
 		});
 
-        $grid->column('id', __('Id'));
+        //$grid->column('id', __('Id'));
+        $grid->column('company.permit_no', __('Permit no'));
         $grid->column('year', __('Year'));
         //$grid->column('station_name', __('Station id'));
         $grid->column('company.company_name', __('Company id'));
+		$grid->column('stations', __('下属场站'))->display(function($v) {
+			$st = Station::where('company_id', $this->company_id)->pluck('station_name')->toArray();
+			return implode(',', $st);
+		});
         $grid->column('effect_begin', __('Effect begin'));
         $grid->column('effect_end', __('Effect end'));
         $grid->column('exam_date', __('Exam date'));
         $grid->column('exam_status_text', __('Ck status'));
+        $grid->column('company.addr', __('注册地址'));
 
 		$grid->actions(function($row) {
 			$row->disableView();
