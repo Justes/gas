@@ -29,7 +29,7 @@ var Localization = {
 
 
     function initializeI18N(path, callback) {
-        var localPath = path + "./locales",
+        var localPath = path + "/locales",
             file = "/resources.js";
 
         var filePathMap = {
