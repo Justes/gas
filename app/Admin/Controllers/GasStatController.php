@@ -26,6 +26,7 @@ class GasStatController extends AdminController
     {
         $grid = new Grid(new GasStat());
 		$grid->model()->orderBy('id', 'desc');
+		$grid->disableCreateButton();
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
