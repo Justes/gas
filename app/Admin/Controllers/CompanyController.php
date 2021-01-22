@@ -134,7 +134,7 @@ class CompanyController extends AdminController
         $form->text('belongs', __('Belongs'))->rules('required');
         //$form->text('gas_stations', __('Gas stations'));
         $form->text('addr', __('企业地址'))->rules('required');
-		$form->latlong('lat', 'lng', '经纬度')->height(600);
+		$form->latlong('lat', 'lng', '经纬度')->height(600)->rules('required');
         $form->text('contact_user', __('联系人'))->rules('required');
         $form->text('contact_user_mobile', __('联系人手机'))->rules('required', );
         $form->text('contact_user_tel', __('联系人电话'));

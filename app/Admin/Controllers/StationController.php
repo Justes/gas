@@ -153,7 +153,7 @@ class StationController extends AdminController
         $form->select('type', __('类型'))->options(['换瓶站', 'LNG气站', 'CNG气站']);
         $form->number('store_gas', __('Store gas'))->rules('required');
         $form->text('addr', __('位置'))->rules('required');
-		$form->latlong('lat', 'lng', '经纬度')->height(600);
+		$form->latlong('lat', 'lng', '经纬度')->height(600)->rules('required');
 		$form->divider();
 
         $form->text('contact_user', __('安全负责人'))->rules('required');
