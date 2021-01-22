@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Api'], function() {
 	Route::post('user/login', 'UserController@login');
 	Route::get('user/check', 'UserController@check');
 	Route::get('callback', 'CallbackController@index');
+	Route::get('user/detail', 'UserController@detail');
 });
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {

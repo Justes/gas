@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\{AdminUser, AdminRoleUser, AdminRole, Room, RoomUser, Chat};
+use App\Http\Traits\ApiTrait;
 
 class UserController extends BaseController {
+
+	use ApiTrait;
 
 	public function login(Request $req) {
 		$rules = $this->required($req, ['username', 'password']);
@@ -112,7 +115,31 @@ class UserController extends BaseController {
 		return err();
 	}
 
+	public function detail(Request $req) {
+		$auser = $this->getAdminUser($req->header('token'));
+		if(isset($auser['data'])) {
+			$user = $auser['data'];
+			$user = AdminUser::where('user_id', $user['userId'])->first();
+		}
+
+		if($user) {
+			$arr['user_id'] = $user->id;
+			$arr['avatar'] = $user->avatar_url;
+			$arr['name'] = $user->name;
+			$arr['mobile'] = $user->mobile;
+			$arr['station_name'] = $user->station->station_name ?? '';
+			$arr['company_name'] = $user->station->company->company_name ?? '';
+			$roleUser =	AdminRoleUser::where('user_id', $user->id)->first();
+			$arr['role_name'] = $roleUser->role->name ?? '';
+			return err(0, $arr);
+		} else {
+			return err(4000);
+		}
+	}
+
 	public function info(Request $req) {
+		$this->getAdminUser($req->token);
+
 		$userId = $req->user_id ?? $this->uid();
 		$user = AdminUser::find($userId);
 		if($user) {
@@ -128,7 +155,6 @@ class UserController extends BaseController {
 		} else {
 			return err(4000);
 		}
-		
 	}
 
 	public function upload(Request $req) {
