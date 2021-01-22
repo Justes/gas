@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{Company, Station};
+use App\Models\{Company, Station, StationExam, StationExamStd, Standard};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -153,6 +153,25 @@ class CompanyController extends AdminController
         $form->text('secure_name', __('安全责任人'))->rules('required');
         $form->text('secure_mobile', __('安全责任人手机'))->rules('required');
         $form->text('secure_idnum', __('身份证号'))->rules('required');
+
+		$form->saved(function(Form $form) {
+			if($form->permit) {
+				$exam = StationExam::where(['company_id' => $form->model()->id, 'std_type' => 2])->first();
+				if(empty($exam)) {
+					$ste = StationExam::create(['company_id' => $form->model()->id, 'std_type' => 2, 'year' => date("Y"), 'exam_date' => date("Y-m-d")]);
+
+					$stds = Standard::where('std_type', 2)->get();
+					$data['station_exam_id'] = $ste->id;
+					foreach($stds as $std) {
+						$data['project'] = $std->project;
+						$data['weight'] = $std->weight;
+						$data['standard'] = $std->standard;
+						$data['standard_id'] = $std->id;
+						StationExamStd::create($data);
+					}
+				}
+			}
+		});
 
         return $form;
     }
