@@ -30,7 +30,6 @@
 </div>
 
 <script>
-$(function() {
         var map, codeMarkers = [], decodeMarkers = [];
 		var host           = 'https://iserver.supermap.io';
         var url            = host + '/iserver/services/map-china400/rest/maps/China_4326';
@@ -179,5 +178,4 @@ $(function() {
             return data.replace(re,"$1");
         }
 
-});
 </script>
