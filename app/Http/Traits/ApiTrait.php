@@ -12,9 +12,6 @@ trait ApiTrait {
 
 		$params['client_id'] = $api->client_id;
 		$params['client_secret'] = $api->client_secret;
-		$params['code'] = request('code');
-		$params['grant_type'] = 'authorization_code';
-		$result = curl($url, $params);
 
 		if(request('code') && (empty($api->access_token) || $api->create_token_time + $api->expires_in < time())) {
 			$params['code'] = request('code');
