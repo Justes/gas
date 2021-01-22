@@ -117,6 +117,7 @@ class UserController extends BaseController {
 
 	public function detail(Request $req) {
 		$auser = $this->getAdminUser($req->header('token'));
+		$user = '';
 		if(isset($auser['data'])) {
 			$user = $auser['data'];
 			$user = AdminUser::where('user_id', $user['userId'])->first();
