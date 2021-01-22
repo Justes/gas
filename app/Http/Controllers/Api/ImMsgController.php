@@ -7,7 +7,8 @@ use App\Models\{Room, AdminUser, ImMsg};
 class ImMsgController extends BaseController {
 
 	public function index(Request $req) {
-		$msg = $msgArr = [];
+		$msgArr = [];
+		$msg = collect();
 		$num = 30;
 		if($req->room_id) {
 			$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id])->orderBy('id', 'desc')->paginate($num);
