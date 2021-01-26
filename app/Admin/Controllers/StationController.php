@@ -38,7 +38,7 @@ class StationController extends AdminController
         $grid->column('id', __('编号'));
         $grid->column('station_name', __('场站名称'));
         $grid->column('company_name', __('所属企业'));
-        $grid->column('addr', __('位置'));
+        $grid->column('addr', __('位置'))->width(200);
 		//$grid->column('permit_text', __('经营许可'));
 
 		/*
@@ -60,7 +60,7 @@ class StationController extends AdminController
 			}
 			$str = rtrim($str, ', ');
 			return $str;
-		});
+		})->width(200);
         $grid->column('store_gas', __('Store gas'));
 		/*
 		$grid->column('device_ids', __('设备'))->display(function($v) {
@@ -94,10 +94,10 @@ class StationController extends AdminController
 		$grid->actions(function ($actions) {
 			$row = $actions->row;
 			// append一个操作
-			$actions->prepend('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-calendar">值班信息</i></a>');
-			$actions->prepend('<a href="/admin/workers?station_id='.$row['id'].'"><i class="fa fa-users">人员</i></a>');
-			$actions->prepend('<a href="/admin/devices?station_id='.$row['id'].'"><i class="fa fa-cubes">设备</i></a>');
-			$actions->prepend('<a href="/admin/zones?station_names='.$row['station_name'].'"><i class="fa fa-globe">供气区域</i></a>');
+			$actions->prepend('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-calendar">值班信息&nbsp;</i></a>');
+			$actions->prepend('<a href="/admin/workers?station_id='.$row['id'].'"><i class="fa fa-users">人员&nbsp;</i></a>');
+			$actions->prepend('<a href="/admin/devices?station_id='.$row['id'].'"><i class="fa fa-cubes">设备&nbsp;</i></a>');
+			$actions->prepend('<a href="/admin/zones?station_names='.$row['station_name'].'"><i class="fa fa-globe">供气区域&nbsp;</i></a>');
 		});
 
         return $grid;
