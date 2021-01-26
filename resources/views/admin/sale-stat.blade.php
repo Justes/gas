@@ -4,7 +4,7 @@
 }
 </style>
 
-<table class="table tt" style="font-size:22px;text-align:center">
+<table class="table tt" style="text-align:center">
 <thead>
 <tr>
 	<th>销量</th>
@@ -34,8 +34,8 @@
 </tr>
 </table>
 
-<div style="width:500px;height:500px;margin:50px auto;">
-<canvas id="barChart" width="400" height="400"></canvas>
+<div style="width:1200px;height:400px;margin:50px auto;">
+<canvas id="barChart" width="1200" height="400"></canvas>
 </div>
 <script>
 var barlabels = new Array()

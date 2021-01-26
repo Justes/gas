@@ -3,7 +3,7 @@
 	text-align:center;
 }
 </style>
-<table class="table tt" style="font-size:22px;text-align:center">
+<table class="table tt" style="text-align:center">
 <thead>
 <tr>
 	<th>累计事件(件)</th>
@@ -11,7 +11,7 @@
 	<th>未解决(件)</th>
 </tr>
 </thead>
-<tr style="font-size:36px;">
+<tr style="font-size:20px;">
 	<td style="color:red"><b>{{ $stat['all'] }}</b></td>
 	<td>{{ $stat['solved'] }}</td>
 	<td>{{ $stat['unsolved'] }}</td>
@@ -21,8 +21,8 @@
 <canvas id="myChart" width="400" height="400"></canvas>
 </div>
 
-<div style="width:500px;height:500px;margin:50px auto;">
-<canvas id="barChart" width="400" height="400"></canvas>
+<div style="width:1200px;height:500px;margin:50px auto;">
+<canvas id="barChart" width="1200" height="500"></canvas>
 </div>
 <script>
 var labels = new Array()
