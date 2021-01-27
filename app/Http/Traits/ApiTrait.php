@@ -44,6 +44,7 @@ trait ApiTrait {
 			$user = $result['data'];
 			$adminUser = AdminUser::where('user_id', $user['userId'])->first();
 			if(empty($adminUser)) {
+				$u['type'] = 1;
 				$u['user_id'] = $user['userId'];
 				$u['username'] = $user['userNo'];
 				$u['name'] = $user['userName'];
