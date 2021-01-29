@@ -1,4 +1,5 @@
 <canvas id="myChart" width="400" height="400"></canvas>
+<script src="/vendor/laravel-admin-ext/chartjs/Chart.bundle.min.js"></script>
 <script>
 $(function () {
     var ctx = document.getElementById("myChart").getContext('2d');

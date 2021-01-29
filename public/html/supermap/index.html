@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<style>
+	.clist{
+		position:absolute;
+  		left:15%;
+  		top:10%;
+  		z-index:999;
+  		width: 300px;
+	}
+  	#map {
+  		position: absolute;
+  		top: 0px;
+  		bottom: 0px;
+  		width: 100%;
+  	}
+  	.search {
+  		position:absolute;
+  		right:15%;
+  		top:10%;
+  		z-index:999;
+  		width: 300px;
+  	}
+  	</style>
+  	<link rel="stylesheet" href="/vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="/vendor/laravel-admin/AdminLTE/dist/css/AdminLTE.min.css">
+  	<link rel="stylesheet" href="/vendor/laravel-admin/font-awesome/css/font-awesome.min.css">
+  	<script src="/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>   
+  	<script src="/vendor/laravel-admin-ext/supermap/dist/leaflet/include-leaflet.js"></script>
+  	<script src="/vendor/laravel-admin-ext/supermap/examples/js/include-web.js"></script>
+  	<script>
+  	var stations 	= parent.stations;
+  	var companies  	= parent.companies;
+  	var lat  		= parent.lat;
+  	var lng  		= parent.lng;
+  	</script>
+</head>
+<body>
+    <div class="content">
+    	<div class="clist">
+    		<div id="all-point">全部点位(10)</div>
+	    	<div id="station">燃气站(5)</div>
+	    	<div id="company">燃气公司(5)</div>
+    	</div>
+    	<div class="form-group search">
+    		<div class="input-group">
+    			<input type="text" class="form-control " id="search-latlng" />
+    			<span class="input-group-btn">
+    				<button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+    			</span>
+    		</div>
+    	</div>
+    	<div id="map"></div>
+    </div>
+    <script src="/vendor/laravel-admin-ext/supermap/supermap.js"></script>
+</body>
+</html>

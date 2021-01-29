@@ -25,6 +25,7 @@
 <div style="width:500px;height:500px;margin:50px auto;">
 <canvas id="barChart" width="400" height="400"></canvas>
 </div>
+<script src="/vendor/laravel-admin-ext/chartjs/Chart.bundle.min.js"></script>
 <script>
 var barlabels = new Array()
 var bardata = new Array()

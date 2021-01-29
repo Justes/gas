@@ -16,7 +16,7 @@ class ChartjsServiceProvider extends ServiceProvider
             return ;
         }
 
-        if ($this->app->runningInConsole() && $assets = $extension->assets()) {
+        /* if ($this->app->runningInConsole() && $assets = $extension->assets()) {
             $this->publishes(
                 [$assets => public_path('vendor/laravel-admin-ext/chartjs')],
                 'laravel-admin-chartjs'
@@ -25,6 +25,6 @@ class ChartjsServiceProvider extends ServiceProvider
 
         Admin::booting(function () {
             Admin::js('vendor/laravel-admin-ext/chartjs/Chart.bundle.min.js');
-        });
+        }); */
     }
 }

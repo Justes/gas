@@ -12,3 +12,10 @@
 
     </div>
 </div>
+<script src="/packages/ckeditor/ckeditor.js"></script>   
+<script src="/packages/ckeditor/adapters/jquery.js"></script>  
+<script type="text/javascript">
+$(function(){
+	$('textarea.{{$name}}').ckeditor();
+});
+</script>

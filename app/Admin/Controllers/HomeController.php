@@ -14,8 +14,9 @@ class HomeController extends Controller
     public function index(Content $content)
     {
 
-		$stations = Station::all();
-		$companies = Company::all();
+        $stations   = Station::all(["id", "lat", "lng", "station_name", "type", "permit"])->toJson();
+        $companies  = Company::all(["id", "lat", "lng", "company_name"])->toJson();
+        
         return $content->view('admin.home', compact('stations', 'companies'));
 			/*
             ->title('Dashboard')

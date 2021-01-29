@@ -35,7 +35,7 @@
 
     //加载类库资源文件
     function load() {
-    	
+    	var cdnPath = "/vendor/laravel-admin-ext/supermap/local/cdn/";
         var includes = (targetScript.getAttribute('include') || "").split(",");
         var excludes = (targetScript.getAttribute('exclude') || "").split(",");
         inputScript(examplesPath + "/js/tokengenerator.js");
@@ -43,14 +43,26 @@
         if (!inArray(excludes, 'example-i18n')) {
             //inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
 
-            inputScript("https://cdn.bootcss.com/i18next/10.0.7/i18next.min.js");
-            inputScript("https://cdn.bootcss.com/jquery-i18next/1.2.1/jquery-i18next.min.js");
+//            inputScript("https://cdn.bootcss.com/i18next/10.0.7/i18next.min.js");
+//            inputScript("https://cdn.bootcss.com/jquery-i18next/1.2.1/jquery-i18next.min.js");
+            inputScript(cdnPath+"i18next.min.js");
+            inputScript(cdnPath+"jquery-i18next.min.js");
 
             inputScript(examplesPath + "/js/utils.js");
             inputScript(examplesPath + "/js/localization.js");
-            document.writeln("<script>Localization.initializeI18N('"+examplesPath+"', function () {Localization.localize();Localization.initGlobal();}); </script>");
+            document.writeln("<script>Localization.initializeI18N('"+examplesPath+"', function () {Localization.localize();Localization.localize();}); </script>");
+            
+            /*inputScript(examplesPath + "/js/localization.js", function(){
+            	var x = document.createElement("script");
+            	var t = document.createTextNode("Localization.initializeI18N('"+examplesPath+"', function () {Localization.localize();Localization.initGlobal();});");
+            	x.appendChild(t);
+            	document.body.appendChild(x);
+            });*/
+            
             jQueryInclude = true;
         }
+        
+        
         if (inArray(includes, 'jquery') && !jQueryInclude) {
             inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
         }

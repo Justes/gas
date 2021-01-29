@@ -54,8 +54,8 @@
         var excludes = (targetScript.getAttribute('exclude') || "").split(",");
         // 在线
         if (!inArray(excludes, 'leaflet')) {
-            inputCSS('https://cdn.bootcss.com/leaflet/1.6.0/leaflet.css');
-            inputScript('https://cdn.bootcss.com/leaflet/1.6.0/leaflet.js');
+            inputCSS(superPath+'/local/cdn/1.6.0/leaflet.css');
+            inputScript(superPath+'/local/cdn/leaflet.js');
         }
         if (inArray(includes, 'leaflet.heat')) {
           inputScript("https://cdn.bootcss.com/leaflet.heat/0.2.0/leaflet-heat.js");

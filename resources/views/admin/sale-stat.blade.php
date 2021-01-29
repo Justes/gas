@@ -37,6 +37,7 @@
 <div style="width:1200px;height:400px;margin:50px auto;">
 <canvas id="barChart" width="1200" height="400"></canvas>
 </div>
+<script src="/vendor/laravel-admin-ext/chartjs/Chart.bundle.min.js"></script>
 <script>
 var barlabels = new Array()
 var bottle = new Array()

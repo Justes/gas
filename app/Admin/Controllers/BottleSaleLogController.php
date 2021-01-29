@@ -29,7 +29,6 @@ class BottleSaleLogController extends AdminController
         $grid = new Grid(new BottleSaleLog());
 		$grid->model()->orderBy('id', 'desc');
 		$grid->disableCreateButton();
-		$grid->disableExport();
 		$grid->disableColumnSelector();
 		$grid->disablePagination();
 

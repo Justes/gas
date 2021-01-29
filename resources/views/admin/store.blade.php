@@ -1,6 +1,7 @@
 <div style="width:500px;height:500px;margin:0 auto;">
 <canvas id="myChart" width="400" height="400"></canvas>
 </div>
+<script src="/vendor/laravel-admin-ext/chartjs/Chart.bundle.min.js"></script>
 <script>
 var labels = new Array()
 var data = new Array()

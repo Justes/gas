@@ -2,6 +2,21 @@
 .tt th {
 	text-align:center;
 }
+.myChart{
+    width: 25%;
+	float: left; 	
+}
+#myChart{
+	margin-left: 20px;
+}
+.barChart{
+    width: 72%;
+	float: right;
+	max-height: 500px;
+}
+#barChart{
+}
+.clear{font: 0px/0px sans-serif;clear: both;display: block} 
 </style>
 <table class="table tt" style="text-align:center">
 <thead>
@@ -11,19 +26,22 @@
 	<th>未解决(件)</th>
 </tr>
 </thead>
-<tr style="font-size:20px;">
+<tr style="font-size:16px;">
 	<td style="color:red"><b>{{ $stat['all'] }}</b></td>
 	<td>{{ $stat['solved'] }}</td>
 	<td>{{ $stat['unsolved'] }}</td>
 </tr>
 </table>
-<div style="width:500px;height:500px;margin:50px auto;">
-<canvas id="myChart" width="400" height="400"></canvas>
+<div style="margin:50px auto;" class="myChart">
+<canvas id="myChart" height="400" width="400" ></canvas>
 </div>
 
-<div style="width:1200px;height:500px;margin:50px auto;">
-<canvas id="barChart" width="1200" height="500"></canvas>
+<div style="margin:50px auto;"  class="barChart">
+	<canvas id="barChart" ></canvas>
 </div>
+<div class="clear"> </div>
+
+<script src="/vendor/laravel-admin-ext/chartjs/Chart.bundle.min.js"></script>
 <script>
 var labels = new Array()
 var data = new Array()
