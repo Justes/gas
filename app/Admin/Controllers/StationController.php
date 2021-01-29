@@ -94,10 +94,10 @@ class StationController extends AdminController
 		$grid->actions(function ($actions) {
 			$row = $actions->row;
 			// append一个操作
-			$actions->prepend('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-calendar">值班信息&nbsp;</i></a>');
-			$actions->prepend('<a href="/admin/workers?station_id='.$row['id'].'"><i class="fa fa-users">人员&nbsp;</i></a>');
-			$actions->prepend('<a href="/admin/devices?station_id='.$row['id'].'"><i class="fa fa-cubes">设备&nbsp;</i></a>');
-			$actions->prepend('<a href="/admin/zones?station_names='.$row['station_name'].'"><i class="fa fa-globe">供气区域&nbsp;</i></a>');
+			$actions->prepend('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-calendar" style="padding-right:10px;">值班信息</i></a>');
+			$actions->prepend('<a href="/admin/workers?station_id='.$row['id'].'"><i class="fa fa-users" style="padding-right:10px;">人员</i></a>');
+			$actions->prepend('<a href="/admin/devices?station_id='.$row['id'].'"><i class="fa fa-cubes" style="padding-right:10px;">设备</i></a>');
+			$actions->prepend('<a href="/admin/zones?station_names='.$row['station_name'].'"><i class="fa fa-globe" style="padding-right:10px;">供气区域</i></a>');
 		});
 
         return $grid;

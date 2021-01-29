@@ -391,3 +391,22 @@ create table w_report_periods (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '上报周期';
+
+create table w_bottle_sale_details (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	station_id int default 0 comment '站点id',
+	company_id int default 0 comment '公司id',
+	zone_id int default 0 comment '区域id',
+	discount_num int default 0 comment '惠民气',
+	fair_num int default 0 comment '平价气',
+	sale_num int default 0 comment '总瓶数',
+	bonus int default 0 comment '补贴金额',
+	year varchar(12) not null default '' comment '年',
+	month varchar(12) not null default '' comment '月',
+	reporter varchar(32) not null default '' comment '上报人',
+	report_time varchar(32) not null default '' comment '上报时间',
+	time_range varchar(255) not null default '' comment '统计时间范围',
+	remark varchar(1000) default null comment '备注',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '换站瓶销售记录';

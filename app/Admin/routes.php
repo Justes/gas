@@ -67,5 +67,6 @@ Route::group([
 	$router->resource('cert-periods', CertPeriodController::class);
 	$router->resource('bottles', BottleController::class);
 	$router->resource('bottle-sale-logs', BottleSaleLogController::class);
+	$router->resource('bottle-sale-details', BottleSaleDetailController::class);
 	$router->resource('chats', ChatController::class);
 });

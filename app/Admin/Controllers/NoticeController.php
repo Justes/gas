@@ -26,6 +26,7 @@ class NoticeController extends Controller
 
         return $content
             ->title($this->title)
+			->description('列表')
             ->body(new Box('', view('admin.notice-list', compact('articles', 'types', 'articleType', 'pers', 'per'))));
     }
 

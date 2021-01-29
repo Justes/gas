@@ -26,6 +26,17 @@
 <!--
                 {!! Admin::getNavbar()->render() !!}
 -->
+				<li>
+					<a href="/admin/event-stats">
+						<i class="fa fa-bell"></i>
+					</a>
+				</li>
+
+				<li>
+					<a href="javascript:void(0);">
+						<i class="fa fa-comments"></i>
+					</a>
+				</li>
 
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">

@@ -102,5 +102,10 @@
 	"Final time":"截止时间",
 	"Report status":"上报状态",
 	"Permit no":"许可证编号",
-	"Store gas":"储气量"
+	"Store gas":"储气量",
+	"Zone id":"供气区域",
+	"Discount num":"惠民气",
+	"Fair num":"平价气",
+	"Reporter":"上报人",
+	"Time range":"时间范围"
 }

@@ -9,8 +9,9 @@
 		margin: 20px
 	}
 	a {
+		font-size:14px;
 		text-decoration:none;
-		color:#333;
+		color:#666;
 	}
 </style>
 <div class="form-group">
@@ -63,12 +64,12 @@
 
 
 	@foreach($articles as $item)
-	<div style="margin:10px;padding:10px; border-bottom: 1px solid #ccc">
-		<span style="font-weight:bold;margin-right:20px;">接收时间</span> <span style="color:red">{{ $item->created_at }}</span>
+	<div style="margin:10px;padding:10px; border-bottom: 1px solid #ccc; font-size:12px;">
+		<span style="margin-right:20px;">接收时间</span> <span style="color:#999">{{ $item->created_at }}</span>
 	</div>
 
-	<div style="margin:20px;">
-		<div class="title"><a href="/admin/notices/{{ $item->id }}">{{ $item->title }}</a></div>
+	<div>
+		<div class="title" style="color:#333"><a href="/admin/notices/{{ $item->id }}">{{ $item->title }}</a></div>
 		<div class="cntt"><a href="/admin/notices/{{ $item->id }}">{!! $item->content !!}</a></div>
 	</div>
 	@endforeach
