@@ -27,7 +27,7 @@
                 {!! Admin::getNavbar()->render() !!}
 -->
 				<li>
-					<a href="/admin/event-stats">
+					<a href="/admin/notices">
 						<i class="fa fa-bell"></i>
 					</a>
 				</li>
