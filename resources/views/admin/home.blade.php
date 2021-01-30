@@ -1,6 +1,8 @@
 <script type="text/javascript">
 var stations 	= JSON.parse('<?php echo $stations ?>');
 var companies 	= JSON.parse('<?php echo $companies ?>');
+var station_count = {{$counts["station"]}};
+var company_count = {{$counts["company"]}};
 var lat = "";
 var lng = "";
 </script>
