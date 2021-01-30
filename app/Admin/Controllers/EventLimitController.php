@@ -8,14 +8,14 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class EventTypeController extends AdminController
+class EventLimitController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '事件时限';
+    protected $title = '阈值管理';
 
     /**
      * Make a grid builder.
@@ -25,7 +25,6 @@ class EventTypeController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new EventType());
-		$grid->model()->where('id', '<>', 5);
 		$grid->disableFilter();
 		$grid->disableCreateButton();
 		$grid->disableExport();
@@ -76,3 +75,4 @@ class EventTypeController extends AdminController
         return $form;
     }
 }
+

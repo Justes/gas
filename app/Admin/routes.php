@@ -28,6 +28,7 @@ Route::group([
 	$router->resource('stores', StoreController::class);
 	$router->resource('events', EventController::class);
 	$router->resource('event-types', EventTypeController::class);
+	$router->resource('event-limits', EventLimitController::class);
 	$router->resource('event-stats', EventStatController::class);
 	$router->resource('bottle-stds', BottleStdController::class);
 	$router->resource('gas-stats', GasStatController::class);

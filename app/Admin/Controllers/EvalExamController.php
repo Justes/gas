@@ -8,6 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
+use App\Admin\Actions\EvalExamImport;
 
 class EvalExamController extends AdminController
 {
@@ -43,6 +44,10 @@ class EvalExamController extends AdminController
         $grid->column('score', __('Score'));
         $grid->column('exam_date', '审核时间');
         $grid->column('status_text', __('Ck status'));
+
+		$grid->tools(function (Grid\Tools $tools) {
+			$tools->append(new EvalExamImport);
+		});
 
 		$grid->actions(function($row) {
 			$row->disableView();
