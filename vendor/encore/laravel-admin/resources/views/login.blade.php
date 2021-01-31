@@ -27,10 +27,10 @@
   <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition" style="background:#1B2637" @if(config('admin.login_background_image'))style="background: url({{config('admin.login_background_image')}}) no-repeat;background-size: cover;"@endif>
-<div class="login-box" style="width:500px;">
+<body class="hold-transition" style="background:#3786FD" @if(config('admin.login_background_image'))style="background: url({{config('admin.login_background_image')}}) no-repeat;background-size: cover;"@endif>
+<div class="login-box">
   <div class="login-logo">
-    <a href="{{ admin_url('/') }}"><b style="color:#FFF">{{config('admin.name')}}</b></a>
+    <b>{{config('admin.name')}}</b>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body" style="width:360px;margin:0 auto;">
@@ -60,7 +60,7 @@
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-8" style="display: none">
           @if(config('admin.auth.remember'))
           <div class="checkbox icheck">
             <label>
@@ -71,9 +71,9 @@
           @endif
         </div>
         <!-- /.col -->
-        <div class="col-xs-4">
+        <div class="col-xs-12">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('admin.login') }}</button>
+          <button type="submit" class="btn btn-primary btn-block">{{ trans('admin.login') }}</button>
         </div>
         <!-- /.col -->
       </div>
