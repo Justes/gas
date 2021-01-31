@@ -1063,7 +1063,6 @@ opacity:1
 }
 }
 .form-control {
-	border-radius: 0;
 	box-shadow: none;
 	border-color: #d2d6de
 }
@@ -1459,7 +1458,7 @@ opacity:1
 .box-header {
 	color: #444;
 	display: block;
-	padding: 10px;
+	padding: 20px;
 	position: relative
 }
 .box-header.with-border {
@@ -1479,8 +1478,8 @@ opacity:1
 }
 .box-header>.box-tools {
 	position: absolute;
-	right: 10px;
-	top: 5px
+	right: 20px;
+	top: 15px
 }
 .box-header>.box-tools [data-toggle="tooltip"] {
 	position: relative
