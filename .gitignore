@@ -12,3 +12,6 @@ yarn-error.log
 *.swp
 /public/pics
 *.bak
+/.settings
+/.buildpath
+/.project
