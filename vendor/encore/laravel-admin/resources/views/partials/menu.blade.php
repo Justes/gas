@@ -23,7 +23,7 @@
                 @else
                     <span>{{ admin_trans($item['title']) }}</span>
                 @endif
-                <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-angle-right pull-right"></i>
             </a>
             <ul class="treeview-menu">
                 @foreach($item['children'] as $item)

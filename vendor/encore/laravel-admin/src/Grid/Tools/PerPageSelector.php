@@ -65,29 +65,27 @@ class PerPageSelector extends AbstractTool
      */
     public function render()
     {
-        Admin::script($this->script());
-
-        $options = $this->getOptions()->map(function ($option) {
-            $selected = ($option == $this->perPage) ? 'selected' : '';
-            $url = \request()->fullUrlWithQuery([$this->perPageName => $option]);
-
-            return "<option value=\"$url\" $selected>$option</option>";
-        })->implode("\r\n");
-
+        Admin::script($this->script());        
+        
         $trans = [
             'show'    => trans('admin.show'),
             'entries' => trans('admin.entries'),
         ];
+        $options = $this->getOptions()->map(function ($option) {
+            $selected = ($option == $this->perPage) ? 'selected' : '';
+            $url = \request()->fullUrlWithQuery([$this->perPageName => $option]);
+
+            return "<option value=\"$url\" $selected>$option"."条/页"."</option>";
+        })->implode("\r\n");
 
         return <<<EOT
 
 <label class="control-label pull-right" style="margin-right: 10px; font-weight: 100;">
 
-        <small>{$trans['show']}</small>&nbsp;
         <select class="input-sm {$this->grid->getPerPageName()}" name="per-page">
             $options
         </select>
-        &nbsp;<small>{$trans['entries']}</small>
+
     </label>
 
 EOT;

@@ -72,7 +72,8 @@ return [
     'operation_log'         => '操作日志',
     'parent_select_error'   => '父级选择错误',
     'pagination'            => [
-        'range' => '从 :first 到 :last ，总共 :total 条',
+//         'range' => '从 :first 到 :last ，总共 :total 条',
+        'range' => '<span class="pull-right">共 :total 条</span>',
     ],
     'role'                  => '角色',
     'permission'            => '权限',

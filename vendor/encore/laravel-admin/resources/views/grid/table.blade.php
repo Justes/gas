@@ -64,7 +64,7 @@
 
     {!! $grid->renderFooter() !!}
 
-    <div class="box-footer clearfix">
+    <div class="box-footer paginator clearfix">
         {!! $grid->paginator() !!}
     </div>
     <!-- /.box-body -->

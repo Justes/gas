@@ -24,7 +24,7 @@
 
 </head>
 
-<body class="hold-transition {{config('admin.skin')}} {{join(' ', config('admin.layout'))}}">
+<body class="hold-transition {{config('admin.skin')}} {{join(' ', config('admin.layout'))}} fixed">
 
 @if($alert = config('admin.top_alert'))
     <div style="text-align: center;padding: 5px;font-size: 12px;background-color: #ffffd5;color: #ff0000;">
@@ -46,8 +46,6 @@
         {!! Admin::script() !!}
         {!! Admin::html() !!}
     </div>
-
-    @include('admin::partials.footer')
 
 </div>
 
