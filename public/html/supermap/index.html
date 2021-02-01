@@ -5,15 +5,16 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<style>
 	.select-type{width: 100px !important;float: left;}
-  	#map {position: absolute;top: 64px;bottom: 0px;width: 100%;}
-  	.search {position:absolute;right:30%;top:10%;z-index:999;width: 400px;}
+  	#map {position: absolute;top: 50px;bottom: 0px;width: 100%;z-index:1;}
+  	.search {position:absolute;right:30%;top:10%;z-index:2;width: 400px;}
 	#search-text{width:260px;float: right;}
-	#mapType{ position:absolute; right:10px; top:10px; padding:10px; background:rgba(255,255,255,0.9); z-index:999; border-radius:3px; box-shadow:1px 1px 5px #ccc; text-shadow:0px 0px 3px #e8e8e8;}
+	#search_result{display: none;}
+	#mapType{ position:absolute; right:10px; top:10px; padding:10px; background:rgba(255,255,255,0.9); z-index:2; border-radius:3px; box-shadow:1px 1px 5px #ccc; text-shadow:0px 0px 3px #e8e8e8;}
   	#mapType{ left:30px; top:300px; right:auto; padding:0;}
 	#mapType ul{ list-style:none; padding:0; margin:0;}
 	#mapType ul li{ cursor: pointer; line-height:30px; border-bottom:1px solid #eaeaea;}
-	#mapType ul li.ico-overpass{ background:url(/vendor/laravel-admin-ext/supermap/local/cdn/images/map-marker-alt-solid.png) no-repeat 20px 8px; background-size:24px 24px;}
-	#mapType ul li.ico-road_section{background:url(/vendor/laravel-admin-ext/supermap/local/cdn/images/map-marker-shield.png) no-repeat 19px 8px; background-size:24px 24px;}
+	#mapType ul li.station{ background:url(/vendor/laravel-admin-ext/supermap/local/cdn/images/map-marker-alt-solid.png) no-repeat 20px 8px; background-size:24px 24px;}
+	#mapType ul li.company{background:url(/vendor/laravel-admin-ext/supermap/local/cdn/images/map-marker-shield.png) no-repeat 19px 8px; background-size:24px 24px;}
 	#mapType ul li.ico-focus {
 	    background: url(../images/icon-focus.png) no-repeat 22px 10px;
 		background-size:19px 19px;
@@ -30,8 +31,6 @@
   	<script src="/vendor/laravel-admin-ext/supermap/dist/leaflet/include-leaflet.js"></script>
   	<script src="/vendor/laravel-admin-ext/supermap/examples/js/include-web.js"></script>
   	<script>
-  	var stations 	= parent.stations;
-  	var companies  	= parent.companies;
   	var lat  		= parent.lat;
   	var lng  		= parent.lng;
   	$(function(){
@@ -46,25 +45,28 @@
     	<div id="mapType">
 			<ul class="typeClose">
 		    	<li class="active" id="all-point">
-		    		<a href="javascript:;"><span for="all" class="all-point">全部点位(<label></label>)</span></a>
+		    		<a href="javascript:;"><span class="all-point">全部点位(<label></label>)</span></a>
 		    	</li>
-		    	<li class="ico-overpass" id="station">
-	            	<a href="javascript:;"><span for="overpass" class="station">燃气站(<label></label>)</span></a>
+		    	<li class="station" id="station">
+	            	<a href="javascript:;"><span class="station">燃气站(<label></label>)</span></a>
 	            </li>
-	            <li class="ico-road_section" id="company">
-	            	<a href="javascript:;"><span for="road_section" class="company">燃气公司(<label></label>)</span></a>
+	            <li class="company" id="company">
+	            	<a href="javascript:;"><span class="company">燃气公司(<label></label>)</span></a>
+	            </li>
+	            <li class="" id="search_result">
+	            	<a href="javascript:;"><span class="search_result"><label class="result_name"></label>(<label class="result_count"></label>)</span></a>
 	            </li>
 		    </ul>
 		</div>
     	<div class="form-group search">
     		<select class="form-control select-type">
-   				<option value="station">燃气站</option>
+   				<option value="station" selected="selected">燃气站</option>
    				<option value="company">燃气公司</option>
    			</select>
     		<div class="input-group">
     			<input type="text" class="form-control" id="search-text" />
     			<span class="input-group-btn" id="search">
-    				<button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+    				<button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
     			</span>
     		</div>
     	</div>
