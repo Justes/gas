@@ -128,6 +128,7 @@ class UserController extends BaseController {
 			$arr['avatar'] = $user->avatar_url;
 			$arr['name'] = $user->name;
 			$arr['mobile'] = $user->mobile;
+			$arr['station_id'] = $user->station_id;
 			$arr['station_name'] = $user->station->station_name ?? '';
 			$arr['company_name'] = $user->station->company->company_name ?? '';
 			$roleUser =	AdminRoleUser::where('user_id', $user->id)->first();
