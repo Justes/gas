@@ -79,14 +79,18 @@ var getlist = '/api/user/chat';
 var token = LA.token;
 var token = 'e00cf25ad42683b3df678c61f42c6bda';
 layui.use('layim', function(layimObj){
-  layim = layimObj;
-  //基础配置
-  layim.config({
+layim = layimObj;
+//基础配置
+layim.config({
     //初始化接口
     init: {
-//       url: getlist,
-//       headers:{'token':token},
-      data: {}
+    	mine : {
+  	      "username": "{{ Admin::user()->name }}" //我的昵称
+  	      ,"id": "{{ Admin::user()->id }}" //我的ID
+  	      ,"status": "online" //在线状态 online：在线、hide：隐身
+  	      ,"sign": "" //我的签名
+  	      ,"avatar": "{{ Admin::user()->avatar }}" //我的头像
+  	    }
     }
 	,brief:false
 	,min:true
@@ -100,9 +104,8 @@ layui.use('layim', function(layimObj){
     
     //,msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
     //,chatLog: layui.cache.dir + 'css/modules/layim/html/chatLog.html' //聊天记录页面地址，若不开启，剔除该项即可
-//     ,chatLog: '{:U("chat/chatlog")}' //聊天记录页面地址，若不开启，剔除该项即可
-    
-  });
+//     ,chatLog: '{:U("chat/chatlog")}' //聊天记录页面地址，若不开启，剔除该项即可    
+});
 $(function(){
 	$.ajax({
 		url: getlist,
@@ -133,105 +136,82 @@ $(function(){
         }
 	}
 })
-	$(".chatList").on('click', '.layim-list-item', function(){
-		var name = $(this).attr("name");
-		var avatar = $(this).attr("avatar");
-		var openid = $(this).attr("openid");
-		var type = $(this).attr("type");
-		layim.chat({
-		  name: name //名称
-		  ,type: type //聊天类型
-		  ,avatar: avatar //头像
-		  ,id: openid //好友id
-		  ,closeBtn:2
-		})
+$(".chatList").on('click', '.layim-list-item', function(){
+	var name = $(this).attr("name");
+	var avatar = $(this).attr("avatar");
+	var openid = $(this).attr("openid");
+	var type = $(this).attr("type");
+	layim.chat({
+	  name: name //名称
+	  ,type: type //聊天类型
+	  ,avatar: avatar //头像
+	  ,id: openid //好友id
+	  ,closeBtn:2
 	})
-	$(".chatGroupList").on('click', '.layim-list-item', function(){
-		var name = $(this).attr("name");
-		var avatar = $(this).attr("avatar");
-		var unitid = $(this).attr("unitid");
-		layim.chat({
-		  name: name //名称
-		  ,type: 'group' //聊天类型
-		  ,avatar: avatar //头像
-		  ,id: unitid //好友id
-		  ,closeBtn:2
-		})
+})
+$(".chatGroupList").on('click', '.layim-list-item', function(){
+	var name = $(this).attr("name");
+	var avatar = $(this).attr("avatar");
+	var unitid = $(this).attr("unitid");
+	layim.chat({
+	  name: name //名称
+	  ,type: 'group' //聊天类型
+	  ,avatar: avatar //头像
+	  ,id: unitid //好友id
+	  ,closeBtn:2
 	})
-	$("#chat-aside-toggle").click(function(){
-		$('#aside-container').toggleClass('on')
-	})
-	//建立WebSocket通讯
-	var socket = new WebSocket("ws://8.129.161.138:8181/ws");
-	//连接成功时触发
-	socket.onopen = function(){
-		var open_data = '{"token":"'+token+'","type":9}';
-		socket.send(open_data);
-	};
-	
-	//监听收到的消息
-	socket.onmessage = function(res){
-		console.log(res.data);
-		//var data = res.data;
-		/* if(typeof res.data=='object'){
-			var data = res.data;
-		}else{
-			var data = eval("("+res.data+")");
-		}
-		//console.log(data);
-		//res为接受到的值，如 {"emit": "messageName", "data": {}}
-		//emit即为发出的事件名，用于区分不同的消息
-		//res = JSON.parse(res);
-		if(data.type === 'chatMessage'){	
-			//console.log(data);
-			var message = {
-			  username: data.data.username
-			  ,avatar: data.data.avatar
-			  ,id: data.data.id
-			  ,type: data.data.type
-			  ,groupname: data.data.groupname
-			  ,content: data.data.content
-			};
-			//console.log(message);
-			layim.getMessage(message); //res.data即你发送消息传递的数据（阅读：监听发送的消息）
-		}
-		if(data.type === 'say'){			
-			console.log(data);
-		}
-		if(data.type === 'msg_push'){			
-			console.log(data);
-		}
-		*/
-	};
-	
-	socket.onerror = function(e) {
-     	  console.log("出现错误");
-		  console.log(e);
-    };
+})
+$("#chat-aside-toggle").click(function(){
+	$('#aside-container').toggleClass('on')
+})
+//建立WebSocket通讯
+var socket = new WebSocket("ws://8.129.161.138:8181/ws");
+//连接成功时触发
+socket.onopen = function(){
+	var open_data = '{"token":"'+token+'","type":9}';
+	socket.send(open_data);
+};
+
+//监听收到的消息
+socket.onmessage = function(res){
+	console.log(res.data);
+};
+
+socket.onerror = function(e) {
+ 	  console.log("出现错误");
+	  console.log(e);
+};
   
   //监听layim建立就绪
   layim.on('ready', function(res){
+	  console.log(res)
     layim.on('sendMessage', function(res){
 		// 发送消息
-		var mine = JSON.stringify(res.mine);
-		//console.log(mine);
-		var to = JSON.stringify(res.to);
-		var sendData = '{"type":"chatMessage","data":{"mine":'+mine+', "to":'+to+'}}';
-		console.log(sendData);
-		socket.send( sendData );
-		//socket.send('{"type":"say","to_client_id":"all","to_client_name":"所有人","content":"'+res.mine.content+'"}');
+		var mine = res.mine;
+		console.log(mine);
+		var to = res.to;
+		let data = {
+                "token": token,
+                "msgid":(new Date()).getTime().toString(),
+                "timestamp":Date.parse(new Date())/1000,
+                "type":1,
+                "chat_type": 1,
+                "msg_type": 1,
+                "user_id": mine.id,
+                "to":to.id,
+                "msg":'',
+                "name":'',
+                "avatar":'',
+                "file_url":'',
+                "file_name":'',
+                "file_ext":'',
+                "extras":'',
+            };
+		console.log(data);
+		socket.send( JSON.stringify(data) );
 	});
   });
 });
-function sendMsg(openid,name,avatar,type){
-	layim.chat({
-		name: name //名称
-		,type: type //聊天类型
-		,avatar: avatar //头像
-		,id: openid //好友id
-		,closeBtn:2
-	})
-}
 </script>
 </body>
 </html>
