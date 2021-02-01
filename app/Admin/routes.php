@@ -71,4 +71,5 @@ Route::group([
 	$router->resource('bottle-sale-logs', BottleSaleLogController::class);
 	$router->resource('bottle-sale-details', BottleSaleDetailController::class);
 	$router->resource('chats', ChatController::class);
+	$router->resource('intfcs', IntfcContrller::class);
 });

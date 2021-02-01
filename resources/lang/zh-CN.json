@@ -107,5 +107,8 @@
 	"Discount num":"惠民气",
 	"Fair num":"平价气",
 	"Reporter":"上报人",
-	"Time range":"时间范围"
+	"Time range":"时间范围",
+	"Create date":"对接时间",
+	"Plt name":"平台名",
+	"Plt desc":"平台描述"
 }
