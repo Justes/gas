@@ -129,11 +129,11 @@ class AuthController extends Controller
 
         $form = new Form(new $class());
 
-        $form->display('username', trans('admin.username'));
-        $form->text('name', trans('admin.name'))->rules('required');
+        $form->display('username', trans('admin.username'))->setWidth(4);
+        $form->text('name', trans('admin.name'))->rules('required')->setWidth(4);
         $form->image('avatar', trans('admin.avatar'));
-        $form->password('password', trans('admin.password'))->rules('confirmed|required');
-        $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
+        $form->password('password', trans('admin.password'))->rules('confirmed|required')->setWidth(4);
+        $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')->setWidth(4)
             ->default(function ($form) {
                 return $form->model()->password;
             });
@@ -141,6 +141,12 @@ class AuthController extends Controller
         $form->setAction(admin_url('auth/setting'));
 
         $form->ignore(['password_confirmation']);
+        
+        $form->footer(function ($footer) {
+            $footer->disableViewCheck();
+            $footer->disableEditingCheck();
+            $footer->disableCreatingCheck();
+        });
 
         $form->saving(function (Form $form) {
             if ($form->password && $form->model()->password != $form->password) {

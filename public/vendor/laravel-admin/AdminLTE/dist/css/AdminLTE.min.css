@@ -1342,7 +1342,8 @@ opacity:1
 	background: rgba(0,0,0,0.1)
 }
 .box.box-solid.box-default {
-	border: 1px solid #d2d6de
+	border: 1px solid #d2d6de;
+	background: rgba(0,0,0,0.1)
 }
 .box.box-solid.box-default>.box-header {
 	color: #444;
@@ -1458,7 +1459,7 @@ opacity:1
 .box-header {
 	color: #444;
 	display: block;
-	padding: 20px;
+	padding: 16px;
 	position: relative
 }
 .box-header.with-border {
@@ -1469,7 +1470,7 @@ opacity:1
 }
 .box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title {
 	display: inline-block;
-	font-size: 18px;
+	font-size: 16px;
 	margin: 0;
 	line-height: 1
 }
@@ -1541,7 +1542,7 @@ opacity:1
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	border-top: 1px solid #f4f4f4;
-	padding: 10px;
+	padding: 16px;
 	background-color: #fff
 }
 .box-footer.paginator { line-height:30px;}
@@ -4192,6 +4193,26 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e73f7c', endCo
 .chart svg, .chart canvas {
 	width: 100% !important
 }
+#aside-container {
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.15); 
+	right:-380px;
+	position:fixed; 
+	top:64px; 
+	bottom:0; 
+	width:360px;
+	z-index:9999;
+	height:calc(100% - 64px);
+	background:#fff;
+	transition-property: width, height, padding, left, right;
+    transition-duration: 0.35s;
+}
+#aside-container.on { right:0;}
+#aside-container .chatbar.nav-tabs.nav-justified>li>a { 
+	border-radius: 0;
+	background:#f9f9f9;
+	color:#666;
+}
+#aside-container .chatbar.nav-tabs.nav-justified>li.active>a { background:#fff;}
 @media print {
 .no-print, .main-sidebar, .left-side, .main-header, .content-header {
 	display: none !important
