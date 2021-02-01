@@ -99,7 +99,7 @@ class EventStatController extends AdminController
 
 			 */
 
-			$types = EventType::where('type', '<>', 5)->pluck('etype_name', 'id');
+			$types = EventType::where('id', '<>', 5)->pluck('etype_name', 'id');
 			$data = [];
 
 			foreach($types as $key => $item) {
