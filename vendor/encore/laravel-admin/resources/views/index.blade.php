@@ -120,11 +120,13 @@ $(function(){
 		var html = '<li class="layim-list-item" name="'+item.name+'" avatar="'+item.avatar+'"';
 		if(item.chat_type == 1){
 			html += ' openid="'+item.to+'" type="friend">';
+			html += '<img src="'+item.avatar+'">';
 			html += '<span>'+item.name+'</span>';
 			html += '</li>';
 			$(".chatList").append(html)
         } else if(item.chat_type == 2) {
         	html += ' unitid="'+item.to+'">';
+        	html += '<img src="'+item.avatar+'">';
         	html += '<span>'+item.name+'</span>';
 			html += '</li>';
 			$(".chatGroupList").append(html)
