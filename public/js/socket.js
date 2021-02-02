@@ -26,21 +26,8 @@ $(function(){
 				  ,"sign": "" //我的签名
 				  ,"avatar": LA.user.avatar //我的头像
 				};
-			var friend = [
-				{
-					'list': [
-						{
-							"username": "三胖333" //好友昵称
-							,"id": "2" //好友ID
-							,"avatar": "http://gas.micyi.com/pics/files/u=1569462993,172008204&fm=5_1526.jpg" //好友头像
-							,"sign": "这些都是测试数据，实际使用请严格按照该格式返回" //好友签名
-							,"status": "online" //若值为offline代表离线，online或者不填为在线
-						}
-					]
-				}
-			]
 			// 初始化IM
-			initIM(mine, friend)
+			initIM(mine)
      		$.each(data, function(index, item) {
      			buildItem(item)     			
             })
@@ -48,24 +35,23 @@ $(function(){
 	});
 	
 	// 初始化即时通讯
-	function initIM(mine, friend, group) {
+	function initIM(mine) {
 		layui.use('layim', function(layim){
 			// 初始化配置
 			layim.config({
 				//我的信息
 				init: {
-					mine: mine,
-					friend: friend
+					mine: mine
 				}
 				,brief:true
 				,min:false
 				,right:'50px'
 				,title:'联系人'
-				,isgroup:false
+				,isgroup:true
 				,issearch:false
 				,isskin:false
 				,copyright:true
-				,chatLog: '/api/imsg?page=1&user_id=2'
+				,chatLog: '/api/imsg'
 			});
 			//建立WebSocket通讯
 			var socket = new WebSocket("ws://8.129.161.138:8181/ws");
