@@ -41,7 +41,7 @@ class EventExamController extends AdminController
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
         $grid->column('period_text', __('Period'));
-        $grid->column('score', __('Score'));
+        $grid->column('score', __('Score'))->sortable();
         $grid->column('event_deal_cnt', __('Event deal cnt'));
         $grid->column('event_per', __('Event per'));
         $grid->column('exam_date', __('Exam date'));

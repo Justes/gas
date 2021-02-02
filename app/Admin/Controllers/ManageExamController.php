@@ -42,7 +42,7 @@ class ManageExamController extends AdminController
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
         $grid->column('quarter_text', __('Quarter'));
-        $grid->column('score', __('Score'));
+        $grid->column('score', __('Score'))->sortable();
         $grid->column('exam_date', __('Exam date'));
         $grid->column('exam_status_text', __('Exam status'));
 		$grid->column('report_text', __('Report status'));

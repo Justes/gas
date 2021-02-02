@@ -110,5 +110,8 @@
 	"Time range":"时间范围",
 	"Create date":"对接时间",
 	"Plt name":"平台名",
-	"Plt desc":"平台描述"
+	"Plt desc":"平台描述",
+	"User":"用户",
+	"Method":"操作",
+	"Path":"模块"
 }

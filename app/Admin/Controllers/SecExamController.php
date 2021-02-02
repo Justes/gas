@@ -41,7 +41,7 @@ class SecExamController extends AdminController
         $grid->column('year', __('Year'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('score', __('Score'));
+        $grid->column('score', __('Score'))->sortable();
 		$grid->column('sec_ck_num', __('Sec ck num'));
 		$grid->column('sec_ck_result', __('Sec ck result'));
 		$grid->column('sec_fix_num', __('Sec fix num'));
