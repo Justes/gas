@@ -9,8 +9,9 @@ layui.use(['element', 'layer'], function(){
 
 var layim;
 var getlist = '/api/user/chat';
+var socketUrl = "ws://8.129.161.138:8181/ws";
 var token = LA.token;
-var token = 'e00cf25ad42683b3df678c61f42c6bda';
+// var token = 'e00cf25ad42683b3df678c61f42c6bda';
 
 // 获取用户信息
 $(function(){
@@ -54,7 +55,7 @@ $(function(){
 				,chatLog: '/api/imsg'
 			});
 			//建立WebSocket通讯
-			var socket = new WebSocket("ws://8.129.161.138:8181/ws");
+			var socket = new WebSocket(socketUrl);
 			//连接成功时触发
 			socket.onopen = function(){
 				var openData = '{"token":"'+token+'","type":9}';
