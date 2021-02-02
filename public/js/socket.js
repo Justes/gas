@@ -119,7 +119,7 @@ $(function(){
 						"chat_type": 1,
 						"msg_type": 1,
 						"user_id": mine.id,
-						"to":to.id,
+						"to":Number(to.id),
 						"msg":mine.content,
 						"name":mine.username,
 						"avatar":mine.avatar,
