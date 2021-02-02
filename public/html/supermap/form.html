@@ -89,7 +89,7 @@
 	            innerHTML += "地址 : " + item.address + "<br>";
 	            var x = Number(item.location.x.toString().match(/^\d+(?:\.\d{0,2})?/));
 	            var y = Number(item.location.y.toString().match(/^\d+(?:\.\d{0,2})?/));
-	            innerHTML += resources.text_coordinate + ":[" + x + "," + y + "]<br>";
+	            innerHTML += "经纬度:[" + x + "," + y + "]<br>";
 	            marker.on('click',function(e){
 	            	setLatLng(e.latlng.lat, e.latlng.lng)
 	                $("#addr", parent.document).val(item.address)

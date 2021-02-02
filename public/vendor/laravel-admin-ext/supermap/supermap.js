@@ -1,6 +1,6 @@
 	var stations 	= parent.stations;
   	var companies  	= parent.companies;	
-  	var map, stationMarkers = [], companyMarkers = [];
+  	var map, stationMarkers = [], companyMarkers = [], stationCircleMarkers = [];
 	var host           = 'https://iserver.supermap.io';
     var url            = host + '/iserver/services/map-china400/rest/maps/China_4326';
     var addressUrl     = host + '/iserver/services/addressmatch-Address/restjsr/v1/address';
@@ -30,6 +30,16 @@
 	    shadowAnchor: [12, 32],  // 相同的影子
 	    popupAnchor:  [0, -30] // 该点是相对于iconAnchor弹出信息的位置  这个是我手动调出来的，文档默认原始值是[-1，-76]，我是去一半值，取一半值调出来的
 	});
+	
+	var circleOption =  {
+        stroke: true,
+        color: '#aaaaaa',
+        weight: 0,
+        opacity: 1,
+        fillColor: '#5e5858',
+        radius: circleRadius,
+    };
+	
     
     var flag = false;
     if( ! lat || ! lng) {
@@ -65,7 +75,6 @@
 			}
 	    	$.get("/admin/home/search", {type: type, keyword: keyword},function(result){
 	    		result = JSON.parse(result);
-	    		console.log(result.code);
 	    		if(!result.code){
 	    			$("#search_result .result_count").html(result.data.count);
 	    			if(result.data.count > 0){
@@ -132,13 +141,18 @@ function clearMarkers() {
         	companyMarkers[i].remove();
         }
     }
+    if (stationCircleMarkers) {
+        for (var i = 0; i < stationCircleMarkers.length; i++) {
+        	stationCircleMarkers[i].remove();
+        }
+    }
     stationMarkers = [];
     companyMarkers = [];
+    stationCircleMarkers = [];
 }
 
 function stationInit(list)
 {
-	var circleMarkers = []
 	list.forEach(function(item) {
 		var info = "<b>"+item.station_name+"</b>   <a href='JavaScript:void(0)' class='station_detail detail' data-id='"+item.id+"'>场站详情></a><br>";
 		info += "所属公司："+item.company_name+"<br>";
@@ -146,18 +160,18 @@ function stationInit(list)
 		info += "&nbsp&nbsp&nbsp&nbsp管理员："+item.contact_user+"<br>";
 		info += "联系电话："+item.contact_user_mobile+"<br>";
 		info += "供气区域："+item.zones+"";
-    	stationMarkers.push(L.marker([item.lat, item.lng], {icon: stationIcon}).bindPopup(info))
-    	circleMarkers.push(L.circleMarker([item.lat, item.lng], {radius:100}))
+    	stationMarkers.push(L.marker([item.lat, item.lng], {icon: stationIcon}).bindPopup(info));
+    	stationCircleMarkers.push(L.circleMarker([item.lat, item.lng], circleOption));
 	});
 	L.layerGroup(stationMarkers).addTo(map);
+	L.layerGroup(stationCircleMarkers).addTo(map);
 }
 function companyInit(list)
 {
-	var circleMarkers = []
 	list.forEach(function(item) {
 		var info = "<b>"+item.company_name+"</b>  <a href='JavaScript:void(0)' class='company_detail detail' data-id='"+item.id+"'>企业详情></a><br>";
 		info += "企业地址："+item.addr+"";
-		companyMarkers.push(L.marker([item.lat, item.lng], {icon: companyIcon}).bindPopup(info))
+		companyMarkers.push(L.marker([item.lat, item.lng], {icon: companyIcon}).bindPopup(info));
 	});
 	L.layerGroup(companyMarkers).addTo(map);
 }

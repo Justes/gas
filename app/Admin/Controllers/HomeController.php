@@ -52,7 +52,21 @@ class HomeController extends Controller
         }else{
             switch ($type) {
                 case 'station':
-                    $return['data']['list'] = Station::where("station_name", "like", "%".$keyword."%")->get(["id", "lat", "lng", "station_name", "type", "permit", "company_id", "addr", "contact_user", "contact_user_mobile"])->toArray();
+                    $stations = $return['data']['list'] = Station::where("station_name", "like", "%".$keyword."%")->get(["id", "lat", "lng", "station_name", "type", "permit", "company_id", "addr", "contact_user", "contact_user_mobile"])->toArray();
+                    if ($stations) {
+                        foreach ($stations as $key => $value) {
+                            $zones = Zone::whereRaw('FIND_IN_SET(?,station_ids)',[$value['id']])->where("zone_status", 0)->select(['zone_name', "zone_status"])->get()->toArray();
+                            $str = '';
+                            if ($zones) {
+                                foreach($zones as $item) {
+                                    $str .= $item['zone_name'].', ';
+                                }
+                                $str = rtrim($str, ', ');
+                            }
+                            $stations[$key]['zones'] = $str;
+                        }
+                    }
+                    $return['data']['list'] = $stations;
                     $return['data']['count'] = count($return['data']['list']);
                     break;
                 case 'company':
