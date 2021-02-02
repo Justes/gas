@@ -1,6 +1,6 @@
 	var stations 	= parent.stations;
   	var companies  	= parent.companies;	
-  	var map, stationMarkers = [], companyMarkers = [], stationCircleMarkers = [], companyCircleMarkers = [];
+  	var map, stationMarkers = [], companyMarkers = [], stationCircleMarkers = [];
 	var host           = 'https://iserver.supermap.io';
     var url            = host + '/iserver/services/map-china400/rest/maps/China_4326';
     var addressUrl     = host + '/iserver/services/addressmatch-Address/restjsr/v1/address';
@@ -75,7 +75,6 @@
 			}
 	    	$.get("/admin/home/search", {type: type, keyword: keyword},function(result){
 	    		result = JSON.parse(result);
-	    		console.log(result.code);
 	    		if(!result.code){
 	    			$("#search_result .result_count").html(result.data.count);
 	    			if(result.data.count > 0){
@@ -147,15 +146,9 @@ function clearMarkers() {
         	stationCircleMarkers[i].remove();
         }
     }
-    if (companyCircleMarkers) {
-        for (var i = 0; i < companyCircleMarkers.length; i++) {
-        	companyCircleMarkers[i].remove();
-        }
-    }
     stationMarkers = [];
     companyMarkers = [];
     stationCircleMarkers = [];
-    /*companyCircleMarkers = [];*/
 }
 
 function stationInit(list)
@@ -179,10 +172,8 @@ function companyInit(list)
 		var info = "<b>"+item.company_name+"</b>  <a href='JavaScript:void(0)' class='company_detail detail' data-id='"+item.id+"'>企业详情></a><br>";
 		info += "企业地址："+item.addr+"";
 		companyMarkers.push(L.marker([item.lat, item.lng], {icon: companyIcon}).bindPopup(info));
-		companyCircleMarkers.push(L.circleMarker([item.lat, item.lng], circleOption));
 	});
 	L.layerGroup(companyMarkers).addTo(map);
-	L.layerGroup(companyCircleMarkers).addTo(map);
 }
     
 //判断输入字符串是否为空或者全部都是空格
