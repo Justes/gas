@@ -89,9 +89,11 @@ class AdminOperationLogController extends AdminController
             $userModel = config('admin.database.users_model');
 
             $filter->equal('user_id', __('User'))->select($userModel::all()->pluck('name', 'id'));
+			/*
             $filter->equal('method', __('Method'))->select(array_combine(AdminOperationLog::$methods, AdminOperationLog::$methods));
             $filter->like('path', __('Path'));
-            //$filter->equal('ip');
+            $filter->equal('ip');
+			*/
         });
 
         return $grid;
