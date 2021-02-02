@@ -10,8 +10,7 @@ layui.use(['element', 'layer'], function(){
 var layim;
 var getlist = '/api/user/chat';
 var socketUrl = "ws://8.129.161.138:8181/ws";
-var token = LA.token;
-// var token = 'e00cf25ad42683b3df678c61f42c6bda';
+var token = LA.user.token;
 
 // 获取用户信息
 $(function(){
