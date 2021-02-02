@@ -33,7 +33,7 @@
 				</li>
 
 				<li>
-					<a href="javascript:void(0);">
+					<a href="javascript:void(0);" id="chat-aside-toggle">
 						<i class="fa fa-comments"></i>
 					</a>
 				</li>
@@ -78,9 +78,40 @@
     </nav>
 </header>
 
-<!--
-<div style="position:fixed; right:0; top:50px; buttom:0; width:280px;z-index:9999;height:calc(100% - 50px);">
-	<iframe style="width:100%;height:100%" src="http://api-iott.worthcloud.net/html/home/right.html">
-	</iframe>
-</div>
--->
+
+<aside id="aside-container">
+	<ul class="nav nav-tabs nav-justified chatbar">
+        <li class="active">
+            <a href="#demo-asd-tab-1" data-toggle="tab">
+                <i class="fa fa-user"></i> 联系人
+            </a>
+        </li>
+        <li>
+            <a href="#demo-asd-tab-2" data-toggle="tab">
+                <i class="fa fa-users"></i> 单位
+            </a>
+        </li>
+        <!--<li>
+            <a href="#demo-asd-tab-3" data-toggle="tab">
+                <i class="fa fa-commenting"></i> 消息记录
+            </a>
+        </li> -->
+    </ul>
+    <div class="tab-content">
+
+        <div class="tab-pane fade in active" id="demo-asd-tab-1">
+        	<ul class="chatList layui-layim-list">
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="demo-asd-tab-2">
+        	<ul class="chatGroupList layui-layim-list">
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="demo-asd-tab-3">
+            <ul class="chatListLog layui-layim-list">
+            </ul>
+		</div>
+
+    </div>
+</aside>
+

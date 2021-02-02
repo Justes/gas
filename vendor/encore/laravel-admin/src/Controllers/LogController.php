@@ -26,16 +26,16 @@ class LogController extends AdminController
         $grid->model()->orderBy('id', 'DESC');
 
         $grid->column('id', 'ID');//->sortable();
-        $grid->column('user.name', 'User');
-        $grid->column('method');/*->display(function ($method) {
+        $grid->column('user.name', '操作用户');
+        $grid->column('method', '操作类型');/*->display(function ($method) {
             $color = Arr::get(OperationLog::$methodColors, $method, 'grey');
 
             return "<span class=\"badge bg-$color\">$method</span>";
         });
 		 */
-        $grid->column('path');//->label('info');
+        $grid->column('path', '操作路径');//->label('info');
         $grid->column('ip');//->label('primary');
-        $grid->column('input')->display(function ($input) {
+        $grid->column('input', '提交内容')->display(function ($input) {
             $input = json_decode($input, true);
             $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
             if (empty($input)) {
