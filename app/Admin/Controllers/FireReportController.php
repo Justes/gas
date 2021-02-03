@@ -68,9 +68,9 @@ class FireReportController extends AdminController
         $form = new Form(new ReportPeriod());
 
         $form->year('year', __('Year'))->default(date('Y'));
-        $form->datetime('begin_time', __('Begin time'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_time', __('End time'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('final_time', __('Final time'))->default(date('Y-m-d H:i:s'));
+        $form->date('begin_time', __('Begin time'))->default(date('Y-m-d'));
+        $form->date('end_time', __('End time'))->default(date('Y-m-d'));
+        $form->date('final_time', __('Final time'))->default(date('Y-m-d'));
         $form->hidden('std_type', __('Std type'))->default(5);
 
 		$form->saved(function(Form $form) {

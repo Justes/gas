@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{StationExam, Station, StationExamStd, Standard, Event};
+use App\Models\{StationExam, Station, StationExamStd, Standard, Event, BottleSaleDetail, Zone};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -26,7 +26,6 @@ class SaleExamController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new StationExam());
-		$grid->disableCreateButton();
 
 		$grid->model()->where('std_type', 0)->orderBy('id', 'desc');
 
@@ -38,16 +37,50 @@ class SaleExamController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
+		$grid->column('zones', __('Zones'))->display(function($v) {
+			if(empty($v)) {
+				$zones = Zone::all();
+				$str = '';
+				foreach($zones as $item) {
+					if(is_array($item->station_ids) && in_array($this->station_id, $item->station_ids)) {
+						$str .= $item->zone_range.', ';
+					}
+				}
+				$str = rtrim($str, ', ');
+				StationExam::where('id', $this->id)->update(['zones' => $str]);
+				$v = $str;
+			}
+			return $v;
+		})->width(200);
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('consume', __('Sales'));
-		$grid->column('real_bonus', __('Real bonus'));
-        $grid->column('status_text', __('Ck status'));
-        $grid->column('report_text', __('Report status'));
+		$grid->column('bottle_sum', __('Bottle sum'))->display(function($v) {
+			if(empty($v)) {
+				$num = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('sale_num');
+				StationExam::where('id', $this->id)->update(['bottle_sum' => $num]);
+				return $num;
+			}
+			return $v;
+		});
+		$grid->column('time_range', __('Time range'))->display(function() {
+			return $this->begin_time . '~' . $this->end_time;
+		});
+		$grid->column('real_bonus', __('Real bonus'))->display(function($v) {
+			if(empty($v)) {
+				$bonus = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus');
+				StationExam::where('id', $this->id)->update(['real_bonus' => $bonus]);
+				return $bonus;
+			}
+			return $v;
+		});
+
+		$grid->column('created_at', __('Created at'));
+
+        //$grid->column('status_text', __('Ck status'));
+        //$grid->column('report_text', __('Report status'));
 
 		$grid->actions(function($row) {
 			$row->disableView();
-			$row->disableDelete();
 		});
 
         return $grid;
@@ -126,7 +159,9 @@ class SaleExamController extends AdminController
 		$form->html($table->render());
 
 		$form->divider();
+        $form->year('year', __('Year'))->default(date("Y-m-d"));
         $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
+        $form->number('bottle_sum', __('Bottle sum'))->default(0);
         $form->number('real_bonus', __('Real bonus'))->default(0);
         $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);
 		$form->hidden('std_type')->default(0);

@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\{StationExam, Station, StationExamStd, Standard, Event};
+use App\Models\{StationExam, Station, StationExamStd, Standard, Event, WarmSaleDetail, Zone};
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -26,7 +26,6 @@ class WarmExamController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new StationExam());
-		$grid->disableCreateButton();
 
 		$grid->model()->where('std_type', 1)->orderBy('id', 'desc');
 
@@ -38,16 +37,61 @@ class WarmExamController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
+		$grid->column('zones', __('Zones'))->display(function($v) {
+			if(empty($v)) {
+				$zones = Zone::all();
+				$str = '';
+				foreach($zones as $item) {
+					if(is_array($item->station_ids) && in_array($this->station_id, $item->station_ids)) {
+						$str .= $item->zone_range.', ';
+					}
+				}
+				$str = rtrim($str, ', ');
+				StationExam::where('id', $this->id)->update(['zones' => $str]);
+				$v = $str;
+			}
+			return $v;
+		})->width(200);
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('consume', __('Sales'));
-		$grid->column('real_bonus', __('Real bonus'));
-        $grid->column('status_text', __('Ck status'));
-        $grid->column('report_text', __('Report status'));
+		$grid->column('time_range', __('Time range'))->display(function() {
+			return $this->begin_time . '~' . $this->end_time;
+		});
+        //$grid->column('consume', __('Sales'));
+		$grid->column('used_warm', __('Used warm'))->display(function($v) {
+			if(empty($v)) {
+				$num = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('used_warm');
+				StationExam::where('id', $this->id)->update(['used_warm' => $num]);
+				return $num;
+			}
+			return $v;
+		});
+
+		$grid->column('real_bonus', __('Real bonus'))->display(function($v) {
+			if(empty($v)) {
+				$bonus = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus');
+				StationExam::where('id', $this->id)->update(['real_bonus' => $bonus]);
+				return $bonus;
+			}
+			return $v;
+		});
+
+		$grid->column('return_warm', __('Return warm'))->display(function($v) {
+			if(empty(intval($v))) {
+				$num = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('return_warm');
+				StationExam::where('id', $this->id)->update(['return_warm' => $num]);
+				return $num;
+			}
+			return $v;
+		});
+
+		$grid->column('created_at', __('Created at'));
+
+        //$grid->column('status_text', __('Ck status'));
+        //$grid->column('report_text', __('Report status'));
 
 		$grid->actions(function($row) {
 			$row->disableView();
-			$row->disableDelete();
 		});
 
         return $grid;
@@ -106,7 +150,7 @@ class WarmExamController extends AdminController
 			$form->display('station.company.legal_mobile', __('Legal mobile'));
 
 			$form->divider();
-			$form->display('consume', __('Sales'));
+			//$form->display('consume', __('Sales'));
 			$form->file('manage_file', '数据凭证')->readonly();
 			$form->display('user_name', '上报人');
 			$form->display('report_time', '上报时间');
@@ -126,6 +170,9 @@ class WarmExamController extends AdminController
 		$form->html($table->render());
 
 		$form->divider();
+		$form->year('year', __('Year'))->default(date("Y-m-d"));
+		$form->text('return_warm', __('Return warm'));
+		$form->text('used_warm', __('Used warm'));
         $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
         $form->number('real_bonus', __('Real bonus'))->default(0);
         $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);

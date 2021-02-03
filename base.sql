@@ -304,6 +304,10 @@ create table w_station_exams (
 	sec_fix_result varchar(32) not null default '' comment '维修合格率',
 	consume int default 0 comment '用量',
 	real_bonus int default 0 comment '实际补贴金额',
+	zones varchar(1000) not null default '' comment '区域',
+	bottle_sum int not null default 0 comment '换站瓶总量',
+	used_warm int not null default 0 comment '暖气用量',
+	return_warm decimal(10, 2) not null default 0 comment '返气量',
 	effect_begin varchar(32) default null comment '生效时间',
 	effect_end varchar(32) default null comment '失效时间',
 	`begin_time` datetime DEFAULT NULL COMMENT '周期开始时间',
@@ -397,6 +401,7 @@ create table w_bottle_sale_details (
 	station_id int default 0 comment '站点id',
 	company_id int default 0 comment '公司id',
 	zone_id int default 0 comment '区域id',
+	zones varchar(255) not null default '' comment '供气区域',
 	discount_num int default 0 comment '惠民气',
 	fair_num int default 0 comment '平价气',
 	sale_num int default 0 comment '总瓶数',
@@ -420,3 +425,42 @@ create table w_intfcs (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '接口管理';
+
+create table w_bonus_configs (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	discount_bonus int default 65 comment '惠民气每瓶补贴',
+	fair_bonus int default 65 comment '平价气每瓶补贴',
+	warm_eve decimal(10, 2) default 0.39 comment '平均暖气用量',
+	warm_price decimal(10, 2) default 2.61 comment '暖气价格',
+	warm_bonus decimal(10, 2) default 0.71 comment '暖气每立方补贴',
+	warm_limit int default 820 comment '暖气用量补贴上限',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '补贴设置';
+
+create table w_warm_sale_details (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	station_id int default 0 comment '站点id',
+	company_id int default 0 comment '公司id',
+	zone_id int default 0 comment '区域id',
+	zones varchar(255) not null default '' comment '供气区域',
+	no varchar(255) not null default '' comment '序号',
+	username varchar(255) not null default '' comment '姓名',
+	first_num decimal(10, 2) not null default 0 comment '第一次表数',
+	first_date varchar(32) not null default '' comment '第一次抄表日期',
+	second_num decimal(10, 2) not null default 0 comment '第二次表数',
+	second_date varchar(32) not null default '' comment '第二次抄表日期',
+	gas_no varchar(255) not null default '' comment '燃气表号',
+	used_warm decimal(10, 2) not null default 0 comment '用量',
+	return_warm decimal(10, 2) not null default 0 comment '返气量',
+	bonus int default 0 comment '补贴金额',
+	year varchar(12) not null default '' comment '年',
+	month varchar(12) not null default '' comment '月',
+	reporter varchar(32) not null default '' comment '上报人',
+	report_time varchar(32) not null default '' comment '上报时间',
+	time_range varchar(255) not null default '' comment '统计时间范围',
+	days int not null default 0 comment '天数',
+	remark varchar(1000) default null comment '备注',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '自采暖销售记录';

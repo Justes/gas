@@ -61,6 +61,7 @@ Route::group([
 	$router->resource('warm-exams', WarmExamController::class);
 	$router->resource('warm-stds', WarmStdController::class);
 	$router->resource('warm-reports', WarmReportController::class);
+	$router->resource('warm-sale-details', WarmSaleDetailController::class);
 	$router->resource('cert-exams', CertExamController::class);
 	$router->resource('cert-stds', CertStdController::class);
 	$router->resource('eval-exams', EvalExamController::class);
@@ -73,4 +74,5 @@ Route::group([
 	$router->resource('chats', ChatController::class);
 	$router->resource('intfcs', IntfcContrller::class);
 	$router->resource('admin-operation-logs', AdminOperationLogController::class);
+	$router->resource('bonus-configs', BonusConfigController::class);
 });
