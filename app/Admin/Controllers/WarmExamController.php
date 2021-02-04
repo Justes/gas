@@ -59,7 +59,7 @@ class WarmExamController extends AdminController
 		});
         //$grid->column('consume', __('Sales'));
 		$grid->column('used_warm', __('Used warm'))->display(function($v) {
-			if(empty($v)) {
+			if(empty(intval($v))) {
 				$num = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('used_warm');
 				StationExam::where('id', $this->id)->update(['used_warm' => $num]);
 				return $num;
@@ -68,7 +68,7 @@ class WarmExamController extends AdminController
 		});
 
 		$grid->column('real_bonus', __('Real bonus'))->display(function($v) {
-			if(empty($v)) {
+			if(empty(intval($v))) {
 				$bonus = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus');
 				StationExam::where('id', $this->id)->update(['real_bonus' => $bonus]);
 				return $bonus;

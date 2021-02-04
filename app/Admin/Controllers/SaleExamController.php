@@ -66,7 +66,7 @@ class SaleExamController extends AdminController
 			return $this->begin_time . '~' . $this->end_time;
 		});
 		$grid->column('real_bonus', __('Real bonus'))->display(function($v) {
-			if(empty($v)) {
+			if(empty(intval($v))) {
 				$bonus = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus');
 				StationExam::where('id', $this->id)->update(['real_bonus' => $bonus]);
 				return $bonus;
