@@ -53,6 +53,7 @@ Route::group([
 	$router->resource('manage-exams', ManageExamController::class);
 	$router->resource('manage-stds', ManageStdController::class);
 	$router->resource('manage-reports', ManageReportController::class);
+	$router->resource('manage-tips', ManageTipController::class);
 	$router->resource('gas-exams', GasExamController::class);
 	$router->resource('gas-reports', GasReportController::class);
 	$router->resource('sale-exams', SaleExamController::class);

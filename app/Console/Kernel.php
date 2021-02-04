@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Models\Article;
+use App\Models\{Article, ExpireTip, Station};
 
 class Kernel extends ConsoleKernel
 {
@@ -34,6 +34,10 @@ class Kernel extends ConsoleKernel
 		$schedule->call(function() {
 			$this->postArticles();
 		})->hourly();
+
+		$schedule->call(function() {
+			$this->sendMsg();
+		})->everyMinute();
     }
 
     /**
@@ -68,6 +72,32 @@ class Kernel extends ConsoleKernel
 				$item->post_status = 0;
 				$item->save();
 			}
+		}
+	}
+
+	protected function sendMsg() {
+		$now = date('Y-m-d H:i');
+		$tips = ExpireTip::where('trigger_time', 'like', $now.'%')->get();
+		foreach($tips as $item) {
+			$content = '';
+			$userIds = [];
+			$sts = Station::whereIn('id', $item->station_ids)->get();
+			foreach($sts as $st) {
+				if(!in_array($st->admin_user_id, $userIds)) {
+					$userIds[] = $st->admin_user_id;
+				}
+				$content .= '<p>'.$st->station_name.'</p>';
+			}
+
+			$data['title'] = '通知';
+			$data['cate_id'] = 1;
+			$data['content'] = $content.'<p>'.$item->remark.'</p>';
+			$data['receive_type'] = 1;
+			$data['post_user_id'] = 1;
+			$data['receive_user_ids'] = $userIds;
+			$data['source'] = 1;
+			$data['send_time'] = date('Y-m-d H:i:s');
+			Article::create($data);
 		}
 	}
 }

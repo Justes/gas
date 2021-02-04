@@ -67,6 +67,25 @@ class WarmExamController extends AdminController
 			return $v;
 		});
 
+		$grid->column('return_warm', __('Return warm'))->display(function($v) {
+			if(empty(intval($v))) {
+				$num = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('return_warm');
+				StationExam::where('id', $this->id)->update(['return_warm' => $num]);
+				return $num;
+			}
+			return $v;
+		});
+
+		$grid->column('bonus_warm', __('Bonus warm'))->display(function($v) {
+			if(empty(intval($v))) {
+				$num = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus_warm');
+				StationExam::where('id', $this->id)->update(['bonus_warm' => $num]);
+				return $num;
+			}
+			return $v;
+		});
+
+
 		$grid->column('real_bonus', __('Real bonus'))->display(function($v) {
 			if(empty(intval($v))) {
 				$bonus = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus');
@@ -76,14 +95,7 @@ class WarmExamController extends AdminController
 			return $v;
 		});
 
-		$grid->column('return_warm', __('Return warm'))->display(function($v) {
-			if(empty(intval($v))) {
-				$num = WarmSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('return_warm');
-				StationExam::where('id', $this->id)->update(['return_warm' => $num]);
-				return $num;
-			}
-			return $v;
-		});
+
 
 		$grid->column('created_at', __('Created at'));
 
@@ -173,6 +185,7 @@ class WarmExamController extends AdminController
 		$form->year('year', __('Year'))->default(date("Y-m-d"));
 		$form->text('return_warm', __('Return warm'))->default(0);
 		$form->text('used_warm', __('Used warm'))->default(0);
+		$form->text('bonus_warm', __('Bonus warm'))->default(0);
 		$form->text('return_warm', __('Return warm'))->default(0);
         $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
         $form->text('real_bonus', __('Real bonus'));

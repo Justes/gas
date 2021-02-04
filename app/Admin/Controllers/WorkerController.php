@@ -139,6 +139,7 @@ class WorkerController extends AdminController
         $form->multipleSelect('roles', '职务')->options($roleModel::all()->pluck('name', 'id'))->rules('required');
         $form->text('job_desc', '工作职责')->rules('required');
         $form->image('avatar', trans('admin.avatar'));
+		/*
         $form->password('password', trans('admin.password'))->rules('required|confirmed');
         $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
             ->default(function ($form) {
@@ -146,6 +147,7 @@ class WorkerController extends AdminController
             });
 
         $form->ignore(['password_confirmation']);
+		 */
 
         //$form->multipleSelect('permissions', trans('admin.permissions'))->options($permissionModel::all()->pluck('name', 'id'));
         $form->textarea('remark', '备注信息');

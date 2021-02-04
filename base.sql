@@ -116,6 +116,7 @@ create table w_articles (
 	post_user_id int default 0 comment '发布人id',
 	post_status tinyint default 0 comment '发布状态 0已发布 1草稿',
 	attaches varchar(255) default null comment '附件',
+	source tinyint default 0 comment '0文章 1系统自动发送',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '文章';
@@ -307,6 +308,7 @@ create table w_station_exams (
 	zones varchar(1000) not null default '' comment '区域',
 	bottle_sum int not null default 0 comment '换站瓶总量',
 	used_warm decimal(10, 2) not null default 0 comment '暖气用量',
+	bonus_warm decimal(10, 2) not null default 0 comment '补贴气量',
 	return_warm decimal(10, 2) not null default 0 comment '返气量',
 	effect_begin varchar(32) default null comment '生效时间',
 	effect_end varchar(32) default null comment '失效时间',
