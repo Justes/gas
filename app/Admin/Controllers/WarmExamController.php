@@ -136,7 +136,7 @@ class WarmExamController extends AdminController
 		$headers = ['编号', '项目', '权重', '标准', '补贴金额', '实际数据', '应补贴金额(元)'];
 
 		if($form->isCreating()) {
-			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'));
+			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
 
 			$stds = Standard::where('std_type', 1)->get();
 			foreach($stds as $item) {
@@ -171,8 +171,9 @@ class WarmExamController extends AdminController
 
 		$form->divider();
 		$form->year('year', __('Year'))->default(date("Y-m-d"));
-		$form->text('return_warm', __('Return warm'));
-		$form->text('used_warm', __('Used warm'));
+		$form->text('return_warm', __('Return warm'))->rules('required');
+		$form->text('used_warm', __('Used warm'))->rules('required');
+		$form->text('return_warm', __('Return warm'))->rules('required');
         $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
         $form->text('real_bonus', __('Real bonus'));
         $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);
