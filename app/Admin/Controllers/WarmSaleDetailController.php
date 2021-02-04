@@ -116,7 +116,7 @@ class WarmSaleDetailController extends AdminController
         $form->text('second_date', __('Second date'));
         $form->text('gas_no', __('Gas no'));
         $form->decimal('used_warm', __('Used warm'))->default(0.00);
-        $form->number('bonus', __('Bonus'));
+        $form->decimal('bonus', __('Bonus'))->default(0.00);
         $form->text('year', __('Year'));
         $form->text('reporter', __('Reporter'));
         $form->text('report_time', __('Report time'));
