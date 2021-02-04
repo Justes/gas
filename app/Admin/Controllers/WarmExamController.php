@@ -171,9 +171,9 @@ class WarmExamController extends AdminController
 
 		$form->divider();
 		$form->year('year', __('Year'))->default(date("Y-m-d"));
-		$form->text('return_warm', __('Return warm'))->rules('required');
-		$form->text('used_warm', __('Used warm'))->rules('required');
-		$form->text('return_warm', __('Return warm'))->rules('required');
+		$form->text('return_warm', __('Return warm'))->default(0);
+		$form->text('used_warm', __('Used warm'))->default(0);
+		$form->text('return_warm', __('Return warm'))->default(0);
         $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
         $form->text('real_bonus', __('Real bonus'));
         $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);
