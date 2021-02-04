@@ -125,7 +125,7 @@ class SaleExamController extends AdminController
 		$headers = ['编号', '项目', '权重', '标准', '补贴金额', '实际数据', '应补贴金额(元)'];
 
 		if($form->isCreating()) {
-			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'));
+			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
 
 			$stds = Standard::where('std_type', 0)->get();
 			foreach($stds as $item) {
@@ -162,7 +162,7 @@ class SaleExamController extends AdminController
         $form->year('year', __('Year'))->default(date("Y-m-d"));
         $form->date('exam_date', '审核时间')->default(date("Y-m-d"));
         $form->number('bottle_sum', __('Bottle sum'))->default(0);
-        $form->text('real_bonus', __('Real bonus'));
+        $form->text('real_bonus', __('Real bonus'))->default(0);
         $form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核']);
 		$form->hidden('std_type')->default(0);
 
