@@ -18,7 +18,7 @@ class Refresh extends Action
         // $request ...
 
 		$api = ApiSetting::first();
-		$url = $api->url. '/api/admin/v1/sys/user4sec/getProjectUserList';
+		$url = $api->url. $api->user_uri;
 
 		$params['access_token'] = $this->getAccessToken();
 		$params['projectId'] = $api->project_id;

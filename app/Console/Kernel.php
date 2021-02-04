@@ -4,10 +4,13 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Models\{Article, ExpireTip, Station};
+use App\Models\{Article, ExpireTip, Station, ApiSetting, AdminUser};
+use App\Http\Traits\ApiTrait;
 
 class Kernel extends ConsoleKernel
 {
+	use ApiTrait;
+
     /**
      * The Artisan commands provided by your application.
      *
@@ -33,6 +36,7 @@ class Kernel extends ConsoleKernel
 
 		$schedule->call(function() {
 			$this->postArticles();
+			$this->syncUsers();
 		})->hourly();
 
 		$schedule->call(function() {
@@ -98,6 +102,30 @@ class Kernel extends ConsoleKernel
 			$data['source'] = 1;
 			$data['send_time'] = date('Y-m-d H:i:s');
 			Article::create($data);
+		}
+	}
+
+	protected function syncUsers() {
+		$api = ApiSetting::first();
+		$url = $api->url. $api->user_uri;
+
+		$params['access_token'] = $this->getAccessToken();
+		$params['projectId'] = $api->project_id;
+
+		$result = curl($url, $params);
+		if(isset($result['success'])) {
+			$users = $result['data'];
+			foreach($users as $user) {
+				$adminUser = AdminUser::where('user_id', $user['userId'])->first();
+				if(empty($adminUser)) {
+					$u['type'] = 1;
+					$u['user_id'] = $user['userId'];
+					$u['username'] = $user['userNo'];
+				   	$u['name'] = $user['userName'];
+					$u['extras'] = json_encode($u);
+					AdminUser::create($u);
+				}
+			}
 		}
 	}
 }

@@ -383,6 +383,7 @@ create table w_api_settings (
 	create_token_time char(10) not null default '' comment '获取token 时间',
 	expires_in int not null default 0 comment '过期时间',
 	scope varchar(255) not null default '' comment 'scope',
+	user_uri varchar(255) not null default '' comment '用户列表uri',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '接口设置';
