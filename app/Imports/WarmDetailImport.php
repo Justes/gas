@@ -68,7 +68,7 @@ class WarmDetailImport implements ToModel, WithStartRow
 			'gas_no' => $row[12],
 			'used_warm' => $used,
 			'bonus_warm' => $bonusWarm,
-			'return_warm' => number_format($bonus / $config->warm_price, 2, '.', ''),
+			'return_warm' => round($bonus / $config->warm_price),
 			'bonus' => $bonus,
 			'remark'	 => $row[13]
         ]);
