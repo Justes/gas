@@ -46,6 +46,7 @@ Route::group([
 	$router->resource('fire-exams', FireExamController::class);
 	$router->resource('fire-stds', FireStdController::class);
 	$router->resource('fire-reports', FireReportController::class);
+	$router->resource('fire-tips', FireTipController::class);
 	$router->resource('sec-exams', SecExamController::class);
 	$router->resource('sec-stds', SecStdController::class);
 	$router->resource('sec-reports', SecReportController::class);

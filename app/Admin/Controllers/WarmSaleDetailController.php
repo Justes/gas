@@ -48,7 +48,9 @@ class WarmSaleDetailController extends AdminController
         $grid->column('second_num', __('Second num'));
         $grid->column('second_date', __('Second date'));
         $grid->column('gas_no', __('Gas no'));
-        $grid->column('used_warm', __('Used warm'));
+		$grid->column('used_warm', __('Used warm'));
+		$grid->column('bonus_warm', __('Bonus warm'));
+		$grid->column('return_warm', __('Return warm'));
         $grid->column('bonus', __('Bonus'));
         $grid->column('reporter', __('Reporter'));
         $grid->column('report_time', __('Report time'));

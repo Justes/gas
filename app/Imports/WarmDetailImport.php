@@ -38,14 +38,16 @@ class WarmDetailImport implements ToModel, WithStartRow
 		}
 
 		$day = ceil((strtotime($row[11] .' 00:00:00') - strtotime($row[9]. ' 00:00:00')) / 86400);
-		$used = round(($row[10] - $row[8]) - $config->warm_eve * $day);
+		$used = number_format(($row[10] - $row[8]) - $config->warm_eve * $day), 2, '.', '');
 		if($used >= $config->warm_limit) {
-			$bonus = $config->warm_limit * $config->warm_bonus / $config->warm_price;
+			$bonus = $config->warm_limit * $config->warm_bonus;
 		} else {
-			$bonus = $used * $config->warm_bonus / $config->warm_price;
+			$bonus = $used * $config->warm_bonus;
 		}
 
 		$bonus = number_format($bonus, 2, '.', '');
+
+		$bonusWarm = ($used > 820) ? 820 : $used;
 
         return new WarmSaleDetail([
 			'station_id' => $st->id ?? 0,
@@ -65,6 +67,7 @@ class WarmDetailImport implements ToModel, WithStartRow
 			'second_date' => $row[11],
 			'gas_no' => $row[12],
 			'used_warm' => $used,
+			'bonus_warm' => $bonusWarm,
 			'return_warm' => number_format($bonus / $config->warm_price, 2, '.', ''),
 			'bonus' => $bonus,
 			'remark'	 => $row[13]

@@ -128,7 +128,9 @@
 	"Second num":"第二次表底",
 	"Second date":"第二次抄表日期",
 	"Gas no":"表号",
-	"Used warm":"总补贴气量",
+	"Used warm":"使用气量",
+	"Bonus warm":"总补贴气量",
 	"Return warm":"返居民气量",
-	"Bottle sum":"总换瓶数"
+	"Bottle sum":"总换瓶数",
+	"Trigger time":"提醒时间"
 }

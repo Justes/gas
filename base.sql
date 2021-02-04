@@ -452,6 +452,7 @@ create table w_warm_sale_details (
 	second_date varchar(32) not null default '' comment '第二次抄表日期',
 	gas_no varchar(255) not null default '' comment '燃气表号',
 	used_warm decimal(10, 2) not null default 0 comment '用量',
+	bonus_warm decimal(10, 2) not null default 0 comment '补贴气量',
 	return_warm decimal(10, 2) not null default 0 comment '返气量',
 	bonus int default 0 comment '补贴金额',
 	year varchar(12) not null default '' comment '年',
@@ -464,3 +465,13 @@ create table w_warm_sale_details (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '自采暖销售记录';
+
+create table w_expire_tips (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	trigger_time varchar(32) not null default '' comment '提醒时间',
+	station_ids varchar(1000) not null default '' comment '提醒场站',
+	remark varchar(1000) default null comment '备注',
+	std_type tinyint default 0 comment '5消防设施 7管理制度',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '有效期提醒';
