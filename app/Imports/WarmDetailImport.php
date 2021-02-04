@@ -38,7 +38,7 @@ class WarmDetailImport implements ToModel, WithStartRow
 		}
 
 		$day = ceil((strtotime($row[11] .' 00:00:00') - strtotime($row[9]. ' 00:00:00')) / 86400);
-		$used = number_format(($row[10] - $row[8]) - $config->warm_eve * $day), 2, '.', '');
+		$used = number_format((($row[10] - $row[8]) - $config->warm_eve * $day), 2, '.', '');
 		if($used >= $config->warm_limit) {
 			$bonus = $config->warm_limit * $config->warm_bonus;
 		} else {
