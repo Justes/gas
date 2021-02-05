@@ -32,6 +32,7 @@ class SaleImport implements ToModel, WithStartRow
 			return null;
 		}
 
+		/*
 		$date = explode('-', $row[4]);
 		if(empty($date[0])) {
 			return null;
@@ -39,6 +40,7 @@ class SaleImport implements ToModel, WithStartRow
 
 		$year = $date[0];
 		$month = $date[1];
+		 */
 
         return new BottleSaleLog([
 			'station_id' => $st->id,
@@ -47,10 +49,11 @@ class SaleImport implements ToModel, WithStartRow
 			'bottle_num' => $row[1],
 			'volume'	 => $row[2],
 			'sale_num'	 => $row[3],
-			'sale_date'	 => $row[4],
+			'sale_date'	 => $row[4] . '-01-01',
 			'sale_time'	 => $row[4],
-			'year'		 => $year,
-			'month'		 => $month
+			'year'		 => $row[4],
+			'quarter'	 => $row[5]
+			//'month'		 => $month
         ]);
     }
 }

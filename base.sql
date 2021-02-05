@@ -367,6 +367,7 @@ create table w_bottle_sale_logs (
 	sale_time varchar(12) not null default '' comment '销售日期',
 	year varchar(12) not null default '' comment '年',
 	month varchar(12) not null default '' comment '月',
+	quarter tinyint default 0 comment '季度 1,2,3,4',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '换站瓶销售记录';

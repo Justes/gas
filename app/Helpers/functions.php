@@ -84,7 +84,7 @@ if (!function_exists('writeLog')) {
         $now     = date('Y-m-d H:i:s');
         $dirPath = storage_path() . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR . $dir;
         if (!is_dir($dirPath)) {
-            mkdir($dirPath, 0775);
+            mkdir($dirPath, 0777);
         }
  
         $file = $dirPath . DIRECTORY_SEPARATOR . $date . '.log';
