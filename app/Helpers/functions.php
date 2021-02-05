@@ -90,7 +90,7 @@ if (!function_exists('writeLog')) {
         $file = $dirPath . DIRECTORY_SEPARATOR . $date . '.log';
         if (!file_exists($file)) {
             $f = fopen($file, 'w');
-            chmod($file, 0664);
+            chmod($file, 0777);
             fclose($f);
         }
         file_put_contents($file, '[' . $now . '] '. ' ------ '. time() .' ------ ' . $content . PHP_EOL, FILE_APPEND);
