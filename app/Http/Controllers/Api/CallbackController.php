@@ -14,7 +14,7 @@ class CallbackController extends BaseController {
 		$data = $req->getContent();
 		writeLog('callback', $data);
 
-		$token = $this->getAccessToken();
+		$token = $this->getAccessToken(0);
 
 		$auser = $this->getAdminUser($token);
 		if(isset($auser['data'])) {
