@@ -131,12 +131,12 @@ class CompanyController extends AdminController
 
         $form->text('company_name', __('Company name'))->rules('required');
 		$form->radio('company_type', __('Company type'))->options(['私企', '国企'])->default(0);
-        $form->text('belongs', __('Belongs'))->rules('required');
+        $form->text('belongs', __('Belongs'));
         //$form->text('gas_stations', __('Gas stations'));
         $form->text('addr', __('企业地址'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600)->rules('required');
-        $form->text('contact_user', __('联系人'))->rules('required');
-        $form->text('contact_user_mobile', __('联系人手机'))->rules('required', );
+        $form->text('contact_user', __('联系人'));
+        $form->text('contact_user_mobile', __('联系人手机'));
         $form->text('contact_user_tel', __('联系人电话'));
 		$form->radio('permit', __('经营许可'))->options([1 => '有', 0 => '无'])->default(1);
 		$form->image('permit_pic', '经营许可证')->disk('admin')->uniqueName();
@@ -150,9 +150,9 @@ class CompanyController extends AdminController
         $form->text('legal_idnum', __('法人身份证'))->rules('required');
 		$form->divider();
 
-        $form->text('secure_name', __('安全责任人'))->rules('required');
-        $form->text('secure_mobile', __('安全责任人手机'))->rules('required');
-        $form->text('secure_idnum', __('身份证号'))->rules('required');
+        $form->text('secure_name', __('安全责任人'));
+        $form->text('secure_mobile', __('安全责任人手机'));
+        $form->text('secure_idnum', __('身份证号'));
 
 		$form->saved(function(Form $form) {
 			if($form->permit) {

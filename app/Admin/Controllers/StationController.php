@@ -151,13 +151,13 @@ class StationController extends AdminController
         $form->text('station_name', __('站点名称'))->rules('required');
         $form->select('company_id', __('所属企业'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
         $form->select('type', __('类型'))->options(['换瓶站', 'LNG气站', 'CNG气站']);
-        $form->number('store_gas', __('Store gas'))->rules('required');
+        $form->number('store_gas', __('Store gas'))->default(0);
         $form->text('addr', __('位置'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600)->rules('required');
 		$form->divider();
 
-        $form->text('contact_user', __('安全负责人'))->rules('required');
-        $form->text('contact_user_mobile', __('负责人联系方式'))->rules('required');
+        $form->text('contact_user', __('安全负责人'));
+        $form->text('contact_user_mobile', __('负责人联系方式'));
         $form->text('contact_user_tel', __('联系人电话'));
 
         $form->radio('permit', __('经营许可'))->options([1 => '有', 0 => '无'])->default(1);
@@ -167,14 +167,14 @@ class StationController extends AdminController
         $form->textarea('remark', __('备注信息'));
 		$form->divider();
 
-        $form->text('backup_no', __('备案编号'))->rules('required');
-        $form->select('backup_company_id', __('申报单位'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
+        $form->text('backup_no', __('备案编号'));
+        $form->select('backup_company_id', __('申报单位'))->options(Company::all()->pluck('company_name', 'id'));
         $form->select('ck_status', __('备案状态'))->options(['未审核', '已审核']);
 		$form->divider();
 
         //$form->switch('license', __('License'))->default(1);
-        $form->text('license_no', __('营业执照编号'))->rules('required');
-        $form->text('permit_no', __('许可证编号'))->rules('required');
+        $form->text('license_no', __('营业执照编号'));
+        $form->text('permit_no', __('许可证编号'));
         $form->image('license_pic', __('营业执照照片'))->disk('admin')->uniqueName();
 		$form->divider();
 

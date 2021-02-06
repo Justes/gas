@@ -92,9 +92,9 @@ class ZoneController extends AdminController
         $form->text('zone_range', __('Zone range'))->rules('required');
         $form->multipleSelect('station_ids', __('Station ids'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
         //$form->select('gas_type', __('Gas type'))->options([1, 2, 3]);
-        $form->number('tube_length', __('Tube length'))->min(0)->rules('required');
-        $form->number('cover_area', __('Cover area'))->min(0)->rules('required');
-        $form->number('population', __('Population'))->min(0)->rules('required');
+        $form->number('tube_length', __('Tube length'))->min(0)->default(0);
+        $form->number('cover_area', __('Cover area'))->min(0)->default(0);
+        $form->number('population', __('Population'))->min(0)->default(0);
         $form->radio('zone_status', __('Zone status'))->options(['可用', '禁用'])->default(0);
 		$form->hidden('station_names');
 
