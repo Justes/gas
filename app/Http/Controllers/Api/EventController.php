@@ -31,6 +31,7 @@ class EventController extends BaseController {
 
 		$mins = ceil(($solveAt - strtotime($event->created_at)) / 60);
 		$event->solved_minutes = $mins;
+		$event->solved_hours = round($mins / 60, 1);
 		$event->event_status = 1;
 		$event->solved_at = date("Y-m-d H:i:s", $solveAt);
 		$event->solved_time = $solveAt;

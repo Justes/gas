@@ -66,7 +66,7 @@ class ManageStdController extends AdminController
 
         $form->text('project', __('Project'));
         $form->number('weight', __('Weight'));
-        $form->number('standard', __('Standard'));
+        $form->text('standard', __('Standard'));
         $form->hidden('std_type', __('Std type'))->default(7);
 
         return $form;

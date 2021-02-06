@@ -32,7 +32,7 @@
 	<td>{{ $stat['unsolved'] }}</td>
 </tr>
 </table>
-<div style="margin:50px auto;" class="myChart">
+<div style="margin:100px auto;" class="myChart">
 <canvas id="myChart" height="400" width="400" ></canvas>
 </div>
 

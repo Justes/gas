@@ -68,7 +68,7 @@ class SaleStdController extends AdminController
 
         $form->text('project', __('Project'));
         $form->number('weight', __('Weight'));
-        $form->number('standard', __('Standard'));
+        $form->text('standard', __('Standard'));
         $form->number('bonus', __('Bonus'));
         $form->hidden('std_type', __('Std type'))->default(0);
 

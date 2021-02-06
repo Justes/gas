@@ -137,7 +137,7 @@ class WorkerController extends AdminController
 		$form->number('age', '年龄')->min(0);
         $form->text('mobile', '联系方式')->rules('required');
         $form->multipleSelect('roles', '职务')->options($roleModel::all()->pluck('name', 'id'))->rules('required');
-        $form->text('job_desc', '工作职责')->rules('required');
+        $form->text('job_desc', '工作职责');
         $form->image('avatar', trans('admin.avatar'));
 		/*
         $form->password('password', trans('admin.password'))->rules('required|confirmed');

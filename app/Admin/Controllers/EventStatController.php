@@ -45,11 +45,13 @@ class EventStatController extends AdminController
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
+			$filter->like('event_name', __('Event name'));
 			$filter->equal('station_id', __('Station id'))->select(Station::all()->pluck('station_name', 'id'));
 			$filter->equal('event_type_id', __('Event type'))->select(EventType::where('id', '<>', 5)->pluck('etype_name', 'id'));
 			$filter->equal('event_status', __('Event status'))->select(['未解决', '已解决']);
 			$filter->year('created_date', '年')->default(date('Y'));
 			$filter->month('created_at', '月')->default(date('m'));
+			$filter->between('solved_hours', '解决时长(小时)');
 		});
 
         $grid->column('id', __('Id'));
