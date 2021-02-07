@@ -91,14 +91,14 @@ class EventExamController extends AdminController
         //$form->textarea('remark', __('Remark'));
 
 		$rows = [];
-		$headers = ['编号', '项目', '权重', '标准', '实际数据', '结果'];
+		$headers = ['编号', '项目', '权重', '标准', '实际数据', '得分', '结果'];
 
 		if($form->isCreating()) {
 			$form->select('station_id', __('Station id'))->options(Station::all()->pluck('station_name', 'id'))->rules('required');
 
 			$stds = Standard::where('std_type', 4)->get();
 			foreach($stds as $item) {
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']"/ >', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
+				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;"  / >', '<input class="scores" name="scores['.$item->id.']" style="padding-right:5px;text-align:right;" />', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
 			}
 		} else {
 			$form->display('station.company.company_name', __('Company id'));
@@ -113,7 +113,7 @@ class EventExamController extends AdminController
 			foreach($stds as $item) {
 				$sel = empty($item->result) ? "" : "selected";
 
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" value="'.$item->real_data.'" / >', '<select name="res['.$item->id.']"><option value="0"'.$sel.'>不通过</option><option value="1"'.$sel.'>通过</option></select>'];
+				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->real_data.'" / >', '<input class="scores" name="scores['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->score.'">',  '<select name="res['.$item->id.']"><option value="0"'.$sel.'>不通过</option><option value="1"'.$sel.'>通过</option></select>'];
 			}
 		}
 		$table = new Table($headers, $rows);
@@ -154,23 +154,33 @@ class EventExamController extends AdminController
 			if($form->real) {
 				$real = $form->real;
 				$res = $form->res;
+				$scores = $form->scores;
+				$score = 0;
 
 				foreach($real as $key => $item) {
 					$data['station_exam_id'] = $form->model()->id;
 					$data['real_data'] = $item;
 					$data['result'] = $res[$key];
+					$data['score'] = $scores[$key];
 					
 					if($form->isCreating()) {
 						$std = Standard::find($key);
-						$data['project'] = $std->project;
 						$data['weight'] = $std->weight;
+						$data['project'] = $std->project;
 						$data['standard'] = $std->standard;
 						$data['standard_id'] = $key;
 						StationExamStd::create($data);
 					} else {
+						$ses = StationExamStd::find($key);
+						$data['weight'] = $ses->weight;
 						StationExamStd::where('id', $key)->update($data);
 					}
+					$score += $data['weight'] * $data['score'];
 				}
+
+				$score = round($score / 100);
+
+				StationExam::where('id', $form->model()->id)->update(['score' => $score]);
 			}
 		});
 

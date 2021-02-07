@@ -332,6 +332,7 @@ create table w_station_exam_stds (
 	standard int default 0 comment '标准',
 	bonus int default 0 comment '补贴金额',
 	real_data int default 0 comment '实际数据',
+	score int default 0 comment '评分',
 	real_bonus int default 0 comment '实际补贴金额',
 	result varchar(32) default null comment '结果 0未通过 1通过',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
