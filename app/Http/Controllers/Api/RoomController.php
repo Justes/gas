@@ -54,7 +54,7 @@ class RoomController extends BaseController {
 		$rules = $this->required($req, ['room_id', 'user_ids']);
 		if($rules) return err(4001, $rules);
 
-		$ruser = RoomUser::where(['id' => $req->room_id, 'user_id' => $this->uid()])->first();
+		$ruser = RoomUser::where(['room_id' => $req->room_id, 'user_id' => $this->uid()])->first();
 		if(empty($ruser->user_type)) {
 			return err(4000);
 		}
