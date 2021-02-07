@@ -6,17 +6,6 @@
  @License：LGPL
 
  */
-function getDay(t) {
-    var date = t? new Date(Number(t)):new Date();
-    var Y = date.getFullYear();
-    var M = date.getMonth()+1;
-    var d = date.getDate();
-    var h =  date.getHours();
-    var min = date.getMinutes();
-    var s = date.getSeconds();
-    var time = Y+'-'+(M<10?'0'+M:M)+'-'+(d<10?'0'+d:d)+' '+(h<10?'0'+h:h)+':'+(min<10?'0'+min:min)+':'+(s<10?'0'+s:s);
-    return time;
-}
 var token = LA.user.token;
 var my_id = LA.user.id;
 layui.define(['layer', 'laytpl', 'upload'], function(exports){
@@ -86,14 +75,14 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
     LAYIM.prototype.setChatMin = function(){
         return setChatMin(), this;
     };
-    //
-    // //设置当前会话状态
-    // LAYIM.prototype.setChatStatus = function(str){
-    //     var thatChat = thisChat();
-    //     if(!thatChat) return;
-    //     var status = thatChat.elem.find('.layim-chat-status');
-    //     return status.html(str), this;
-    // };
+
+    //设置当前会话状态
+    LAYIM.prototype.setChatStatus = function(str){
+        var thatChat = thisChat();
+        if(!thatChat) return;
+        var status = thatChat.elem.find('.layim-chat-status');
+        return status.html(str), this;
+    };
 
     //接受消息
     LAYIM.prototype.getMessage = function(data){
@@ -105,36 +94,36 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         return notice(data), this;
     };
 
-    // //打开添加好友/群组面板
-    // LAYIM.prototype.add = function(data){
-    //     return popAdd(data), this;
-    // };
-    //
-    // //好友分组面板
-    // LAYIM.prototype.setFriendGroup = function(data){
-    //     return popAdd(data, 'setGroup'), this;
-    // };
+    //打开添加好友/群组面板
+    LAYIM.prototype.add = function(data){
+        return popAdd(data), this;
+    };
+
+    //好友分组面板
+    LAYIM.prototype.setFriendGroup = function(data){
+        return popAdd(data, 'setGroup'), this;
+    };
 
     //消息盒子的提醒
     LAYIM.prototype.msgbox = function(nums){
         return msgbox(nums), this;
     };
 
-    // //添加好友/群
-    // LAYIM.prototype.addList = function(data){
-    //     return addList(data), this;
-    // };
+    //添加好友/群
+    LAYIM.prototype.addList = function(data){
+        return addList(data), this;
+    };
 
-    // //删除好友/群
-    // LAYIM.prototype.removeList = function(data){
-    //     return removeList(data), this;
-    // };
+    //删除好友/群
+    LAYIM.prototype.removeList = function(data){
+        return removeList(data), this;
+    };
 
     //设置好友在线/离线状态
-    // LAYIM.prototype.setFriendStatus = function(id, type){
-    //     var list = $('.layim-friend'+ id);
-    //     list[type === 'online' ? 'removeClass' : 'addClass']('layim-list-gray');
-    // };
+    LAYIM.prototype.setFriendStatus = function(id, type){
+        var list = $('.layim-friend'+ id);
+        list[type === 'online' ? 'removeClass' : 'addClass']('layim-list-gray');
+    };
 
     //解析聊天内容
     LAYIM.prototype.content = function(content){
@@ -277,12 +266,12 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         ,'</div>'
         ,'<div class="layim-chat-footer">'
         ,'<div class="layui-unselect layim-chat-tool" data-json="{{encodeURIComponent(JSON.stringify(d.data))}}">'
-        ,'<span class="layui-icon layim-tool-image" title="发送文件" layim-event="imageSend" data-type="file">&#xe61d;<input type="file" name="file" id="sendFile"></span><span class="layui-icon layim-tool-face" title="选择表情" layim-event="face">&#xe60c;</span>'
+        ,'<span class="layui-icon layim-tool-face" title="选择表情" layim-event="face">&#xe60c;</span>'
         ,'{{# if(d.base && d.base.uploadImage){ }}'
-        ,'<span class="layui-icon layim-tool-image" title="上传图片" layim-event="imageSend">&#xe60d;<input type="file" name="file"></span>'
+        ,'<span class="layui-icon layim-tool-image" title="上传图片" layim-event="image">&#xe60d;<input type="file" name="file"></span>'
         ,'{{# }; }}'
         ,'{{# if(d.base && d.base.uploadFile){ }}'
-        ,''
+        ,'<span class="layui-icon layim-tool-image" title="发送文件" layim-event="image" data-type="file">&#xe61d;<input type="file" name="file"></span>'
         ,'{{# }; }}'
         ,'{{# if(d.base && d.base.isAudio){ }}'
         ,'<span class="layui-icon layim-tool-audio" title="发送网络音频" layim-event="media" data-type="audio">&#xe6fc;</span>'
@@ -337,9 +326,9 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
     var elemChatMain = ['<li {{ d.user_id == my_id  ? "class=layim-chat-mine" : "" }} {{# if(d.user_id){ }}data-cid="{{d.user_id}}"{{# } }}>'
         ,'<div class="layim-chat-user"><img src="{{ d.avatar }}"><cite>'
         ,'{{# if(d.mine){ }}'
-        ,'<i>{{ d.created_at }}</i>{{ d.name }}'
+        ,'<i>{{ d.created_at }}</i>&nbsp;{{ d.name }}'
         ,'{{# } else { }}'
-        ,'{{ d.name }}<i>{{ d.created_at }}</i>'
+        ,'{{ d.name }}&nbsp;<i>{{ d.created_at }}</i>'
         ,'{{# } }}'
         ,'</cite></div>'
         ,'<div class="layim-chat-text">',
@@ -348,15 +337,15 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         '{{# } else if(d.msg_type==3){ }}',
         '<div class="msg-box"><img src="{{ d.file_url }}"></div>',
         '{{# } else if(d.msg_type==4){ }}',
-        '<div class="msg-box"><a href="{{d.file_url}}" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>{{ d.file_name }}</p></a></div>',
+        '<div class="msg-box">[文件]</div>',
         '{{# } else{ }}',
-        '<div class="msg-box">{{ d.msg }}</div>',
+        '<div class="msg-box">{{ layui.data.content(d.msg) }}</div>',
         '{{# } }}',
         '</div>'
         ,'</li>'].join('');
     //聊天框左侧列表
     var elemChatList = '<li class="layim-{{ d.data.type }}{{ d.data.id }} layim-chatlist-{{ d.data.type }}{{ d.data.id }} layim-this" layim-event="tabChat" chat_type="{{d.data.chat_type}}">' +
-        '<img src="{{ d.data.avatar }}"><span>{{ d.data.name}}</span>' +
+        '<img src="{{ d.data.avatar }}"><span>{{ d.data.name||"佚名" }}</span>' +
         '<i class="layui-icon" layim-event="closeChat">&#x1007;</i>' +
         '</li>';
 
@@ -601,8 +590,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
 
     //显示聊天面板
     var layimChat, layimMin, chatIndex, To = {}, popchat = function(data){
-        console.log('显示')
-
         data = data || {};
 
         var chat = $('#layui-layim-chat'), render = {
@@ -610,7 +597,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
             ,base: cache.base
             ,local: cache.local
         };
-        console.log('222'+JSON.stringify(data));
         if(!data.id){
             return layer.msg('非法用户');
         }
@@ -645,7 +631,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                 chatBox.append(laytpl(elemChatTpl).render(render));
                 syncGray(data);
                 resizeChat();
-                console.log('则新增面板')
             }
 
             changeChat(list.find('.layim-chatlist-'+ data.type + data.id));
@@ -686,12 +671,11 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                 setSkin(layero);
                 setHistory(data);
 
-                viewChatlog();    ////////////////////////////////
-                // showOffMessage();
+                viewChatlog();
+                showOffMessage();
 
                 //聊天窗口的切换监听
                 layui.each(call.chatChange, function(index, item){
-                    console.log(item);
                     item && item(thisChat());
                 });
 
@@ -839,16 +823,15 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         });
     };
 
-    //切换聊天 ///////////////////////////////////
+    //切换聊天
     var changeChat = function(elem, del){
-        console.log('切换')
-        var chat_type = elem.attr('chat_type');
         elem = elem || $('.layim-chat-list .' + THIS);
         var index = elem.index() === -1 ? 0 : elem.index();
         var str = '.layim-chat', cont = layimChat.find(str).eq(index);
         var hasFull = layimChat.find('.layui-layer-max').hasClass('layui-layer-maxmin');
 
         if(del){
+
             //如果关闭的是当前聊天，则切换聊天焦点
             if(elem.hasClass(THIS)){
                 changeChat(index === 0 ? elem.next() : elem.prev());
@@ -884,49 +867,17 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         layui.each(call.chatChange, function(index, item){
             item && item(thisChat());
         });
-        viewChatlog()
-        // showOffMessage(chat_type);
+        showOffMessage();
     };
 
     //展示存在队列中的消息
-    var showOffMessage = function(type){
+    var showOffMessage = function(){
         var thatChat = thisChat();
-        console.log(thatChat)
-        // var message = cache.message[thatChat.data.type + thatChat.data.id];
-        // if(message){
-        //     //展现后，删除队列中消息
-        //     delete cache.message[thatChat.data.type + thatChat.data.id];
-        // }
-        var local = layui.data('layim')[cache.mine.id] || {}
-            , chatlog = local.chatlog || {}
-            ,ul = thatChat.elem.find('.layim-chat-main ul');
-        var data = {
-            page:1,
-        };
-        if(thatChat.data.type==1){
-            data.user_id = thatChat.data.id
-        }else{
-            data.room_id = thatChat.data.id
+        var message = cache.message[thatChat.data.type + thatChat.data.id];
+        if(message){
+            //展现后，删除队列中消息
+            delete cache.message[thatChat.data.type + thatChat.data.id];
         }
-        var url = '/api/imsg';
-        $.ajax({
-            url: url,
-            data: data,
-            headers: { token: token },
-            type: "GET",
-            success: function(res) {
-                var loglist = res.data;
-                if(loglist){
-                    layui.each(loglist, function(index, item){
-                        ul.prepend(laytpl(elemChatMain).render(item));
-                    });
-                    var mainBox = ul.parent(".layim-chat-main");
-                    mainBox.scrollTop( ul.height() );
-                }
-            }
-        });
-        chatListMore();
-
     };
 
     //获取当前聊天面板
@@ -987,222 +938,188 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
     };
 
     //发送消息
-    var sendMessage = function(file_url,file_name,file_ext){
-        var msg_type = 1;
-        if(file_ext){
-            if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' ||file_ext == 'bmp' || file_ext == 'gif'){
-                msg_type = 3;
-            }else {
-                msg_type = 4
-            }
-        }else {
-            msg_type = 1
-        }
+    var sendMessage = function(){
+        console.log(cache)
         var data = {
             username: cache.mine ? cache.mine.username : '访客'
             ,avatar: cache.mine ? cache.mine.avatar : (layui.cache.dir+'css/pc/layim/skin/logo.jpg')
             ,id: cache.mine ? cache.mine.id : null
             ,mine: true
         };
+        console.log(data)
         var thatChat = thisChat(), ul = thatChat.elem.find('.layim-chat-main ul');
-        var maxLength = 1000;
+        var maxLength = cache.base.maxLength || 3000;
         data.content = thatChat.textarea.val();
-        if(data.content=='' && !file_url){
-            return layer.msg('不能发送空白消息');
-            return false;
+        if(data.content.replace(/\s/g, '') !== ''){
+
+            if(data.content.length > maxLength){
+                return layer.msg('内容最长不能超过'+ maxLength +'个字符')
+            }
+
+            ul.append(laytpl(elemChatMain).render(data));
+
+            var param = {
+                user_id: my_id
+                ,to: thatChat.data
+            }, message = {
+                name: param.mine.username
+                ,avatar: param.mine.avatar
+                ,id: param.to.id
+                ,type: param.to.type
+                ,msg: param.mine.content
+                ,created_at: new Date().getTime()
+                ,mine: true
+            };
+            pushChatlog(message);
+
+            layui.each(call.sendMessage, function(index, item){
+                item && item(param);
+            });
         }
-        if(data.content.length > maxLength){
-            return layer.msg('内容最长不能超过'+ maxLength +'个字符')
-        }
-        var param = {
-            user_id: my_id
-            ,to: thatChat.data
-        }, message = {
-            name: data.username
-            ,avatar: data.avatar
-            ,id: thatChat.data.id
-            ,type: thatChat.data.type
-            ,msg: data.content
-            ,user_id:my_id
-            ,created_at:getDay()
-            ,file_url:file_url?file_url:''
-            ,file_name:file_name?file_name:''
-            ,file_ext:file_ext?file_ext:''
-            ,msg_type:msg_type
-        };
-        //传递msg去soket.js
-        pushChatlog(message);
-        ul.append(laytpl(elemChatMain).render(message));
-        var mainBox = ul.parent(".layim-chat-main");
-        mainBox.scrollTop( ul.height() );
-        layui.each(call.sendMessage, function(index, item){
-            item && item(message);
-        });
         chatListMore();
         thatChat.textarea.val('').focus();
     };
 
     //桌面消息提醒
-    // var notice = function(data){
-    //     data = data || {};
-    //     if (window.Notification){
-    //         if(Notification.permission === 'granted'){
-    //             var notification = new Notification(data.title||'', {
-    //                 body: data.content||''
-    //                 ,icon: data.avatar||'/Public/base/images/user.png'
-    //             });
-    //         }else {
-    //             Notification.requestPermission();
-    //         };
-    //     }
-    // };
-
-    // //消息声音提醒
-    // var voice = function() {
-    //     if(device.ie && device.ie < 9) return;
-    //     var audio = document.createElement("audio");
-    //     audio.src = layui.cache.dir+'css/modules/layim/voice/'+ cache.base.voice;
-    //     audio.play();
-    // };
-    //
-    // //接受消息
-    var messageNew = {}, getMessage = function(data){
-        var  message = {
-            name: data.name
-            ,avatar: data.avatar
-            ,id: data.user_id
-            ,type: data.type
-            ,msg: data.msg
-            ,user_id:data.user_id
-            ,created_at:getDay(data.msgid)
-            ,file_url:data.file_url
-            ,file_name:data.file_name
-            ,file_ext:data.file_ext
-            ,msg_type:data.msg_type
-        };
-        var thatChat = thisChat();
+    var notice = function(data){
         data = data || {};
-        if(data.oid == thatChat.data.id){
-            var  ul = thatChat.elem.find('.layim-chat-main ul');
-            ul.append(laytpl(elemChatMain).render(message));
-            var mainBox = ul.parent(".layim-chat-main");
-            mainBox.scrollTop( ul.height() );
+        if (window.Notification){
+            if(Notification.permission === 'granted'){
+                var notification = new Notification(data.title||'', {
+                    body: data.content||''
+                    ,icon: data.avatar||'/Public/base/images/user.png'
+                });
+            }else {
+                Notification.requestPermission();
+            };
+        }
+    };
+
+    //消息声音提醒
+    var voice = function() {
+        if(device.ie && device.ie < 9) return;
+        var audio = document.createElement("audio");
+        audio.src = layui.cache.dir+'css/modules/layim/voice/'+ cache.base.voice;
+        audio.play();
+    };
+
+    //接受消息
+    var messageNew = {}, getMessage = function(data){
+        data = data || {};
+
+        var elem = $('.layim-chatlist-'+ data.type + data.id);
+        var group = {}, index = elem.index();
+
+        data.timestamp = data.timestamp || new Date().getTime();
+        if(data.fromid == cache.mine.id){
+            data.mine = true;
+        }
+        data.system || pushChatlog(data);
+        messageNew = JSON.parse(JSON.stringify(data));
+
+        if(cache.base.voice){
+            voice();
         }
 
+        if((!layimChat && data.content) || index === -1){
+            if(cache.message[data.type + data.id]){
+                cache.message[data.type + data.id].push(data)
+            } else {
+                cache.message[data.type + data.id] = [data];
 
-    //     var elem = $('.layim-chatlist-'+ data.type + data.id);
-    //     var group = {}, index = elem.index();
-    //
-    //     data.timestamp = data.timestamp || new Date().getTime();
-    //     if(data.fromid == cache.mine.id){
-    //         data.mine = true;
-    //     }
-    //     data.system || pushChatlog(data);
-    //     messageNew = JSON.parse(JSON.stringify(data));
-    //
-    //     if(cache.base.voice){
-    //         voice();
-    //     }
-    //
-    //     if((!layimChat && data.content) || index === -1){
-    //         if(cache.message[data.type + data.id]){
-    //             cache.message[data.type + data.id].push(data)
-    //         } else {
-    //             cache.message[data.type + data.id] = [data];
-    //
-    //             //记录聊天面板队列
-    //             if(data.type === 'friend'){
-    //                 var friend;
-    //                 layui.each(cache.friend, function(index1, item1){
-    //                     layui.each(item1.list, function(index, item){
-    //                         if(item.id == data.id){
-    //                             item.type = 'friend';
-    //                             item.name = item.username;
-    //                             cache.chat.push(item);
-    //                             return friend = true;
-    //                         }
-    //                     });
-    //                     if(friend) return true;
-    //                 });
-    //                 if(!friend){
-    //                     data.name = data.username;
-    //                     data.temporary = true; //临时会话
-    //                     cache.chat.push(data);
-    //                 }
-    //             } else if(data.type === 'group'){
-    //                 var isgroup;
-    //                 layui.each(cache.group, function(index, item){
-    //                     if(item.id == data.id){
-    //                         item.type = 'group';
-    //                         item.name = item.groupname;
-    //                         cache.chat.push(item);
-    //                         return isgroup = true;
-    //                     }
-    //                 });
-    //                 if(!isgroup){
-    //                     data.name = data.groupname;
-    //                     cache.chat.push(data);
-    //                 }
-    //             } else {
-    //                 data.name = data.name || data.username || data.groupname;
-    //                 cache.chat.push(data);
-    //             }
-    //         }
-    //         if(data.type === 'group'){
-    //             layui.each(cache.group, function(index, item){
-    //                 if(item.id == data.id){
-    //                     group.avatar = item.avatar;
-    //                     return true;
-    //                 }
-    //             });
-    //         }
-    //         if(!data.system){
-    //             if(cache.base.notice){
-    //                 notice({
-    //                     title: '来自 '+ data.username +' 的消息'
-    //                     ,content: data.content
-    //                     ,avatar: group.avatar || data.avatar
-    //                 });
-    //             }
-    //             return setChatMin({
-    //                 name: '收到新消息'
-    //                 ,avatar: group.avatar || data.avatar
-    //                 ,anim: 6
-    //             });
-    //         }
-    //     }
-    //
-    //     if(!layimChat) return;
-    //
-    //     //接受到的消息不在当前Tab
-    //     var thatChat = thisChat();
-    //     if(thatChat.data.type + thatChat.data.id !== data.type + data.id){
-    //         elem.addClass('layui-anim layer-anim-06');
-    //         setTimeout(function(){
-    //             elem.removeClass('layui-anim layer-anim-06')
-    //         }, 300);
-    //     }
-    //
-    //     var cont = layimChat.find('.layim-chat').eq(index);
-    //     var ul = cont.find('.layim-chat-main ul');
-    //
-    //     //系统消息
-    //     if(data.system){
-    //         if(index !== -1){
-    //             ul.append('<li class="layim-chat-system"><span>'+ data.content +'</span></li>');
-    //         }
-    //     } else if(data.content.replace(/\s/g, '') !== ''){
-    //         ul.prepend(laytpl(elemChatMain).render(data));
-    //     }
-    //
-    //     chatListMore();
+                //记录聊天面板队列
+                if(data.type === 'friend'){
+                    var friend;
+                    layui.each(cache.friend, function(index1, item1){
+                        layui.each(item1.list, function(index, item){
+                            if(item.id == data.id){
+                                item.type = 'friend';
+                                item.name = item.username;
+                                cache.chat.push(item);
+                                return friend = true;
+                            }
+                        });
+                        if(friend) return true;
+                    });
+                    if(!friend){
+                        data.name = data.username;
+                        data.temporary = true; //临时会话
+                        cache.chat.push(data);
+                    }
+                } else if(data.type === 'group'){
+                    var isgroup;
+                    layui.each(cache.group, function(index, item){
+                        if(item.id == data.id){
+                            item.type = 'group';
+                            item.name = item.groupname;
+                            cache.chat.push(item);
+                            return isgroup = true;
+                        }
+                    });
+                    if(!isgroup){
+                        data.name = data.groupname;
+                        cache.chat.push(data);
+                    }
+                } else {
+                    data.name = data.name || data.username || data.groupname;
+                    cache.chat.push(data);
+                }
+            }
+            if(data.type === 'group'){
+                layui.each(cache.group, function(index, item){
+                    if(item.id == data.id){
+                        group.avatar = item.avatar;
+                        return true;
+                    }
+                });
+            }
+            if(!data.system){
+                if(cache.base.notice){
+                    notice({
+                        title: '来自 '+ data.username +' 的消息'
+                        ,content: data.content
+                        ,avatar: group.avatar || data.avatar
+                    });
+                }
+                return setChatMin({
+                    name: '收到新消息'
+                    ,avatar: group.avatar || data.avatar
+                    ,anim: 6
+                });
+            }
+        }
+
+        if(!layimChat) return;
+
+        //接受到的消息不在当前Tab
+        var thatChat = thisChat();
+        if(thatChat.data.type + thatChat.data.id !== data.type + data.id){
+            elem.addClass('layui-anim layer-anim-06');
+            setTimeout(function(){
+                elem.removeClass('layui-anim layer-anim-06')
+            }, 300);
+        }
+
+        var cont = layimChat.find('.layim-chat').eq(index);
+        var ul = cont.find('.layim-chat-main ul');
+
+        //系统消息
+        if(data.system){
+            if(index !== -1){
+                ul.append('<li class="layim-chat-system"><span>'+ data.content +'</span></li>');
+            }
+        } else if(data.content.replace(/\s/g, '') !== ''){
+            ul.append(laytpl(elemChatMain).render(data));
+        }
+
+        chatListMore();
     };
-    //
-    // //消息盒子的提醒
-    // var ANIM_MSG = 'layui-anim-loop layer-anim-05', msgbox = function(num){
-    //     var msgboxElem = layimMain.find('.layim-tool-msgbox');
-    //     msgboxElem.find('span').addClass(ANIM_MSG).html(num);
-    // };
+
+    //消息盒子的提醒
+    var ANIM_MSG = 'layui-anim-loop layer-anim-05', msgbox = function(num){
+        var msgboxElem = layimMain.find('.layim-tool-msgbox');
+        msgboxElem.find('span').addClass(ANIM_MSG).html(num);
+    };
 
     //存储最近MAX_ITEM条聊天记录到本地
     var pushChatlog = function(message){
@@ -1240,140 +1157,138 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         var local = layui.data('layim')[cache.mine.id] || {}
             ,thatChat = thisChat(), chatlog = local.chatlog || {}
             ,ul = thatChat.elem.find('.layim-chat-main ul');
-        ul.html('');
-        // if(chatlog[thatChat.data.type + thatChat.data.id]){
-        //     layui.each(chatlog[thatChat.data.type + thatChat.data.id], function(index, item){
-        //         ul.prepend(laytpl(elemChatMain).render(item));
-        //     });
-        // }else{
-        //
-        // }
-        //取得在线聊天记录
-        var data = {
-            page:1,
-        };
-        if(thatChat.data.type==1){
-            data.user_id = thatChat.data.id
+        if(chatlog[thatChat.data.type + thatChat.data.id]){
+            layui.each(chatlog[thatChat.data.type + thatChat.data.id], function(index, item){
+                ul.append(laytpl(elemChatMain).render(item));
+            });
         }else{
-            data.room_id = thatChat.data.id
-        }
-        var url = '/api/imsg';
-        $.ajax({
-            url: url,
-            data: data,
-            headers: { token: token },
-            type: "GET",
-            success: function(res) {
-                var loglist = res.data;
-                if(loglist){
-                    layui.each(loglist, function(index, item){
-                        ul.prepend(laytpl(elemChatMain).render(item));
-                    });
-                    var mainBox = ul.parent(".layim-chat-main");
-                    mainBox.scrollTop( ul.height() );
-                }
+            //取得在线聊天记录
+            var data = {
+                page:1,
+            };
+            if(thatChat.data.type==1){
+                data.user_id = thatChat.data.id
+            }else{
+                data.room_id = thatChat.data.id
             }
-        });
+            var url = '/api/imsg';
+            $.ajax({
+                url: url,
+                data: data,
+                headers: { token: token },
+                type: "GET",
+                success: function(res) {
+                    var loglist = res.data;
+                    if(loglist){
+                        layui.each(loglist, function(index, item){
+                            ul.append(laytpl(elemChatMain).render(item));
+                        });
+                        var mainBox = ul.parent(".layim-chat-main");
+                        mainBox.scrollTop( ul.height() );
+                    }
+                }
+            });
+        }
         chatListMore();
     };
 
     //添加好友或群
-    // var addList = function(data){
-    //     var obj = {}, has, listElem = layimMain.find('.layim-list-'+ data.type);
-    //
-    //     if(cache[data.type]){
-    //         if(data.type === 'friend'){
-    //             layui.each(cache.friend, function(index, item){
-    //                 if(data.groupid == item.id){
-    //                     //检查好友是否已经在列表中
-    //                     layui.each(cache.friend[index].list, function(idx, itm){
-    //                         if(itm.id == data.id){
-    //                             return has = true
-    //                         }
-    //                     });
-    //                     if(has) return layer.msg('好友 ['+ (data.username||'') +'] 已经存在列表中',{anim: 6});
-    //                     cache.friend[index].list = cache.friend[index].list || [];
-    //                     obj[cache.friend[index].list.length] = data;
-    //                     data.groupIndex = index;
-    //                     cache.friend[index].list.push(data); //在cache的friend里面也增加好友
-    //                     return true;
-    //                 }
-    //             });
-    //         } else if(data.type === 'group'){
-    //             //检查群组是否已经在列表中
-    //             layui.each(cache.group, function(idx, itm){
-    //                 if(itm.id == data.id){
-    //                     return has = true
-    //                 }
-    //             });
-    //             if(has) return layer.msg('您已是 ['+ (data.groupname||'') +'] 的群成员',{anim: 6});
-    //             obj[cache.group.length] = data;
-    //             cache.group.push(data);
-    //         }
-    //     }
-    //
-    //     if(has) return;
-    //
-    //     var list = laytpl(listTpl({
-    //         type: data.type
-    //         ,item: 'd.data'
-    //         ,index: data.type === 'friend' ? 'data.groupIndex' : null
-    //     })).render({data: obj});
-    //
-    //     if(data.type === 'friend'){
-    //         var li = listElem.find('>li').eq(data.groupIndex);
-    //         li.find('.layui-layim-list').append(list);
-    //         li.find('.layim-count').html(cache.friend[data.groupIndex].list.length); //刷新好友数量
-    //         //如果初始没有好友
-    //         if(li.find('.layim-null')[0]){
-    //             li.find('.layim-null').remove();
-    //         }
-    //     } else if(data.type === 'group'){
-    //         listElem.append(list);
-    //         //如果初始没有群组
-    //         if(listElem.find('.layim-null')[0]){
-    //             listElem.find('.layim-null').remove();
-    //         }
-    //     }
-    // };
-    //
-    // //移出好友或群
-    // var removeList = function(data){
-    //     var listElem = layimMain.find('.layim-list-'+ data.type);
-    //     var obj = {};
-    //     if(cache[data.type]){
-    //         if(data.type === 'friend'){
-    //             layui.each(cache.friend, function(index1, item1){
-    //                 layui.each(item1.list, function(index, item){
-    //                     if(data.id == item.id){
-    //                         var li = listElem.find('>li').eq(index1);
-    //                         var list = li.find('.layui-layim-list>li');
-    //                         li.find('.layui-layim-list>li').eq(index).remove();
-    //                         cache.friend[index1].list.splice(index, 1); //从cache的friend里面也删除掉好友
-    //                         li.find('.layim-count').html(cache.friend[index1].list.length); //刷新好友数量
-    //                         //如果一个好友都没了
-    //                         if(cache.friend[index1].list.length === 0){
-    //                             li.find('.layui-layim-list').html('<li class="layim-null">该分组下已无好友了</li>');
-    //                         }
-    //                         return true;
-    //                     }
-    //                 });
-    //             });
-    //         } else if(data.type === 'group'){
-    //             layui.each(cache.group, function(index, item){
-    //                 if(data.id == item.id){
-    //                     listElem.find('>li').eq(index).remove();
-    //                     cache.group.splice(index, 1); //从cache的group里面也删除掉数据
-    //                     //如果一个群组都没了
-    //                     if(cache.group.length === 0){
-    //                         listElem.html('<li class="layim-null">暂无群组</li>');
-    //                     }
-    //                     return true;
-    //                 }
-    //             });
-    //         }
-    //     }
-    // };
+    var addList = function(data){
+        var obj = {}, has, listElem = layimMain.find('.layim-list-'+ data.type);
+
+        if(cache[data.type]){
+            if(data.type === 'friend'){
+                layui.each(cache.friend, function(index, item){
+                    if(data.groupid == item.id){
+                        //检查好友是否已经在列表中
+                        layui.each(cache.friend[index].list, function(idx, itm){
+                            if(itm.id == data.id){
+                                return has = true
+                            }
+                        });
+                        if(has) return layer.msg('好友 ['+ (data.username||'') +'] 已经存在列表中',{anim: 6});
+                        cache.friend[index].list = cache.friend[index].list || [];
+                        obj[cache.friend[index].list.length] = data;
+                        data.groupIndex = index;
+                        cache.friend[index].list.push(data); //在cache的friend里面也增加好友
+                        return true;
+                    }
+                });
+            } else if(data.type === 'group'){
+                //检查群组是否已经在列表中
+                layui.each(cache.group, function(idx, itm){
+                    if(itm.id == data.id){
+                        return has = true
+                    }
+                });
+                if(has) return layer.msg('您已是 ['+ (data.groupname||'') +'] 的群成员',{anim: 6});
+                obj[cache.group.length] = data;
+                cache.group.push(data);
+            }
+        }
+
+        if(has) return;
+
+        var list = laytpl(listTpl({
+            type: data.type
+            ,item: 'd.data'
+            ,index: data.type === 'friend' ? 'data.groupIndex' : null
+        })).render({data: obj});
+
+        if(data.type === 'friend'){
+            var li = listElem.find('>li').eq(data.groupIndex);
+            li.find('.layui-layim-list').append(list);
+            li.find('.layim-count').html(cache.friend[data.groupIndex].list.length); //刷新好友数量
+            //如果初始没有好友
+            if(li.find('.layim-null')[0]){
+                li.find('.layim-null').remove();
+            }
+        } else if(data.type === 'group'){
+            listElem.append(list);
+            //如果初始没有群组
+            if(listElem.find('.layim-null')[0]){
+                listElem.find('.layim-null').remove();
+            }
+        }
+    };
+
+    //移出好友或群
+    var removeList = function(data){
+        var listElem = layimMain.find('.layim-list-'+ data.type);
+        var obj = {};
+        if(cache[data.type]){
+            if(data.type === 'friend'){
+                layui.each(cache.friend, function(index1, item1){
+                    layui.each(item1.list, function(index, item){
+                        if(data.id == item.id){
+                            var li = listElem.find('>li').eq(index1);
+                            var list = li.find('.layui-layim-list>li');
+                            li.find('.layui-layim-list>li').eq(index).remove();
+                            cache.friend[index1].list.splice(index, 1); //从cache的friend里面也删除掉好友
+                            li.find('.layim-count').html(cache.friend[index1].list.length); //刷新好友数量
+                            //如果一个好友都没了
+                            if(cache.friend[index1].list.length === 0){
+                                li.find('.layui-layim-list').html('<li class="layim-null">该分组下已无好友了</li>');
+                            }
+                            return true;
+                        }
+                    });
+                });
+            } else if(data.type === 'group'){
+                layui.each(cache.group, function(index, item){
+                    if(data.id == item.id){
+                        listElem.find('>li').eq(index).remove();
+                        cache.group.splice(index, 1); //从cache的group里面也删除掉数据
+                        //如果一个群组都没了
+                        if(cache.group.length === 0){
+                            listElem.html('<li class="layim-null">暂无群组</li>');
+                        }
+                        return true;
+                    }
+                });
+            }
+        }
+    };
 
     //查看更多记录
     var chatListMore = function(){
@@ -1818,36 +1733,34 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
             layer.close(events.face.index);
         }
 
-        //上传图片或文件
-        ,imageSend: function(othis){
-            var input = document.getElementById('sendFile');
-            input.addEventListener('change',function(e) {
-                var fileList = e.target.files;
-                if (fileList.length > 0) {
-                    let formData = new FormData();
-                    formData.append('file', fileList[0]);
-                    $.ajax({
-                        url:"/api/user/upload",
-                        type:"post",
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        headers: { token: token },
-                        success: function(res) {
-                            if(res.code == 0){
-                                console.log('222')
-                                sendMessage(res.data.file_url,res.data.file_name,res.data.file_ext);
-                            } else {
-                                layer.msg(res.msg||'上传失败');
-                            }
-                        },
-                        error:function(data) {
-                            alert("上传失败")
+        //图片或一般文件
+        ,image: function(othis){
+            var type = othis.data('type') || 'images', api = {
+                images: 'uploadImage'
+                ,file: 'uploadFile'
+            }
+                ,thatChat = thisChat(), upload = cache.base[api[type]] || {};
+
+            layui.upload({
+                url: upload.url || ''
+                ,method: upload.type
+                ,elem: othis.find('input')[0]
+                ,unwrap: true
+                ,type: type
+                ,success: function(res){
+                    if(res.code == 0){
+                        res.data = res.data || {};
+                        if(type === 'images'){
+                            focusInsert(thatChat.textarea[0], 'img['+ (res.data.src||'') +']');
+                        } else if(type === 'file'){
+                            focusInsert(thatChat.textarea[0], 'file('+ (res.data.src||'') +')['+ (res.data.name||'下载文件') +']');
                         }
-                    });
+                        sendMessage();
+                    } else {
+                        layer.msg(res.msg||'上传失败');
+                    }
                 }
             });
-            $('#sendFile').replaceWith('<input id="sendFile" type="file" name="file"/>');
         }
 
         //音频和视频

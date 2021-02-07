@@ -1,4 +1,88 @@
 <!-- Main Header -->
+<style>
+    .tab-wrapper{
+       padding:5px 0;
+       height: calc(100vh - 108px);
+       overflow: auto;
+    }
+    .group-wrapper li, .friend-wrapper li{
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        color: #333333;
+        font-size: 15px;
+        cursor: pointer;
+    }
+    .group-wrapper li img, .friend-wrapper li img{
+        width: 44px;
+        height: 44px;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    .friend-wrapper .f-item .letter{
+        background-color: #f1f1f1;
+        padding: 3px 15px;
+        color: #333333;
+    }
+
+    .chatList .msg-item{
+        display: flex;
+        align-items: center;
+        padding: 7px 10px;
+    }
+    .chatList .msg-item .img-box{
+        margin-right: 10px;
+        position: relative;
+    }
+    .chatList .msg-item .img-box span{
+        font-size: 12px;
+        position: absolute;
+        right: -7px;
+        top: -8px;
+        min-width: 15px;
+        text-align: center;
+        display: block;
+        padding: 1px;
+        color: #fff;
+        background-color: #f30;
+        border-radius: 100% 100%;
+    }
+    .chatList .msg-item .img-box span.hide{
+        display:none;
+    }
+    .chatList .msg-item img{
+        width: 44px;
+        height: 44px;
+        border-radius: 4px;
+    }
+    .chatList .msg-item h4{
+        color:#333333;
+        font-size:15px;
+        margin-bottom:5px;
+     }
+    .chatList .msg-item p{
+         color:#999;
+         font-size:12px;
+      }
+    .msg-box img{
+       max-width:160px;
+    }
+     .msg-box .file-msg{
+         padding: 5px 10px;
+         display: flex;
+         align-items: center;
+         color: #333333;
+         background-color:#fff
+     }
+     .msg-box .file-msg img{
+         width: 32px;
+         height: 32px;
+         margin-right:3px;
+     }
+     .msg-box .file-msg p{
+         color: #333333;
+     }
+</style>
 <header class="main-header">
 
     <!-- Logo -->
@@ -83,12 +167,12 @@
 	<ul class="nav nav-tabs nav-justified chatbar">
         <li class="active">
             <a href="#demo-asd-tab-1" data-toggle="tab">
-                <i class="fa fa-user"></i> 联系人
+                <i class="fa fa-user"></i> 消息
             </a>
         </li>
         <li>
             <a href="#demo-asd-tab-2" data-toggle="tab">
-                <i class="fa fa-users"></i> 单位
+                <i class="fa fa-users"></i> 联系人
             </a>
         </li>
         <!--<li>
@@ -98,14 +182,22 @@
         </li> -->
     </ul>
     <div class="tab-content">
-
         <div class="tab-pane fade in active" id="demo-asd-tab-1">
-        	<ul class="chatList layui-layim-list">
-            </ul>
+        <div class="tab-wrapper">
+                        <ul class="chatList">
+                           </ul>
+               </div>
+
         </div>
         <div class="tab-pane fade" id="demo-asd-tab-2">
-        	<ul class="chatGroupList layui-layim-list">
-            </ul>
+        <div class="tab-wrapper">
+            <div class="group-wrapper">
+                 <ul class="chatGroupList">
+                  </ul>
+            </div>
+        	<div class="friend-wrapper">
+            </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="demo-asd-tab-3">
             <ul class="chatListLog layui-layim-list">
