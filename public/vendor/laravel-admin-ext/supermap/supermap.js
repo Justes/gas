@@ -37,29 +37,18 @@
         weight: 0,
         opacity: 1,
         fillColor: '#5e5858',
-        radius: circleRadius,
+        radius: 100,
     };
-	
-    
-    var flag = false;
-    if( ! lat || ! lng) {
-        lat = "39.914714";
-        lng = "116.383572"; 
-    }else{
-        flag = true;
-    }
 
     map = L.map('map', {
         crs: L.CRS.EPSG4326,
-        center: [lat, lng],
+        center: ["39.68", "116.43"],
         maxZoom: 18,
         zoom: 11
     });
     L.supermap.tiledMapLayer(url).addTo(map);
     addressMatchService = L.supermap.addressMatchService(addressUrl);
-    if(flag) {
-        L.marker([lat, lng]).addTo(map);
-    }
+
     stationInit(stations);
     companyInit(companies);
 	$("#search").on('click',function(){
