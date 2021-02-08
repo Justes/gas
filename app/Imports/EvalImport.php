@@ -24,7 +24,7 @@ class EvalImport implements ToModel, WithStartRow
 			return null;
 		}
 
-		$date = explode('-', $row[4]);
+		$date = explode('-', $row[1]);
 		if(empty($date[0])) {
 			return null;
 		}
@@ -32,23 +32,23 @@ class EvalImport implements ToModel, WithStartRow
 		$year = $date[0];
 		$month = $date[1];
 
-		$estatus = ['未审核', '已审核', '驳回'];
-		$esIndex = 0;
-		foreach($estatus as $key => $es) {
-			if($es == $row[3]) {
-				$esIndex = $key;
-				break;
-			}
-		}
+		$qstatus = ['合格' => 0, '不合格' => 1];
+		$pstatus = ['无问题' => 0, '有问题' => 1];
+		$rstatus = ['合格' => 0, '不合格' => 1];
 
 		$exam = StationExam::create([
 			'station_id' => $st->id,
 			'company_id' => $st->company_id,
-			'year'		 => $row[1],
-			'score'		 => $row[2],
-			'exam_status' => $esIndex,
-			'exam_date'	 => $row[4],
-			'remark'	 => $row[5],
+			'exam_date'	 => $row[1],
+			'permit_no'  => $row[2],
+			'reg_no'	 => $row[3],
+			'qualify'	 => $qstatus[$row[4]],
+			'qualify_desc' => $row[5],
+			'problem'	 => $pstatus[$row[6]],
+			'problem_desc' => $row[7],
+			'eval_result' => $rstatus[$row[8]],
+			'score'		 => $row[9],
+			'remark'	 => $row[10],
 			'year'		 => $year,
 			'std_type'	 => 9
         ]);

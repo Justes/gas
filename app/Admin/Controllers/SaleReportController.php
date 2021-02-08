@@ -29,9 +29,13 @@ class SaleReportController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
+        $grid->column('quarter', __('Quarter'));
         $grid->column('begin_time', __('Begin time'));
         $grid->column('end_time', __('End time'));
         $grid->column('final_time', __('Final time'));
+		$grid->actions(function($row) {
+			$row->disableEdit();
+		});
 
         return $grid;
     }
@@ -48,6 +52,7 @@ class SaleReportController extends AdminController
 
         $show->field('id', __('Id'));
         $show->field('year', __('Year'));
+        $show->field('quarter', __('Quarter'));
         $show->field('begin_time', __('Begin time'));
         $show->field('end_time', __('End time'));
         $show->field('final_time', __('Final time'));
@@ -71,6 +76,7 @@ class SaleReportController extends AdminController
         $form->date('begin_time', __('Begin time'))->default(date('Y-m-d'));
         $form->date('end_time', __('End time'))->default(date('Y-m-d'));
         $form->date('final_time', __('Final time'))->default(date('Y-m-d'));
+        $form->radio('quarter', __('Quarter'))->options([1 => 1, 2 => 2, 3 => 3, 4 => 4])->default(1);
         $form->hidden('std_type', __('Std type'))->default(0);
 
 		$form->saved(function(Form $form) {
@@ -83,6 +89,7 @@ class SaleReportController extends AdminController
 				$data['std_type'] = $form->std_type;
 				$data['station_id'] = $st->id;
 				$data['company_id'] = $st->company_id;
+				$data['quarter'] = $form->quarter;
 				$exam = StationExam::create($data);
 
 				$stds = Standard::where('std_type', $form->std_type)->get();

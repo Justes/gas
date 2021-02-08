@@ -37,6 +37,7 @@ class SaleExamController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
+        $grid->column('quarter', __('Quarter'));
 		$grid->column('zones', __('Zones'))->display(function($v) {
 			if(empty($v)) {
 				$zones = Zone::all();
@@ -56,7 +57,7 @@ class SaleExamController extends AdminController
         $grid->column('company_name', __('Company id'));
 		$grid->column('bottle_sum', __('Bottle sum'))->display(function($v) {
 			if(empty($v)) {
-				$num = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('sale_num');
+				$num = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year, 'quarter' => $this->quarter])->sum('sale_num');
 				StationExam::where('id', $this->id)->update(['bottle_sum' => $num]);
 				return $num;
 			}
@@ -67,7 +68,7 @@ class SaleExamController extends AdminController
 		});
 		$grid->column('real_bonus', __('Real bonus'))->display(function($v) {
 			if(empty(intval($v))) {
-				$bonus = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year])->sum('bonus');
+				$bonus = BottleSaleDetail::where(['station_id' => $this->station_id, 'year' => $this->year, 'quarter' => $this->quarter])->sum('bonus');
 				StationExam::where('id', $this->id)->update(['real_bonus' => $bonus]);
 				return $bonus;
 			}

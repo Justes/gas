@@ -29,6 +29,7 @@ create table w_stations (
 	station_name varchar(255) default '' comment '燃气站名',
 	company_id int default 0 comment '所属公司id',
 	type tinyint default 0 comment '0换瓶站, 1 LNG气站, 2 CNG气站',
+	bonus_type tinyint default 0 comment ' 补贴类型  1换瓶, 2自采暖',
 	std_type tinyint default 0 comment '0 液化气 1自采暖',
 	store_gas int default 0 comment '储气量',
 	addr varchar(255) default '' comment '地址',
@@ -318,6 +319,13 @@ create table w_station_exams (
 	`end_time` datetime DEFAULT NULL COMMENT '周期结束时间',
 	`final_time` datetime DEFAULT NULL COMMENT '上报截止时间',
 	report_status tinyint default 0 comment '上报状态 0未上报 1已上报',
+	permit_no varchar(255) default '' comment '许可证编号',
+	reg_no varchar(255) default '' comment '注册号',
+	qualify tinyint default 0 comment '否决性条件 0合格,1不合格',
+	qualify_desc varchar(1000) default '' comment '问题描述',
+	problem tinyint default 0 comment '一般评定项目 0无问题,1有问题',
+	problem_desc varchar(1000) default '' comment '问题描述',
+	eval_result tinyint default 0 comment '结论 0合格,1不合格',
 	extras varchar(2000) not null default '' comment '扩展',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
@@ -399,6 +407,7 @@ create table w_report_periods (
 	`end_time` datetime DEFAULT NULL COMMENT '周期结束时间',
 	`final_time` datetime DEFAULT NULL COMMENT '上报截止时间',
 	std_type tinyint default 0 comment '0 液化气 1自采暖 2经营许可 3考核记录 4事件处理 5消防设施 6 安全作业 7管理制度 8用气量 9评价',
+	quarter tinyint default 0 comment '季度 1,2,3,4',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '上报周期';
