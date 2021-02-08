@@ -72,16 +72,22 @@ class UserController extends BaseController {
 	}
 
 	public function contacters() {
-		$users = AdminUser::where('status', 0)->get();
+		$adminusers = AdminUser::where(['status' => 0, 'type' => 0])->get()->toArray();
+
+		$user = AdminUser::find($this->uid());
+		$workers = AdminUser::where(['status' => 0, 'type' => 1, 'station_id' => $user->station_id])->get()->toArray();
+
+		$users = array_merge($adminusers, $workers);
+
 		$arr = $unknown = [];
 		foreach($users as $user) {
-			if($this->uid() == $user->id) {
+			if($this->uid() == $user['id']) {
 				continue;
 			}
 
-			$tmp['user_id'] = $user->id;
-			$tmp['name'] = $user->sname;
-			$tmp['avatar'] = $user->avatar_url;
+			$tmp['user_id'] = $user['id'];
+			$tmp['name'] = $user['sname'];
+			$tmp['avatar'] = $user['avatar_url'];
 			$ch = getfirstchar($tmp['name']);
 			if($ch) {
 				$arr[$ch][] = $tmp;
