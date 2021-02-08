@@ -132,5 +132,11 @@
 	"Bonus warm":"补贴气量",
 	"Return warm":"返居民气量",
 	"Bottle sum":"总换瓶数",
-	"Trigger time":"提醒时间"
+	"Trigger time":"提醒时间",
+	"Reg no":"注册号",
+	"Qualify":"否决性条件",
+	"Qualify desc":"存在的问题",
+	"Problem":"一般评定项目",
+	"Problem desc":"存在的问题",
+	"Eval result":"结论"
 }
