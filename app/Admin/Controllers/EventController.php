@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Admin\Extensions\CheckRow;
 
 class EventController extends AdminController
 {
@@ -47,6 +48,13 @@ class EventController extends AdminController
 
 		$grid->actions(function ($actions) {
 			$actions->disableDelete();
+
+			$row = $actions->row;
+			// append一个操作
+			if(empty($row['event_status'])) {
+				$actions->append(new CheckRow($actions->getKey()));
+				//$actions->append('<a href="/admin/stations/'.$row['id'].'/edit"><i class="fa fa-bolt" style="padding-right:10px;">催办</i></a>');
+			}
 		});
         return $grid;
     }

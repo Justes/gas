@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
-use App\Models\{Event, EventType, AdminUser};
+use App\Models\{Event, EventType, AdminUser, Article};
 
 class EventController extends BaseController {
 
@@ -37,6 +37,26 @@ class EventController extends BaseController {
 		$event->solved_time = $solveAt;
 		$event->deal_content = $req->deal_content;
 		$event->save();
+		return err();
+	}
+
+	public function hurry(Request $req) {
+		$rules = $this->required($req, ['event_id']);
+		if($rules) return err(4001, $rules);
+
+		$event = Event::find($req->event_id);
+		$content = '<p>'.$event->event_name.'</p> <p>请尽快解决</p>';
+		$userIds = [$event->admin_user_id];
+
+		$data['title'] = '通知';
+		$data['cate_id'] = 1;
+		$data['content'] = $content;
+		$data['receive_type'] = 1;
+		$data['post_user_id'] = 1;
+		$data['receive_user_ids'] = $userIds;
+		$data['source'] = 1;
+		$data['send_time'] = date('Y-m-d H:i:s');
+		Article::create($data);
 		return err();
 	}
 }
