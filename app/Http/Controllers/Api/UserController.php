@@ -95,8 +95,8 @@ class UserController extends BaseController {
 				$unknown['#'][] = $tmp;
 			}
 		}
-		$arr = array_merge($arr, $unknown);
 		ksort($arr);
+		$arr = array_merge($arr, $unknown);
 
 		$roomIds = RoomUser::where('user_id', $this->uid())->groupBy('room_id')->pluck('room_id')->toArray();
 		$list['rooms'] = Room::whereIn('id', $roomIds)->get(['id as room_id', 'room_name', 'room_pic', 'user_cnt']);
