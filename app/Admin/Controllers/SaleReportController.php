@@ -74,7 +74,7 @@ class SaleReportController extends AdminController
         $form->hidden('std_type', __('Std type'))->default(0);
 
 		$form->saved(function(Form $form) {
-			$sts = Station::all();
+		    $sts = Station::where("bonus_type", 1)->get();
 			foreach($sts as $st) {
 				$data['year'] = $form->year;
 				$data['begin_time'] = $form->begin_time;

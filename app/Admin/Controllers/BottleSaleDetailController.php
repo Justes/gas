@@ -38,6 +38,7 @@ class BottleSaleDetailController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('year', __('Year'));
+        $grid->column('quarter', __('Quarter'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
         $grid->column('zones', __('Zone id'));
@@ -105,6 +106,7 @@ class BottleSaleDetailController extends AdminController
         $form->number('sale_num', __('Bottle num'));
         $form->number('bonus', __('Bonus'));
         $form->text('year', __('Year'));
+        $form->select('quarter', __('Quarter'))->options([1 => '1', 2 => '2', 3 => '3', 4 => '4']);
         $form->text('reporter', __('Reporter'));
         $form->text('report_time', __('Report time'));
         $form->text('time_range', __('Time range'));

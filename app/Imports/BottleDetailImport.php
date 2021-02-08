@@ -32,14 +32,14 @@ class BottleDetailImport implements ToModel, WithStartRow
 			return null;
 		}
 
-		$num = intval($row[6] + $row[7]);
+		$num = intval($row[7] + $row[8]);
 
 		$config = BonusConfig::first();
 		if(empty($config)) {
 			return null;
 		}
 
-		$bonus = $row[6] * $config->discount_bonus + $row[7] * $config->fair_bonus;
+		$bonus = $row[7] * $config->discount_bonus + $row[8] * $config->fair_bonus;
 
         return new BottleSaleDetail([
 			'station_id' => $st->id ?? 0,
@@ -48,13 +48,14 @@ class BottleDetailImport implements ToModel, WithStartRow
 			'reporter'   => $row[1],
 			'report_time' => $row[2],
 			'year'		 => $row[3],
-			'time_range' => $row[4],
-			'zones'		 => $row[5],
-			'discount_num' => $row[6],
-			'fair_num'	 => $row[7],
+            'quarter'    => intval($row[4]),
+			'time_range' => $row[5],
+			'zones'		 => $row[6],
+			'discount_num' => $row[7],
+			'fair_num'	 => $row[8],
 			'sale_num'	 => $num,
 			'bonus'		 => $bonus,
-			'remark'	 => $row[9]
+			'remark'	 => $row[10]
         ]);
     }
 }

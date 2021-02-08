@@ -117,6 +117,7 @@ class StationController extends AdminController
         $show->field('station_name', __('站点名称'));
         $show->field('company_name', __('所属公司'));
         $show->field('type_text', __('类型'));
+        $show->field('bonus_type_text', __('补贴类型'));
         $show->field('store_gas', __('Store gas'));
         $show->field('addr', __('位置'));
         $show->field('contact_user', __('安全负责人'));
@@ -151,6 +152,8 @@ class StationController extends AdminController
         $form->text('station_name', __('站点名称'))->rules('required');
         $form->select('company_id', __('所属企业'))->options(Company::all()->pluck('company_name', 'id'))->rules('required');
         $form->select('type', __('类型'))->options(['换瓶站', 'LNG气站', 'CNG气站']);
+        /* $form->select('bonus_type', __('补贴类型'))->options(['换瓶', '自采暖']); */
+        $form->select('bonus_type', __('补贴类型'))->options([0 => '无补贴', 1 => '换瓶', 2 => '自采暖'])->default(0)->rules('required');
         $form->number('store_gas', __('Store gas'))->default(0);
         $form->text('addr', __('位置'))->rules('required');
 		$form->latlong('lat', 'lng', '经纬度')->height(600)->rules('required');

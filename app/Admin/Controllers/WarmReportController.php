@@ -74,7 +74,7 @@ class WarmReportController extends AdminController
         $form->hidden('std_type', __('Std type'))->default(1);
 
 		$form->saved(function(Form $form) {
-			$sts = Station::all();
+			$sts = Station::where("bonus_type", 2)->get();
 			foreach($sts as $st) {
 				$data['year'] = $form->year;
 				$data['begin_time'] = $form->begin_time;
