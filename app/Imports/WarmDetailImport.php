@@ -37,7 +37,7 @@ class WarmDetailImport implements ToModel, WithStartRow
 			return null;
 		}
 
-		$day = ceil((strtotime($row[11] .' 00:00:00') - strtotime($row[9]. ' 00:00:00')) / 86400);
+		$day = ceil((strtotime($row[11] .' 00:00:00') - strtotime($row[9]. ' 00:00:00')) / 86400) + 1;
 		$used = round((($row[10] - $row[8]) - $config->warm_eve * $day), 2);
 		$bonus = 0;
 		if($used < 0) {
