@@ -1572,7 +1572,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                         html +=  '</div><div class="layim-chat-text">';
                         if(item.msg_type==2){
                             html +='<div class="msg-box"><div class="voice-box" layim-event="playVoice">' +
-                            '<img class="palying" src="/packages/layer/src/images/wifi-w.png"/></div></div>'+
+                            '<img class="palying" src="/packages/layer/src/images/wifi-w.png"/>'+
                             '<img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="'+item.timestamp+'-0"/>' +
                             '<audio id="'+item.msgid+'" controls>' +
                             '<source src="'+item.file_url+'" type="audio/mpeg">' +
