@@ -1572,15 +1572,15 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                         html +=  '</div><div class="layim-chat-text">';
                         if(item.msg_type==2){
                             html +='<div class="msg-box"><div class="voice-box" layim-event="playVoice">' +
-                            '     <img class="palying" src="/packages/layer/src/images/wifi-w.png"/></div></div>'
-                            // '     <img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="{{d.timestamp}}-0"/>' +
-                            // '     <audio id="{{d.msgid}}" controls>' +
-                            // '     <source src="{{d.file_url}}" type="audio/mpeg">' +
-                            // '  </audio></div></div>';
+                            '<img class="palying" src="/packages/layer/src/images/wifi-w.png"/>'+
+                            '<img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="'+item.timestamp+'-0"/>' +
+                            '<audio id="'+item.msgid+'" controls>' +
+                            '<source src="'+item.file_url+'" type="audio/mpeg">' +
+                            '</audio></div></div>';
                         }else if(item.msg_type==3){
-                           html += '<div class="msg-box imgShow" layim-event="imgShow"><img src="{{ d.file_url }}"></div>'
+                           html += '<div class="msg-box imgShow" layim-event="imgShow"><img src="'+item.file_url+'"></div>'
                         }else if(item.msg_type==4){
-                            html +='<div class="msg-box"><a href="{{d.file_url}}" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>{{ d.file_name }}</p></a></div>'
+                            html +='<div class="msg-box"><a href="'+item.file_url+'" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>'+ item.file_name +'</p></a></div>'
                         }else {
                             html += '<div class="msg-box">'+item.msg+'</div>';
                         }
