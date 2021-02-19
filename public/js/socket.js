@@ -14,8 +14,12 @@ var socketUrl = "ws://8.129.161.138:8181/ws";
 var token = LA.user.token;
 var my_id = LA.user.id;
 var chatArr = [];
+var g_id = [];   //群id
+var u_id = [];   //用户id
+var unread_msg = localStorage.getItem('unread_msg')?JSON.parse(localStorage.getItem('unread_msg')):[];
 // 获取用户信息
 $(function(){
+    // 获取会话列表
 	$.ajax({
 		url: getlist,
      	headers:{'token':token},
@@ -32,16 +36,22 @@ $(function(){
 			// 初始化IM
 			initIM(mine)
      		$.each(data, function(index, item) {
+     		    if(item.chat_type == 2){
+                    g_id.push(item.to)
+                }else {
+     		        u_id.push(item.to)
+                }
                 item.num = 0;
      		    if(item.chat_type==1 && item.to==my_id){
 
                 }else {
                     buildItem(item)
                 }
-            })
+            });
+            getUnread()
         }
 	});
-
+    //获取通讯录
     $.ajax({
         url: friendList,
         headers:{'token':token},
@@ -116,16 +126,71 @@ $(function(){
 					var data = eval("("+res.data+")");
 				}
                 console.log('收到的消息'+JSON.stringify(data));
-				// console.log(chatArr)
-                chatArr.forEach(function (item,index) {
-                    if(data.oid == item.oid){
-                        item.num = item.num+1;
-                        item.msg = data.msg;
-                        item.msg_type = data.msg_type;
-                        updateItem(item,index)
+				if(data.to){        //新增群聊
+                    unread_msg.push(data);
+                    localStorage.setItem('unread_msg',JSON.stringify(unread_msg));
+				    if(data.chat_type==2){
+				        if(g_id.indexOf(data.to)>-1){
+                            chatArr.forEach(function (item,index) {
+                                if(data.to == item.to && item.chat_type == data.chat_type){
+                                    item.num = item.num+1;
+                                    item.msg = data.msg;
+                                    item.msg_type = data.msg_type;
+                                    chatArr.splice(index, 1);
+                                    chatArr.splice(0, 0, item);
+                                    updateItem(item,index)
+                                }
+                            });
+
+                        }else {
+                            let obj = {};
+				            obj.name = JSON.parse(data.extras).gName;
+                            obj.num = 0+1;
+                            obj.msg =  data.name + ':' + data.msg;
+                            obj.msg_type = data.msg_type;
+                            obj.chat_type = data.chat_type
+                            obj.avatar = 'http://gas.micyi.com/pics/images/group.png';
+                            obj.to = data.to;
+                            obj.user_id = data.to;
+                            obj.file_url = data.file_url;
+                            obj.file_name = data.file_name;
+                            obj.file_ext = data.file_ext;
+                            chatArr.unshift(obj);
+                            g_id.unshift(data.to);
+                            appendItem(obj)
+                        }
+                    }else {
+                        if(u_id.indexOf(data.user_id)>-1){
+                            chatArr.forEach(function (item,index) {
+                                if(data.user_id == item.to && item.chat_type == data.chat_type){
+                                    item.num = item.num+1;
+                                    item.msg = data.msg;
+                                    item.msg_type = data.msg_type;
+                                    chatArr.splice(index, 1);
+                                    chatArr.splice(0, 0, item);
+                                    updateItem(item,index)
+                                }
+                            });
+                        }else {
+                            let obj = {};
+                            obj.avatar = data.avatar;
+                            obj.chat_type = 1;
+                            obj.name = data.name;
+                            obj.msg = data.msg;
+                            obj.msg_type = data.msg_type;
+                            obj.to = data.user_id;
+                            obj.user_id = data.to;
+                            obj.num = 0+1;
+                            obj.file_url = data.file_url;
+                            obj.file_name = data.file_name;
+                            obj.file_ext = data.file_ext;
+                            u_id.push(obj.to);
+                            chatArr.unshift(obj)
+                            appendItem(obj)
+                        }
                     }
-                });
-                layim.getMessage(data);
+                    layim.getMessage(data);
+                }
 			};
 			//监听的错误
 			socket.onerror = function(e) {
@@ -168,15 +233,16 @@ $(function(){
 				var num = $(this).children().children('span');
 				num.html(0);
 				num.addClass('hide');
-				console.log(num);
 				layim.chat({
 				  name: name //名称
 				  ,type: type //聊天类型
                   ,chat_type: type //聊天类型
 				  ,avatar: avatar //头像
 				  ,id: openid //好友id
+                  ,num:0
 				  ,closeBtn:2
-				})
+				});
+                readMsg(openid)
 			});
 			//通讯录-群
 			$(".chatGroupList").on('click', 'li', function(){
@@ -210,7 +276,7 @@ $(function(){
             })
 		})
 	}
-
+	//更新消息列表
 	function updateItem(item,index) {
         var html = '<li class="msg-item" name="'+item.name+'" avatar="'+item.avatar+'" chat_type="'+item.chat_type+'"' ;
         html += 'openid="'+item.to+'" type="friend">';
@@ -246,7 +312,71 @@ $(function(){
         html += '</div></li>';
         $(".chatList").append(html)
     }
+    // 添加消息
+    function appendItem(item) {
+        var html = '<li class="msg-item" name="'+item.name+'" avatar="'+item.avatar+'" chat_type="'+item.chat_type+'"';
+        html += 'openid="'+item.to+'" type="friend">';
+        html += '<div class="img-box"><img src="'+item.avatar+'"><span class="'+(item.num<1?"hide":"")+'">'+item.num+'</span></div>';
+        html += '<div><h4>'+item.name+'</h4>';
+        if(item.msg_type==2){
+            html+='<p>[语音]</p>';
+        }else if(item.msg_type==3){
+            html+='<p>[图片]</p>';
+        }else if(item.msg_type==4){
+            html+='<p>[文件]</p>';
+        }else {
+            html+='<p>'+item.msg+'</p>';
+        }
+        html += '</div></li>';
+        $(".chatList").prepend(html)
+    }
 	$("#chat-aside-toggle").click(function(){
 		$('#aside-container').toggleClass('on')
-	})
-})
+	});
+	//获取缓存里的未读消息
+	function getUnread() {
+        let list = localStorage.getItem('unread_msg')?JSON.parse(localStorage.getItem('unread_msg')):[];
+        if(!list.length){
+            return
+        }
+        list.forEach(function (item1,index1) {
+            if(item1.chat_type==1 && item1.to == my_id) {
+                chatArr.forEach(function (item,index) {
+                    if (item1.oid == item.oid && item1.chat_type == item.chat_type) {
+                        item.msg = item1.msg;
+                        item.num += 1;
+                        chatArr.splice(index, 1);
+                        chatArr.splice(0, 0, item);
+                        updateItem(item,index)
+                    }
+                })
+            }else if(item1.chat_type==2){
+                chatArr.forEach(function (item,index) {
+                    if (item1.oid == item.oid && item1.chat_type == item.chat_type) {
+                        item.msg = item1.name + ':' + item1.msg;
+                        item.num += 1;
+                        chatArr.splice(index, 1);
+                        chatArr.splice(0, 0, item);
+                        updateItem(item,index)
+                    }
+                })
+            }
+        })
+    }
+    // 读取会话清掉缓存
+    function readMsg(val){
+        var arr = localStorage.getItem('unread_msg')?JSON.parse(localStorage.getItem('unread_msg')):[];
+        for(var i=arr.length-1;i>=0;i--){
+            if(arr[i].chat_type==1){
+                if(arr[i].user_id == val){
+                    arr.splice(i,1);
+                }
+            }else if(arr[i].chat_type==2){
+                if(arr[i].to == val){
+                    arr.splice(i,1);
+                }
+            }
+        }
+        localStorage.setItem('unread_msg',JSON.stringify(arr))
+    }
+});

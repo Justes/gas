@@ -19,6 +19,8 @@ function getDay(t) {
 }
 var token = LA.user.token;
 var my_id = LA.user.id;
+var my_name = LA.user.name;
+var logPage = 1;
 layui.define(['layer', 'laytpl', 'upload'], function(exports){
 
     var v = '3.6.0 Pro';
@@ -336,17 +338,22 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
     //聊天内容列表模版
     var elemChatMain = ['<li {{ d.user_id == my_id  ? "class=layim-chat-mine" : "" }} {{# if(d.user_id){ }}data-cid="{{d.user_id}}"{{# } }}>'
         ,'<div class="layim-chat-user"><img src="{{ d.avatar }}"><cite>'
-        ,'{{# if(d.mine){ }}'
-        ,'<i>{{ d.created_at }}</i>{{ d.name }}'
+        ,'{{# if( d.user_id == my_id){ }}'
+        ,'<i>{{ d.created_at }}</i><span>{{ d.name }}</span>'
         ,'{{# } else { }}'
-        ,'{{ d.name }}<i>{{ d.created_at }}</i>'
+        ,'<span>{{ d.name }}</span><i>{{ d.created_at }}</i>'
         ,'{{# } }}'
         ,'</cite></div>'
         ,'<div class="layim-chat-text">',
         '{{# if(d.msg_type==2){ }}',
-        '<div class="msg-box">[语音]</div>',
+        '<div class="msg-box"><div class="voice-box" layim-event="playVoice">' +
+        '     <img class="palying" src="/packages/layer/src/images/wifi-w.png" id="{{d.timestamp}}"/>' +
+        '     <img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="{{d.timestamp}}-0"/>' +
+        '     <audio id="{{d.msgid}}" controls>' +
+        '     <source src="{{d.file_url}}" type="audio/mpeg">' +
+        '  </audio></div></div>',
         '{{# } else if(d.msg_type==3){ }}',
-        '<div class="msg-box"><img src="{{ d.file_url }}"></div>',
+        '<div class="msg-box imgShow" layim-event="imgShow"><img src="{{ d.file_url }}"></div>',
         '{{# } else if(d.msg_type==4){ }}',
         '<div class="msg-box"><a href="{{d.file_url}}" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>{{ d.file_name }}</p></a></div>',
         '{{# } else{ }}',
@@ -355,8 +362,8 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         '</div>'
         ,'</li>'].join('');
     //聊天框左侧列表
-    var elemChatList = '<li class="layim-{{ d.data.type }}{{ d.data.id }} layim-chatlist-{{ d.data.type }}{{ d.data.id }} layim-this" layim-event="tabChat" chat_type="{{d.data.chat_type}}">' +
-        '<img src="{{ d.data.avatar }}"><span>{{ d.data.name}}</span>' +
+    var elemChatList = '<li class="layim-{{ d.data.type }}{{ d.data.id }} layim-chatlist-{{ d.data.type }}{{ d.data.id }} layim-this" layim-event="tabChat" chat_type="{{d.data.chat_type}}" id="{{ d.data.id }}">' +
+        '<img src="{{ d.data.avatar }}"><span>{{ d.data.name}}</span><span class="tips tips-{{d.data.num}}">{{d.data.num}}</span>' +
         '<i class="layui-icon" layim-event="closeChat">&#x1007;</i>' +
         '</li>';
 
@@ -601,16 +608,13 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
 
     //显示聊天面板
     var layimChat, layimMin, chatIndex, To = {}, popchat = function(data){
-        console.log('显示')
 
         data = data || {};
-
         var chat = $('#layui-layim-chat'), render = {
             data: data
             ,base: cache.base
             ,local: cache.local
         };
-        console.log('222'+JSON.stringify(data));
         if(!data.id){
             return layer.msg('非法用户');
         }
@@ -645,11 +649,10 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                 chatBox.append(laytpl(elemChatTpl).render(render));
                 syncGray(data);
                 resizeChat();
-                console.log('则新增面板')
             }
 
             changeChat(list.find('.layim-chatlist-'+ data.type + data.id));
-            listThat[0] || viewChatlog();
+            // listThat[0] || viewChatlog();
             setHistory(data);
             hotkeySend();
 
@@ -691,7 +694,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
 
                 //聊天窗口的切换监听
                 layui.each(call.chatChange, function(index, item){
-                    console.log(item);
                     item && item(thisChat());
                 });
 
@@ -841,7 +843,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
 
     //切换聊天 ///////////////////////////////////
     var changeChat = function(elem, del){
-        console.log('切换')
         var chat_type = elem.attr('chat_type');
         elem = elem || $('.layim-chat-list .' + THIS);
         var index = elem.index() === -1 ? 0 : elem.index();
@@ -891,7 +892,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
     //展示存在队列中的消息
     var showOffMessage = function(type){
         var thatChat = thisChat();
-        console.log(thatChat)
         // var message = cache.message[thatChat.data.type + thatChat.data.id];
         // if(message){
         //     //展现后，删除队列中消息
@@ -1018,7 +1018,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
             user_id: my_id
             ,to: thatChat.data
         }, message = {
-            name: data.username
+            name: my_name
             ,avatar: data.avatar
             ,id: thatChat.data.id
             ,type: thatChat.data.type
@@ -1067,6 +1067,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
     //
     // //接受消息
     var messageNew = {}, getMessage = function(data){
+        console.log('layim收到消息'+JSON.stringify(data));
         var  message = {
             name: data.name
             ,avatar: data.avatar
@@ -1087,6 +1088,18 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
             ul.append(laytpl(elemChatMain).render(message));
             var mainBox = ul.parent(".layim-chat-main");
             mainBox.scrollTop( ul.height() );
+        }else {         //聊天窗口右侧列表插入信息提示
+            var left = $(".layim-chat-list");
+            left.children('li').each(function(){
+                var id = $(this).attr('id');
+                console.log(id);
+                if(id == data.oid){
+                    var tips = $(this).children('.tips');
+                    var val = tips.text();
+                    tips.removeClass('tips-0');
+                    tips.text(Number(val)+1);
+                }
+            });
         }
 
 
@@ -1241,6 +1254,30 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
             ,thatChat = thisChat(), chatlog = local.chatlog || {}
             ,ul = thatChat.elem.find('.layim-chat-main ul');
         ul.html('');
+        console.log('当前的聊天id是'+thatChat.data.id);
+        //清空未读提示和未读缓存
+        var left = $(".layim-chat-list");
+        left.children('li').each(function(){
+            var id = $(this).attr('id');
+            if(id == thatChat.data.id){
+                var tips = $(this).children('.tips');
+                tips.addClass('tips-0');
+                tips.text(0);
+            }
+        });
+        var arr = localStorage.getItem('unread_msg')?JSON.parse(localStorage.getItem('unread_msg')):[];
+        for(var i=arr.length-1;i>=0;i--){
+            if(arr[i].chat_type==1){
+                if(arr[i].user_id == thatChat.data.id){
+                    arr.splice(i,1);
+                }
+            }else if(arr[i].chat_type==2){
+                if(arr[i].to == thatChat.data.id){
+                    arr.splice(i,1);
+                }
+            }
+        }
+        localStorage.setItem('unread_msg',JSON.stringify(arr));
         // if(chatlog[thatChat.data.type + thatChat.data.id]){
         //     layui.each(chatlog[thatChat.data.type + thatChat.data.id], function(index, item){
         //         ul.prepend(laytpl(elemChatMain).render(item));
@@ -1422,9 +1459,16 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
 
     //表情库
     var faces = function(){
-        var alt = ["[微笑]", "[嘻嘻]", "[哈哈]", "[可爱]", "[可怜]", "[挖鼻]", "[吃惊]", "[害羞]", "[挤眼]", "[闭嘴]", "[鄙视]", "[爱你]", "[泪]", "[偷笑]", "[亲亲]", "[生病]", "[太开心]", "[白眼]", "[右哼哼]", "[左哼哼]", "[嘘]", "[衰]", "[委屈]", "[吐]", "[哈欠]", "[抱抱]", "[怒]", "[疑问]", "[馋嘴]", "[拜拜]", "[思考]", "[汗]", "[困]", "[睡]", "[钱]", "[失望]", "[酷]", "[色]", "[哼]", "[鼓掌]", "[晕]", "[悲伤]", "[抓狂]", "[黑线]", "[阴险]", "[怒骂]", "[互粉]", "[心]", "[伤心]", "[猪头]", "[熊猫]", "[兔子]", "[ok]", "[耶]", "[good]", "[NO]", "[赞]", "[来]", "[弱]", "[草泥马]", "[神马]", "[囧]", "[浮云]", "[给力]", "[围观]", "[威武]", "[奥特曼]", "[礼物]", "[钟]", "[话筒]", "[蜡烛]", "[蛋糕]"], arr = {};
-        layui.each(alt, function(index, item){
-            arr[item] = layui.cache.dir + 'images/face/'+ index + '.gif';
+        // var alt = ["[微笑]", "[嘻嘻]", "[哈哈]", "[可爱]", "[可怜]", "[挖鼻]", "[吃惊]", "[害羞]", "[挤眼]", "[闭嘴]", "[鄙视]", "[爱你]", "[泪]", "[偷笑]", "[亲亲]", "[生病]", "[太开心]", "[白眼]", "[右哼哼]", "[左哼哼]", "[嘘]", "[衰]", "[委屈]", "[吐]", "[哈欠]", "[抱抱]", "[怒]", "[疑问]", "[馋嘴]", "[拜拜]", "[思考]", "[汗]", "[困]", "[睡]", "[钱]", "[失望]", "[酷]", "[色]", "[哼]", "[鼓掌]", "[晕]", "[悲伤]", "[抓狂]", "[黑线]", "[阴险]", "[怒骂]", "[互粉]", "[心]", "[伤心]", "[猪头]", "[熊猫]", "[兔子]", "[ok]", "[耶]", "[good]", "[NO]", "[赞]", "[来]", "[弱]", "[草泥马]", "[神马]", "[囧]", "[浮云]", "[给力]", "[围观]", "[威武]", "[奥特曼]", "[礼物]", "[钟]", "[话筒]", "[蜡烛]", "[蛋糕]"], arr = {};
+        // layui.each(alt, function(index, item){
+        //     arr[item] = layui.cache.dir + 'images/face/'+ index + '.gif';
+        // });
+        // return arr;
+        var arr = [];
+        $.getJSON("/packages/layer/src/images/emojis.json", function (data){
+            for (let i in data) {
+                arr.push(data[i].char);
+            }
         });
         return arr;
     }();
@@ -1446,7 +1490,122 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
             obj.value = result.join('');
         }
     };
+    //获取更多聊天记录
+    var getMoreLogPage = function () {
+        logPage = logPage + 1;
+        var thatChat = thisChat();
+        var data = {
+            page:logPage,
+        };
+        console.log(logPage)
+        if(thatChat.data.type==1){
+            data.user_id = thatChat.data.id
+        }else{
+            data.room_id = thatChat.data.id
+        }
+        var url = '/api/imsg';
+        $.ajax({
+            url: url,
+            data: data,
+            headers: { token: token },
+            type: "GET",
+            success: function(res) {
+                var loglist = res.data;
+                if(loglist){
+                    loglist.forEach(function (item,index) {
+                        var html = '';
+                        if(item.user_id == my_id){
+                            html += '<li class="layim-chat-mine">';
+                            html += '<div class="layim-chat-user">';
+                            html += '<img src="'+item.avatar+'">';
+                            html += '<cite><i>'+item.updated_at+'</i><span>'+item.name+'</span></cite>'
+                        } else{
+                            html += '<li>';
+                            html += '<div class="layim-chat-user">';
+                            html += '<img src="'+item.avatar+'">';
+                            html +=  '<cite><span>'+item.name+'</span><i>'+item.updated_at+'</i></cite>'
+                        }
+                        html +=  '</div><div class="layim-chat-text">';
+                        html += '<div class="msg-box">'+item.msg+'</div>';
+                        html += '</div>';
+                        html += '</li>';
+                        $('.chat-log-more ul').prepend(html);
+                    });
+                    var ele = $(".chat-log-more");
+                    ele[0].scrollTop = ele[0].scrollHeight/2;
+                }
+            }
+        });
+    };
+    var getMoreLog = function (page) {
+        var thatChat = thisChat();
+        var data = {
+            page:page,
+        };
+        if(thatChat.data.type==1){
+            data.user_id = thatChat.data.id
+        }else{
+            data.room_id = thatChat.data.id
+        }
+        var url = '/api/imsg';
+        $.ajax({
+            url: url,
+            data: data,
+            headers: { token: token },
+            type: "GET",
+            success: function(res) {
+                var loglist = res.data;
+                if(loglist){
+                    loglist.forEach(function (item,index) {
+                        var html = '';
+                        if(item.user_id == my_id){
+                            html += '<li class="layim-chat-mine">';
+                            html += '<div class="layim-chat-user">';
+                            html += '<img src="'+item.avatar+'">';
+                            html += '<cite><i>'+item.updated_at+'</i><span>'+item.name+'</span></cite>'
+                        } else{
+                            html += '<li>';
+                            html += '<div class="layim-chat-user">';
+                            html += '<img src="'+item.avatar+'">';
+                            html +=  '<cite><span>'+item.name+'</span><i>'+item.updated_at+'</i></cite>'
+                        }
+                        html +=  '</div><div class="layim-chat-text">';
+                        if(item.msg_type==2){
+                            html +='<div class="msg-box"><div class="voice-box" layim-event="playVoice">' +
+                            '     <img class="palying" src="/packages/layer/src/images/wifi-w.png"/></div></div>'
+                            // '     <img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="{{d.timestamp}}-0"/>' +
+                            // '     <audio id="{{d.msgid}}" controls>' +
+                            // '     <source src="{{d.file_url}}" type="audio/mpeg">' +
+                            // '  </audio></div></div>';
+                        }else if(item.msg_type==3){
+                           html += '<div class="msg-box imgShow" layim-event="imgShow"><img src="{{ d.file_url }}"></div>'
+                        }else if(item.msg_type==4){
+                            html +='<div class="msg-box"><a href="{{d.file_url}}" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>{{ d.file_name }}</p></a></div>'
+                        }else {
+                            html += '<div class="msg-box">'+item.msg+'</div>';
+                        }
 
+                        html += '</div>';
+                        html += '</li>';
+                        $('.chat-log-more ul').prepend(html);
+                    })
+                    var ele = $(".chat-log-more");
+                    ele[0].scrollTop = ele[0].scrollHeight;
+
+                    $('.chat-log-more').scroll(function() {
+                        var scrollTop = $(this).scrollTop(); // 滚动条距离顶部的高度
+                        var scrollHeight = $(document).height(); // 当前页面的总高度
+                        var clientHeight = $(this).height(); // 当前可视的页面高度
+                        if (scrollTop + clientHeight >= scrollHeight) {
+                        } else if (scrollTop <= 0) {
+                            getMoreLogPage()
+                        }
+                    });
+
+                }
+            }
+        });
+    }
     //事件
     var anim = 'layui-anim-upbit', events = {
         //在线状态
@@ -1680,7 +1839,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         ,tabChat: function(othis){
             changeChat(othis);
         }
-
         //关闭聊天列表
         ,closeChat: function(othis, e){
             changeChat(othis.parent(), 1);
@@ -1789,10 +1947,9 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         //表情
         ,face: function(othis, e){
             var content = '', thatChat = thisChat();
-
-            for(var key in faces){
-                content += '<li title="'+ key +'"><img src="'+ faces[key] +'"></li>';
-            }
+            faces.forEach(function (item,index) {
+                content += '<li title="'+ item +'">'+item+'</li>';
+            })
             content = '<ul class="layui-clear layim-face-list">'+ content +'</ul>';
 
             events.face.index = layer.tips(content, othis, {
@@ -1804,7 +1961,8 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                     layero.find('.layim-face-list>li').on('mousedown', function(e){
                         stope(e);
                     }).on('click', function(){
-                        focusInsert(thatChat.textarea[0], 'face' +  this.title + ' ');
+                        var text = $(this).text()
+                        focusInsert(thatChat.textarea[0],  text );
                         layer.close(events.face.index);
                     });
                 }
@@ -1835,7 +1993,6 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                         headers: { token: token },
                         success: function(res) {
                             if(res.code == 0){
-                                console.log('222')
                                 sendMessage(res.data.file_url,res.data.file_name,res.data.file_ext);
                             } else {
                                 layer.msg(res.msg||'上传失败');
@@ -1936,16 +2093,44 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                 ,content: '<div style="background-color: #000; height: 100%;"><video style="position: absolute; width: 100%; height: 100%;" src="'+ videoData +'" loop="loop" autoplay="autoplay"></video></div>'
             });
         }
+        //查看大图
+        ,imgShow: function(othis){
+            var img = othis.html();
+            layer.open({
+                type: 1
+                ,title: '图片'
+                ,area: ['800px', '600px']
+                ,maxmin: true
+                ,shade: false
+                ,content: '<div class="layer-img-box">'+img+'</div>'
+            });
+        }
+        //播放语音
+        ,playVoice:function (othis) {
+            console.log(othis)
+            var playImg = othis.children('palying');
+            var stop = othis.children('stopping');
+            var id = othis.children('audio').attr('id');
+            var audio = document.getElementById(id);
+            audio.currentTime = 0;
+            audio.play();
+            playImg.addClass('hide');
+            stop.removeClass('hide');
+            audio.addEventListener('ended', function () {
+                playImg.removeClass('hide');
+                stop.addClass('hide');
+            }, false);
 
-        //聊天记录
+        }
+        //聊天记录///////////////
         ,chatLog: function(othis){
             var thatChat = thisChat();
             if(!cache.base.chatLog){
                 return layer.msg('未开启更多聊天记录');
             }
             layer.close(events.chatLog.index);
-            return events.chatLog.index = layer.open({
-                type: 2
+            layer.open({
+                type: 1
                 ,maxmin: true
                 ,title: '与 '+ thatChat.data.name +' 的聊天记录'
                 ,area: ['450px', '100%']
@@ -1954,10 +2139,12 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                 ,skin: 'layui-box'
                 ,anim: 2
                 ,id: 'layui-layim-chatlog'
-                ,content: cache.base.chatLog + '?id=' + thatChat.data.id + '&type=' + thatChat.data.type
+                ,content:'<div class="layim-chat-main chat-log-more"><ul></ul></div>'
             });
+            logPage = 1;
+            getMoreLog(logPage);
         }
-
+        //请求获取聊天记录
         //历史会话右键菜单操作
         ,menuHistory: function(othis, e){
             var local = layui.data('layim')[cache.mine.id] || {};

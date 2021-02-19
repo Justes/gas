@@ -63,6 +63,10 @@
     .chatList .msg-item p{
          color:#999;
          font-size:12px;
+         width:250px;
+         overflow: hidden;
+         text-overflow:ellipsis;
+         white-space: nowrap;
       }
     .msg-box img{
        max-width:160px;
@@ -82,6 +86,62 @@
      .msg-box .file-msg p{
          color: #333333;
      }
+     .layim-chat-list li .tips{
+         font-size: 12px;
+         position: absolute;
+         left: 36px;
+         top: 0;
+         min-width: 15px;
+         text-align: center;
+         display: block;
+         padding: 1px;
+         color: #fff;
+         background-color: #f30;
+         border-radius: 100% 100%;
+         width: unset;
+         line-height: 1;
+     }
+     .layim-chat-list li img, .layui-layim-min .layui-layer-content img{
+         border-radius:4px;
+     }
+     .layim-chat-other img{
+         border-radius:4px;
+     }
+     .layim-chat-list li .tips-0{
+         display:none;
+     }
+     .chat-log-more{
+        height: calc(100% - 21px)
+     }
+     .layim-chat-user img{
+        border-radius:4px;
+     }
+     .layui-layim-face ul li{
+        font-size: 18px;
+     }
+     .layer-img-box{
+        text-align: center;
+     }
+      .voice-box img{
+          width: 18px;
+          transform: rotate(180deg)
+      }
+      .layim-chat-mine .voice-box img{
+          transform: unset;
+      }
+      .voice-box hide{
+         display:none;
+      }
+       .voice-box show{
+         display:block;
+       }
+     .voice-box  audio{
+          position: absolute;
+          opacity: 0;
+          width: 200px;
+          height: 30px;
+          z-index: -1;
+      }
 </style>
 <header class="main-header">
 
