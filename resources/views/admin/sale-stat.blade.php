@@ -13,25 +13,16 @@
 	<th>销售总量(升)</th>
 </tr>
 </thead>
+
+@foreach($quarters as $key => $q)
 <tr>
-	<td>本月</td>
-@foreach($cur as $item)
+	<td>第{{$key}}季度</td>
+@foreach($q as $item)
 	<td>{{ $item }}</td>
+@endforeach
+</tr>
 @endforeach
 
-</tr>
-<tr>
-	<td>上月</td>
-@foreach($last as $item)
-	<td>{{ $item }}</td>
-@endforeach
-</tr>
-<tr>
-	<td>月环比</td>
-@foreach($rate as $item)
-	<td style="color:red">{{ $item }}%</td>
-@endforeach
-</tr>
 </table>
 
 <div style="width:1200px;height:400px;margin:50px auto;">
@@ -44,21 +35,23 @@ var bottle = new Array()
 var volume = new Array()
 var sale = new Array()
 
-@foreach($dates as $item)
-barlabels.push('{{ $item }}')
+@foreach($quarters as $key => $item)
+barlabels.push('第{{ $key }}季度')
+bottle.push('{{ $item['bottle_num'] }}')
+volume.push('{{ $item['volume'] }}')
+sale.push('{{ $item['sale_num'] }}')
 @endforeach
 
+/*
 @foreach($bottles as $item)
-bottle.push('{{ $item }}')
 @endforeach
 
 @foreach($volumes as $item)
-volume.push('{{ $item }}')
 @endforeach
 
 @foreach($sales as $item)
-sale.push('{{ $item }}')
 @endforeach
+ */
 
 $(function () {
     var ctx = document.getElementById("barChart").getContext('2d');

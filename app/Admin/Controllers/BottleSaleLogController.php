@@ -36,10 +36,12 @@ class BottleSaleLogController extends AdminController
 			$year = request()->sale_date = date('Y');
 			$grid->model()->where('year', $year);
 		}
+		/*
 		if(empty(request('sale_date'))) {
 			$month = request()->sale_time = date('m');
 			$grid->model()->where('month', $month);
 		}
+		 */
 
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
@@ -47,7 +49,7 @@ class BottleSaleLogController extends AdminController
 			$filter->equal('company_id', __('公司名'))->select(Company::all()->pluck('company_name', 'id'));
 			$filter->equal('zone_id', __('区域'))->select(Zone::all()->pluck('zone_name', 'id'));
 			$filter->year('sale_date', '年')->default(date('Y'));
-			$filter->month('sale_time', '月')->default(date('m'));
+			//$filter->month('sale_time', '月')->default(date('m'));
 		});
 
         $grid->column('id', __('Id'));
@@ -66,12 +68,17 @@ class BottleSaleLogController extends AdminController
 
 		$grid->header(function ($query) {
 			$d = $query->get();
-			$dates = $datas = [];
+			$dates = $datas = $quarters = [];
 			if($d->count()) {
 				$datas = collect($d->toArray());
 				$datas = $datas->sortBy('sale_date');
-			}
 
+				for($i = 1; $i < 5; $i++) {
+					$quarters[$i]['bottle_num'] = $datas->where('quarter', $i)->sum('bottle_num');
+					$quarters[$i]['volume'] = $datas->where('quarter', $i)->sum('volume');
+					$quarters[$i]['sale_num'] = $datas->where('quarter', $i)->sum('sale_num');
+				}
+			}
 
 			$dates = $bottles = $volumes = $sales = [];
 			foreach($datas as $item) {
@@ -96,6 +103,7 @@ class BottleSaleLogController extends AdminController
 			}
 
 			$year = request('sale_date') ?? date('Y');
+			/*
 			$month = request('sale_time') ?? date('m');
 			if($month == 1) {
 				$lastMonth = 12;
@@ -103,9 +111,10 @@ class BottleSaleLogController extends AdminController
 			} else {
 				$lastMonth = $month - 1;
 			}
+			 */
 
 			$where['year'] = $year;
-			$where['month'] = $lastMonth;
+			//$where['month'] = $lastMonth;
 
 			if(request('zone_id')) {
 				$where['zone_id'] = request('zone_id');
@@ -119,20 +128,25 @@ class BottleSaleLogController extends AdminController
 				$where['station_id'] = request('station_id');
 			}
 
+			/*
 			$lastLogs = BottleSaleLog::where($where)->get();
 			foreach($lastLogs as $item) {
 				$last['bottle'] += $item->bottle_num;
 				$last['volume'] += $item->volume;
 				$last['sale'] += $item->sale_num;
 			}
+			 */
 
+
+			/*
 			foreach($last as $key => $item) {
 				if($item != 0) {
 					$rate[$key] = ceil(($cur[$key] / $item) * 100);
 				}
 			}
+			 */
 
-			$doughnut = view('admin.sale-stat', compact('cur', 'last', 'rate', 'dates', 'bottles', 'volumes', 'sales'));
+			$doughnut = view('admin.sale-stat', compact('quarters', 'dates', 'bottles', 'volumes', 'sales'));
 			return new Box('销量统计', $doughnut);
 		});
 
