@@ -10,20 +10,44 @@ class ImMsgController extends BaseController {
 		$msgArr = [];
 		$msg = collect();
 		$num = 30;
+
+		if($req->search_msg) {
+			$searchMsg = $req->search_msg;
+		}
+
 		if($req->room_id) {
-			$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id])->orderBy('id', 'desc')->paginate($num);
+			if($req->search_msg) {
+				$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id])->where(function($query) use ($searchMsg) {
+					$query->where('msg', 'like', "%{$searchMsg}%")
+						->orWhere('file_name', 'like', "%{$searchMsg}%");
+				})->orderBy('id', 'desc')->paginate($num);
+			} else {
+				$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id])->orderBy('id', 'desc')->paginate($num);
+			}
 		}
 
 		if($req->user_id) {
 			$to = $req->user_id;
 			$uid = $this->uid();
 
-			$msg = ImMsg::where(['type' => 1, 'chat_type' => 1])
-				->where(function($query) use ($uid, $to) {
-					$query->where(['user_id' => $uid, 'to' => $to])
-						->orWhere([['user_id', $to], ['to' , $uid]]);
-				})
-			->orderBy('id', 'desc')->paginate($num);
+			if($req->search_msg) {
+				$msg = ImMsg::where(['type' => 1, 'chat_type' => 1])
+					->where(function($query) use ($uid, $to) {
+						$query->where(['user_id' => $uid, 'to' => $to])
+							->orWhere([['user_id', $to], ['to' , $uid]]);
+					})->where(function($query) use ($searchMsg) {
+						$query->where('msg', 'like', "%{$searchMsg}%")
+							->orWhere('file_name', 'like', "%{$searchMsg}%");
+					})
+				->orderBy('id', 'desc')->paginate($num);
+			} else {
+				$msg = ImMsg::where(['type' => 1, 'chat_type' => 1])
+					->where(function($query) use ($uid, $to) {
+						$query->where(['user_id' => $uid, 'to' => $to])
+							->orWhere([['user_id', $to], ['to' , $uid]]);
+					})
+				->orderBy('id', 'desc')->paginate($num);
+			}
 		}
 
 		if($msg->count()) {
