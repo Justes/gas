@@ -1526,7 +1526,20 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                             html +=  '<cite><span>'+item.name+'</span><i>'+item.updated_at+'</i></cite>'
                         }
                         html +=  '</div><div class="layim-chat-text">';
-                        html += '<div class="msg-box">'+item.msg+'</div>';
+                        if(item.msg_type==2){
+                            html +='<div class="msg-box"><div class="voice-box" layim-event="playVoice">' +
+                                '<img class="palying" src="/packages/layer/src/images/wifi-w.png"/>'+
+                                '<img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="'+item.timestamp+'-0"/>' +
+                                '<audio id="'+item.msgid+'" controls>' +
+                                '<source src="'+item.file_url+'" type="audio/mpeg">' +
+                                '</audio></div></div>';
+                        }else if(item.msg_type==3){
+                            html += '<div class="msg-box imgShow" layim-event="imgShow"><img src="'+item.file_url+'"></div>'
+                        }else if(item.msg_type==4){
+                            html +='<div class="msg-box"><a href="'+item.file_url+'" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>'+ item.file_name +'</p></a></div>'
+                        }else {
+                            html += '<div class="msg-box">'+item.msg+'</div>';
+                        }
                         html += '</div>';
                         html += '</li>';
                         $('.chat-log-more ul').prepend(html);
@@ -1572,15 +1585,15 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
                         html +=  '</div><div class="layim-chat-text">';
                         if(item.msg_type==2){
                             html +='<div class="msg-box"><div class="voice-box" layim-event="playVoice">' +
-                            '     <img class="palying" src="/packages/layer/src/images/wifi-w.png"/></div></div>'
-                            // '     <img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="{{d.timestamp}}-0"/>' +
-                            // '     <audio id="{{d.msgid}}" controls>' +
-                            // '     <source src="{{d.file_url}}" type="audio/mpeg">' +
-                            // '  </audio></div></div>';
+                            '<img class="palying" src="/packages/layer/src/images/wifi-w.png"/>'+
+                            '<img class="stopping hide" src="/packages/layer/src/images/voice_play_w.gif" id="'+item.timestamp+'-0"/>' +
+                            '<audio id="'+item.msgid+'" controls>' +
+                            '<source src="'+item.file_url+'" type="audio/mpeg">' +
+                            '</audio></div></div>';
                         }else if(item.msg_type==3){
-                           html += '<div class="msg-box imgShow" layim-event="imgShow"><img src="{{ d.file_url }}"></div>'
+                           html += '<div class="msg-box imgShow" layim-event="imgShow"><img src="'+item.file_url+'"></div>'
                         }else if(item.msg_type==4){
-                            html +='<div class="msg-box"><a href="{{d.file_url}}" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>{{ d.file_name }}</p></a></div>'
+                            html +='<div class="msg-box"><a href="'+item.file_url+'" target="_blank" class="file-msg"><img src="/packages/layer/src/images/list-file.png"><p>'+ item.file_name +'</p></a></div>'
                         }else {
                             html += '<div class="msg-box">'+item.msg+'</div>';
                         }
@@ -2107,13 +2120,12 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         }
         //播放语音
         ,playVoice:function (othis) {
-            console.log(othis)
-            var playImg = othis.children('palying');
-            var stop = othis.children('stopping');
             var id = othis.children('audio').attr('id');
             var audio = document.getElementById(id);
             audio.currentTime = 0;
             audio.play();
+            var playImg = othis.children('.palying');
+            var stop = othis.children('.stopping');
             playImg.addClass('hide');
             stop.removeClass('hide');
             audio.addEventListener('ended', function () {

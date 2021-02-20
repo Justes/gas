@@ -142,6 +142,63 @@
           height: 30px;
           z-index: -1;
       }
+     .group-wrapper .create-box{
+         padding: 6px 10px;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+     }
+     .group-wrapper .create-box button{
+         padding: 3px 12px;
+         font-size: 12px;
+         color: #fff;
+         background-color: #3786fd;
+         border: 1px solid #3786fd;
+         border-radius: 4px;
+         transition: all .3s;
+     }
+     .group-wrapper .create-box button:hover{
+         opacity: .7;
+     }
+     .group-wrapper .create-box h5{
+         font-weight: bold;
+         color: #666;
+     }
+     .select-member ul li{
+         display: flex;
+         align-items: center;
+         padding: 5px 20px;
+         color: #333333;
+         font-size: 13px;
+     }
+     .select-member ul li img{
+         width: 35px;
+         height: 35px;
+         border-radius: 4px;
+         margin-right: 8px;
+     }
+     .select-member ul li .checkbox-item{
+         vertical-align: middle;
+         width: 18px;
+         height: 18px;
+         background: url('/vendor/laravel-admin/AdminLTE/plugins/iCheck/minimal/blue.png') no-repeat;
+         cursor: pointer;
+         margin-right:10px;
+     }
+     .select-member ul li .checked{
+         background-position: -40px 0px;
+     }
+     .sub-btn{
+          position: fixed;
+          right: 30px;
+          bottom: 20px;
+          cursor: pointer;
+          line-height: 32px;
+          padding: 0 20px;
+          background-color: #405B77;
+          color: #fff;
+          border-radius: 3px;
+     }
 </style>
 <header class="main-header">
 
@@ -244,14 +301,18 @@
     <div class="tab-content">
         <div class="tab-pane fade in active" id="demo-asd-tab-1">
         <div class="tab-wrapper">
-                        <ul class="chatList">
-                           </ul>
-               </div>
+            <ul class="chatList">
+            </ul>
+        </div>
 
         </div>
         <div class="tab-pane fade" id="demo-asd-tab-2">
         <div class="tab-wrapper">
             <div class="group-wrapper">
+                 <div class="create-box">
+                     <h5>群聊</h5>
+                     <button id="createdGroup">创建群聊</button>
+                 </div>
                  <ul class="chatGroupList">
                   </ul>
             </div>
