@@ -16,6 +16,9 @@ class BaseController extends Controller {
 
 	public function user() {
 		$token = request()->header('token');
+		if(empty($token)) {
+			$token = request('token');
+		}
 		$user = AdminUser::where('token', $token)->first();
 		return $user;
 	}
