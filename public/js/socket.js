@@ -10,6 +10,7 @@ layui.use(['element', 'layer'], function(){
 var layim;
 var getlist = '/api/user/chat';
 var friendList = '/api/user/contacters';
+var creategroup = '/api/room'
 var socketUrl = "ws://8.129.161.138:8181/ws";
 var token = LA.user.token;
 var my_id = LA.user.id;
@@ -17,6 +18,8 @@ var chatArr = [];
 var g_id = [];   //群id
 var u_id = [];   //用户id
 var unread_msg = localStorage.getItem('unread_msg')?JSON.parse(localStorage.getItem('unread_msg')):[];
+var memberList = [];  //通讯录联系人
+var selectArr = [];
 // 获取用户信息
 $(function(){
     // 获取会话列表
@@ -75,6 +78,7 @@ $(function(){
 
                 var ulist = "";
                 $.each(data.users[i], function(index, item) {
+                    memberList.push(item);
                     ulist +='<li id="'+item.user_id+'" name="'+item.name+'" avatar="'+item.avatar+'" chat_type="1" openid="'+item.user_id+'">'+
                             '<img src="'+item.avatar+'">'+
                             '<span>'+item.name+'</span>'+
@@ -226,7 +230,8 @@ $(function(){
 
 			//消息列表
 			$(".chatList").on('click', '.msg-item', function(){
-				var name = $(this).attr("name");
+                $(".create-dialog").css({display:"none"});
+                var name = $(this).attr("name");
 				var avatar = $(this).attr("avatar");
 				var openid = $(this).attr("openid");
 				var type = $(this).attr("chat_type");
@@ -250,6 +255,7 @@ $(function(){
 				var avatar = $(this).attr("avatar");
 				var unitid = $(this).attr("id");
 				var type =  $(this).attr("chat_type");
+                $(".create-dialog").css({display:"none"});
 				layim.chat({
 				  name: name //名称
 				  ,type: type //聊天类型
@@ -265,6 +271,7 @@ $(function(){
                 var avatar = $(this).attr("avatar");
                 var unitid = $(this).attr("id");
                 var type =  $(this).attr("chat_type");
+                $(".create-dialog").css({display:"none"});
                 layim.chat({
                     name: name //名称
                     ,type: type //聊天类型
@@ -273,8 +280,70 @@ $(function(){
                     ,id: unitid //好友id
                     ,closeBtn:2
                 })
-            })
-		})
+            });
+			//创建群聊
+            $("#createdGroup").click(function(){
+                var html = '<ul>';
+                memberList.forEach(function (item,index) {
+                    html +='<li id="'+item.user_id+'" name="'+item.name+'" avatar="'+item.avatar+'" chat_type="1" openid="'+item.user_id+'">'+
+                        '<div class="checkbox-item"></div><img src="'+item.avatar+'">'+
+                        '<span>'+item.name+'</span>'+
+                        '</li>'
+                });
+                html+='</ul>';
+                layer.open({
+                    type: 1
+                    ,title: '创建群聊'
+                    ,area: ['650px', '500px']
+                    ,skin: 'create-dialog'
+                    ,maxmin: true
+                    ,shade: false
+                    ,content: '<div class="select-member">'+html+'</div><div class="sub-btn">确定</div>'
+                });
+                optSelecy();
+            });
+            function optSelecy() {
+                $(".checkbox-item").on('click', function(){
+                    $(this).toggleClass('checked');
+                });
+                $(".sub-btn").click(function(){
+                    let arr = [];
+                    $(".select-member ul li").each(function(index,item){
+                        let id = $(this).attr('id');
+                        if($(this).children('.checkbox-item').hasClass('checked')){
+                            arr.push(id);
+                        }
+                    });
+                    if(arr.length<2){
+                        layer.msg('请至少选择两个好友');
+                        return;
+                    }
+                    let data = {
+                        user_ids: JSON.stringify(arr),
+                    };
+                    $.ajax({
+                        url: creategroup,
+                        data: data,
+                        headers: { token: token },
+                        type: "POST",
+                        success: function(res) {
+                            if(res.code==0){
+                                layer.closeAll();
+                                layim.chat({
+                                    name: res.data.room_name //名称
+                                    ,type: 2  //聊天类型
+                                    ,chat_type: 2 //聊天类型
+                                    ,avatar: 'http://gas.micyi.com/pics/images/group.png' //头像
+                                    ,id: res.data.room_id //好友id
+                                    ,closeBtn:2
+                                })
+                            }
+                        }
+                    });
+
+                })
+            }
+        })
 	}
 	//更新消息列表
 	function updateItem(item,index) {
@@ -379,4 +448,5 @@ $(function(){
         }
         localStorage.setItem('unread_msg',JSON.stringify(arr))
     }
+
 });
