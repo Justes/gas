@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
-use App\Models\{Room, AdminUser, ImMsg};
+use App\Models\{Room, AdminUser, ImMsg, RoomUser};
+use Maatwebsite\Excel\Facades\Excel;
 
 class ImMsgController extends BaseController {
 
@@ -98,5 +99,47 @@ class ImMsgController extends BaseController {
 			$arr[] = $tmp;
 		}
 		return err(0, $arr);
+	}
+
+	public function export(Request $req) {
+		$users = [];
+		if($req->room_id) {
+			$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id])->orderBy('id', 'asc')->get();
+			$rUids = RoomUser::where('room_id', $req->room_id)->pluck('user_id')->toArray();
+			$adminusers = AdminUser::whereIn('id', $rUids)->get();
+			foreach($adminusers as $au) {
+				$users[$au->id] = $au->sname ?? '';
+			}
+
+		} else if($req->user_id) {
+			$to = $req->user_id;
+			$uid = $this->uid();
+
+			$msg = ImMsg::where(['type' => 1, 'chat_type' => 1])
+				->where(function($query) use ($uid, $to) {
+					$query->where(['user_id' => $uid, 'to' => $to])
+						->orWhere([['user_id', $to], ['to' , $uid]]);
+				})
+			->orderBy('id', 'asc')->get();
+
+			$to = AdminUser::find($req->user_id);
+			$users[$req->user_id] = $to->sname ?? '';
+
+			$user = AdminUser::find($uid);
+			$users[$uid] = $user->sname ?? '';
+		}
+
+		Header( "Content-type:   application/octet-stream "); 
+		Header( "Accept-Ranges:   bytes "); 
+		header( "Content-Disposition:   attachment;   filename=聊天记录.txt"); 
+		header( "Expires:   0 "); 
+		header( "Cache-Control:   must-revalidate,   post-check=0,   pre-check=0 "); 
+		header( "Pragma:   public "); 
+
+		foreach($msg as $item) {
+			if(isset($users[$item->user_id])) {
+				echo $item->created_at .' '. $users[$item->user_id] .':'. $item->msg.PHP_EOL;
+			}
+		}
 	}
 }

@@ -24,6 +24,7 @@ Route::group(['namespace' => 'Api'], function() {
 	Route::get('callback', 'CallbackController@index');
 	Route::get('user/detail', 'UserController@detail');
 	Route::post('event/hurry', 'EventController@hurry');
+	Route::get('imsg/export', 'ImMsgController@export');
 });
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth.token'], function() {
