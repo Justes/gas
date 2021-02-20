@@ -104,7 +104,7 @@ class ImMsgController extends BaseController {
 	public function export(Request $req) {
 		$users = [];
 		if($req->room_id) {
-			$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id])->orderBy('id', 'asc')->get();
+			$msg = ImMsg::where(['type' => 1, 'chat_type' => 2, 'to' => $req->room_id, 'msg_type' => 1])->orderBy('id', 'asc')->get();
 			$rUids = RoomUser::where('room_id', $req->room_id)->pluck('user_id')->toArray();
 			$adminusers = AdminUser::whereIn('id', $rUids)->get();
 			foreach($adminusers as $au) {
@@ -115,7 +115,7 @@ class ImMsgController extends BaseController {
 			$to = $req->user_id;
 			$uid = $this->uid();
 
-			$msg = ImMsg::where(['type' => 1, 'chat_type' => 1])
+			$msg = ImMsg::where(['type' => 1, 'chat_type' => 1, 'msg_type' => 1])
 				->where(function($query) use ($uid, $to) {
 					$query->where(['user_id' => $uid, 'to' => $to])
 						->orWhere([['user_id', $to], ['to' , $uid]]);
