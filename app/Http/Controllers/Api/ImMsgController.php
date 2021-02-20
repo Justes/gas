@@ -51,8 +51,20 @@ class ImMsgController extends BaseController {
 		return err(0, $msgArr);
 	}
 
-	public function files() {
-		$msgs = ImMsg::where(['chat_type' => 1, 'to' => $this->uid(), 'msg_type' => 4])->orderBy('id', 'desc')->paginate();
+	public function files(Request $req) {
+		$uid = $this->uid();
+
+		if($req->file_name) {
+			$msgs = ImMsg::where(['chat_type' => 1, 'msg_type' => 4])->where(function($query) use ($uid) {
+					$query->where(['user_id' => $uid])
+						->orWhere([['to' , $uid]]);
+				})->where('file_name', 'like', "%{$req->file_name}%")->orderBy('id', 'desc')->paginate();
+		} else {
+			$msgs = ImMsg::where(['chat_type' => 1, 'msg_type' => 4])->where(function($query) use ($uid) {
+					$query->where(['user_id' => $uid])
+						->orWhere([['to' , $uid]]);
+				})->orderBy('id', 'desc')->paginate();
+		}
 		$arr = [];
 		foreach($msgs as $msg) {
 			$tmp = $msg->toArray();

@@ -72,8 +72,12 @@ class ArticleController extends BaseController {
 		return err();
 	}
 
-	public function files() {
-		$attaches = Attachment::orderBy('id', 'desc')->paginate();
+	public function files(Request $req) {
+		if($req->file_name) {
+			$attaches = Attachment::where('path', 'like', "%{$req->file_name}%")orderBy('id', 'desc')->paginate();
+		} else {
+			$attaches = Attachment::orderBy('id', 'desc')->paginate();
+		}
 		$arr = [];
 		foreach($attaches as $attach) {
 			$tmp = $attach->toArray();

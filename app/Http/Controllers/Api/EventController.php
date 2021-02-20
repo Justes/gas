@@ -8,7 +8,11 @@ class EventController extends BaseController {
 
 	public function index(Request $req) {
 		$estatus = $req->event_status ?? 0;
-		$events = Event::where(['event_status' => $estatus, 'admin_user_id' => $this->uid()])->paginate(20);
+		if($req->event_name) {
+			$events = Event::where(['event_status' => $estatus, 'admin_user_id' => $this->uid()])->where('event_name', 'like', "%{$req->event_name}%")->paginate(20);
+		} else {
+			$events = Event::where(['event_status' => $estatus, 'admin_user_id' => $this->uid()])->paginate(20);
+		}
 		$arr = [];
 		foreach($events as $item) {
 			$tmp = $item->toArray();
