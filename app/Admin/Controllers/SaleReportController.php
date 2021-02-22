@@ -56,7 +56,6 @@ class SaleReportController extends AdminController
         $show->field('begin_time', __('Begin time'));
         $show->field('end_time', __('End time'));
         $show->field('final_time', __('Final time'));
-        $show->field('std_type', __('Std type'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
