@@ -77,4 +77,6 @@ Route::group([
 	$router->resource('intfcs', IntfcContrller::class);
 	$router->resource('admin-operation-logs', AdminOperationLogController::class);
 	$router->resource('bonus-configs', BonusConfigController::class);
+	$router->resource('intfc-logs', IntfcLogController::class);
+	$router->resource('env-checks', EnvCheckController::class);
 });

@@ -491,3 +491,11 @@ create table w_expire_tips (
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '有效期提醒';
+
+create table w_intfc_logs (
+	id int NOT NULL AUTO_INCREMENT primary key,
+	name varchar(255) not null default '' comment '接口名',
+	uri varchar(255) not null default '' comment '接口uri',
+	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
+	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
+) comment '接口访问日志';

@@ -138,5 +138,7 @@
 	"Qualify desc":"存在的问题",
 	"Problem":"一般评定项目",
 	"Problem desc":"存在的问题",
-	"Eval result":"结论"
+	"Eval result":"结论",
+	"Name":"名称",
+	"Uri":"链接"
 }
