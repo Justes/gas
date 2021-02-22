@@ -37,6 +37,7 @@ class IntfcLogController extends AdminController
         $grid->column('uri', __('Uri'));
         $grid->column('created_at', __('访问时间'));
 		$grid->disableActions();
+		$grid->disableCreateButton();
 
         return $grid;
     }
