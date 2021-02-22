@@ -32,7 +32,7 @@ class AdminOperationLogController extends AdminController
         $grid->column('id', __('Id'));//->sortable();
         $grid->column('user.name', __('User'));
 		$grid->column('method')->display(function($v) {
-			$arr = ['GET' => '查看', 'POST' => '新增', 'PUT' => '修改', 'DELETE' => '删除'];
+			$arr = ['GET' => '查看', 'POST' => '新增', 'PUT' => '修改', 'DELETE' => '删除', 'LOGIN' => '登录'];
 			return $arr[$v] ?? '';
 		});
 		/*->display(function ($method) {
@@ -42,6 +42,10 @@ class AdminOperationLogController extends AdminController
         });
 		 */
 		$grid->column('path')->display(function($v) {
+			if($v == 'login') {
+				return '后台';
+			}
+
 			$str = substr($v, 6);
 			if(empty($str)) {
 				$str = '/';
