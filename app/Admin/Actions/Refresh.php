@@ -25,7 +25,7 @@ class Refresh extends Action
 
 		$result = curl($url, $params);
 		if(isset($result['success'])) {
-			$users = $result['data'];
+			$users = $result['data'] ?? [];
 			foreach($users as $user) {
 				$adminUser = AdminUser::where('user_id', $user['userId'])->first();
 				if(empty($adminUser)) {
