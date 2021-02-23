@@ -92,6 +92,7 @@ class IntfcContrller extends AdminController
         $form->radio('status', __('Status'))->options(['开发中', '成功'])->default(1);
 
 		$api = ApiSetting::first();
+		$form->text('url', __('Url'))->default($api->url)->rules('required');
 		$form->text('client_id', __('授权id'))->default($api->client_id)->rules('required');
 		$form->text('client_secret', __('授权密钥'))->default($api->client_secret)->rules('required');
 		$form->text('project_id', __('平台id'))->default($api->project_id)->rules('required');
@@ -108,6 +109,11 @@ class IntfcContrller extends AdminController
 
 			if($form->project_id) {
 				$data['project_id'] = $form->project_id;
+				$data['scope'] = $form->scope;
+			}
+
+			if($form->url) {
+				$data['url'] = $form->url;
 			}
 
 			if(!empty($data)) {

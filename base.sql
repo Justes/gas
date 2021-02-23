@@ -438,6 +438,10 @@ create table w_intfcs (
 	plt_desc varchar(255) not null default '' comment '平台说明',
 	create_date varchar(32) not null default '' comment '接入日期',
 	status tinyint not null default 1 comment '状态 0接入中 1成功',
+	url varchar(255) not null default '' comment 'url',
+	client_id varchar(255) not null default '' comment 'client_id',
+	client_secret varchar(255) not null default '' comment 'client secret',
+	project_id int not null default 0 comment 'project id',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '接口管理';
