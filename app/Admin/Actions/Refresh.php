@@ -38,10 +38,11 @@ class Refresh extends Action
 				}
 			}
 
-			$data['name'] = '用户列表';
-			$data['uri'] = $url;
-			IntfcLog::create($data);
 		}
+
+		$data['name'] = '用户列表';
+		$data['uri'] = $url;
+		IntfcLog::create($data);
 
         return $this->response()->success('成功')->refresh();
     }
