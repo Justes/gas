@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\EventType;
+use App\Models\EventLimit;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -24,7 +24,7 @@ class EventLimitController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new EventType());
+        $grid = new Grid(new EventLimit());
 		$grid->disableFilter();
 		$grid->disableCreateButton();
 		$grid->disableExport();
@@ -51,7 +51,7 @@ class EventLimitController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(EventType::findOrFail($id));
+        $show = new Show(EventLimit::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('etype_name', __('Etype name'));
@@ -67,7 +67,7 @@ class EventLimitController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new EventType());
+        $form = new Form(new EventLimit());
 
         $form->text('etype_name', __('Etype name'));
         $form->time('deal_time', __('Deal time'))->format('HH:mm');
