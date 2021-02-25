@@ -142,6 +142,10 @@ class UserController extends BaseController {
 			$arr['company_name'] = $user->station->company->company_name ?? '';
 			$roleUser =	AdminRoleUser::where('user_id', $user->id)->first();
 			$arr['role_name'] = $roleUser->role->name ?? '';
+
+			$user->token = $req->header('token');
+			$user->save();
+
 			return err(0, $arr);
 		} else {
 			return err(4000);
