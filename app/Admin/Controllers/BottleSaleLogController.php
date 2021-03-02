@@ -55,10 +55,10 @@ class BottleSaleLogController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('bottle_num', __('Bottle num'));
-        $grid->column('volume', __('Volume'));
-        $grid->column('sale_num', __('Sale num'));
-        $grid->column('sale_date', __('Sale date'));
+        $grid->column('sale_num', __('Bottle num'));
+        $grid->column('bottle_num', __('Discount num'));
+        $grid->column('volume', __('Fair num'));
+		 $grid->column('time_range', __('Time range'));
 
 		$grid->tools(function (Grid\Tools $tools) {
 			$tools->append(new BottleSaleImport);
@@ -74,9 +74,9 @@ class BottleSaleLogController extends AdminController
 				$datas = $datas->sortBy('sale_date');
 
 				for($i = 1; $i < 5; $i++) {
+					$quarters[$i]['sale_num'] = $datas->where('quarter', $i)->sum('sale_num');
 					$quarters[$i]['bottle_num'] = $datas->where('quarter', $i)->sum('bottle_num');
 					$quarters[$i]['volume'] = $datas->where('quarter', $i)->sum('volume');
-					$quarters[$i]['sale_num'] = $datas->where('quarter', $i)->sum('sale_num');
 				}
 			}
 

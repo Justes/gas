@@ -52,7 +52,8 @@ class SaleImport implements ToModel, WithStartRow
 			'sale_date'	 => $row[4] . '-01-01',
 			'sale_time'	 => $row[4],
 			'year'		 => $row[4],
-			'quarter'	 => $row[5]
+			'quarter'	 => $row[5],
+			'time_range' => $row[6]
 			//'month'		 => $month
         ]);
     }

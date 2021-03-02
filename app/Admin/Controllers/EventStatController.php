@@ -30,7 +30,6 @@ class EventStatController extends AdminController
         $grid = new Grid(new Event());
 		$grid->model()->orderBy('id', 'desc');
 		$grid->disableCreateButton();
-		$grid->disableExport();
 		$grid->disableColumnSelector();
 		$grid->disablePagination();
 

@@ -8,6 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Support\Facades\Auth;
 
 class EventExamController extends AdminController
 {
@@ -127,6 +128,8 @@ class EventExamController extends AdminController
         $form->date('end_time', __('End time'));
         $form->date('exam_date', __('Exam date'))->default(date("Y-m-d"));
         $form->radio('exam_status', __('Exam status'))->options(['未考核', '已考核']);
+        $form->textarea('remark', __('Remark'));
+        $form->textarea('edit_log', __('Edit log'))->readonly();
 		$form->hidden('std_type')->default(4);
 		$form->hidden('event_deal_cnt')->default(0);
 		$form->hidden('event_cnt')->default(0);
@@ -148,6 +151,7 @@ class EventExamController extends AdminController
 
 				$form->year = date("Y");
 			}
+
 		});
 
 		$form->saved(function(Form $form) {
@@ -156,6 +160,8 @@ class EventExamController extends AdminController
 				$res = $form->res;
 				$scores = $form->scores;
 				$score = 0;
+				$str = '';
+				$results = ['不通过', '通过'];
 
 				foreach($real as $key => $item) {
 					$data['station_exam_id'] = $form->model()->id;
@@ -169,10 +175,15 @@ class EventExamController extends AdminController
 						$data['project'] = $std->project;
 						$data['standard'] = $std->standard;
 						$data['standard_id'] = $key;
+
+						$str .= '项目:'.$data['project'].' 权重:'.$data['weight']. ' 标准:'.$data['standard']. ' 实际数据:'.$data['real_data']. ' 得分:'.$data['score']. ' 结果:'. $results[$data['result']] . '&#10;';
+
 						StationExamStd::create($data);
 					} else {
 						$ses = StationExamStd::find($key);
 						$data['weight'] = $ses->weight;
+
+						$str .= '项目:'.$ses['project'].' 权重:'.$ses['weight']. ' 标准:'.$ses['standard']. ' 实际数据:'.$data['real_data']. ' 得分:'.$data['score']. ' 结果:'. $results[$data['result']] . '&#10;';
 						StationExamStd::where('id', $key)->update($data);
 					}
 					$score += $data['weight'] * $data['score'];
@@ -180,7 +191,20 @@ class EventExamController extends AdminController
 
 				$score = round($score / 100);
 
-				StationExam::where('id', $form->model()->id)->update(['score' => $score]);
+				$exam = StationExam::where('id', $form->model()->id)->first();
+				$editLog = $exam->edit_log .'&#10;&#10;';
+
+				$station = Station::where('id', $exam->station_id)->first();
+				$estatus = ['未考核', '已考核'];
+
+				if($form->isCreating()) {
+					if($station) {
+						$editLog .= date("Y-m-d H:i:s") .' ' . Auth::user()->name . ' 创建了:&#10;场站:' . $station->station_name . ' 综合得分:'.$score. ' 开始时间:'.$form->begin_time . ' 结束时间:'.$form->end_time . ' 考核时间:'.$form->exam_date. ' 考核状态:'.$estatus[$form->exam_status]. '&#10;' . $str . ' 备注:'. $form->remark. '&#10;';
+					}
+				} else {
+					$editLog .= date("Y-m-d H:i:s") .' ' . Auth::user()->name . ' 修改为:&#10;场站:' . $station->station_name . ' 综合得分:'.$score. ' 开始时间:'.$form->begin_time . ' 结束时间:'.$form->end_time . ' 考核时间:'.$form->exam_date. ' 考核状态:'.$estatus[$form->exam_status]. '&#10;' . $str . ' 备注:'. $form->remark.'&#10;';
+				}
+				StationExam::where('id', $form->model()->id)->update(['score' => $score, 'edit_log' => $editLog]);
 			}
 		});
 

@@ -327,6 +327,7 @@ create table w_station_exams (
 	problem_desc varchar(1000) default '' comment '问题描述',
 	eval_result tinyint default 0 comment '结论 0合格,1不合格',
 	extras varchar(2000) not null default '' comment '扩展',
+	edit_log text default null comment '修改记录',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '场站考核';
@@ -379,6 +380,7 @@ create table w_bottle_sale_logs (
 	year varchar(12) not null default '' comment '年',
 	month varchar(12) not null default '' comment '月',
 	quarter tinyint default 0 comment '季度 1,2,3,4',
+	time_range varchar(255) not null default '' comment '统计时间范围',
 	`created_at` datetime DEFAULT NULL COMMENT '创建时间',
 	`updated_at` datetime DEFAULT NULL COMMENT '更新时间'
 ) comment '换站瓶销售记录';
