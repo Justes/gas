@@ -32,14 +32,14 @@ class StationExamController extends AdminController
 		$grid->filter(function($filter) {
 			$filter->disableIdFilter();
 			$filter->equal('station_id', __('场站名'))->select(Station::all()->pluck('station_name', 'id'));
-			$filter->equal('period', '考核周期')->select(['周度', '月度', '季度', '年度']);
+			//$filter->equal('period', '考核周期')->select(['周度', '月度', '季度', '年度']);
 			$filter->equal('exam_status', '考核状态')->select(['未考核', '已考核']);
 		});
 
         $grid->column('id', __('Id'));
         $grid->column('station_name', __('Station id'));
         $grid->column('company_name', __('Company id'));
-        $grid->column('period_text', __('Period'));
+        //$grid->column('period_text', __('Period'));
         $grid->column('score', __('Score'))->sortable();
         $grid->column('exam_date', __('Exam date'));
         $grid->column('exam_status_text', __('Exam status'));
@@ -63,7 +63,7 @@ class StationExamController extends AdminController
         $show = new Show(StationExam::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('period', __('Period'));
+        //$show->field('period', __('Period'));
         $show->field('quarter', __('Quarter'));
         $show->field('station_id', __('Station id'));
         $show->field('score', __('Score'));
