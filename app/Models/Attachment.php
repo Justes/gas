@@ -11,7 +11,7 @@ class Attachment extends BaseModel {
 	}
 
 	public function getArticleTitleAttribute() {
-		return $this->article->title;
+		return $this->article->title ?? '';
 	}
 
 	public function getFileNameAttribute() {
