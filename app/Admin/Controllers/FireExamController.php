@@ -99,7 +99,7 @@ class FireExamController extends AdminController
 
 			$stds = Standard::where('std_type', 5)->get();
 			foreach($stds as $item) {
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;"  / >', '<input class="scores" name="scores['.$item->id.']" style="padding-right:5px;text-align:right;" />', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
+				$rows[] = [$item->id, $item->project, $item->weight, '<div style="width:200px;">'.$item->standard.'</div>', '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;"  / >', '<input class="scores" name="scores['.$item->id.']" style="padding-right:5px;text-align:right;" />', '<select name="res['.$item->id.']"><option value="0">不通过</option><option value="1">通过</option></select>'];
 			}
 		} else {
 			$form->display('station.company.company_name', __('Company id'));
@@ -121,7 +121,7 @@ class FireExamController extends AdminController
 			foreach($stds as $item) {
 				$sel = empty($item->result) ? "" : "selected";
 
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->real_data.'" / >', '<input class="scores" name="scores['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->score.'">', '<select name="res['.$item->id.']"><option value="0"'.$sel.'>不通过</option><option value="1"'.$sel.'>通过</option></select>'];
+				$rows[] = [$item->id, $item->project, $item->weight, '<div style="width:200px;">'.$item->standard.'</div>', '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->real_data.'" / >', '<input class="scores" name="scores['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->score.'">', '<select name="res['.$item->id.']"><option value="0"'.$sel.'>不通过</option><option value="1"'.$sel.'>通过</option></select>'];
 			}
 		}
 		$table = new Table($headers, $rows);

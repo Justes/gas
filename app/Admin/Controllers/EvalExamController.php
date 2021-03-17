@@ -117,7 +117,7 @@ class EvalExamController extends AdminController
 
 			$stds = Standard::where('std_type', 9)->get();
 			foreach($stds as $item) {
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" / >', '<input name="res['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->result.'" />'];
+				$rows[] = [$item->id, $item->project, $item->weight, '<div style="width:200px;">'.$item->standard.'</div>', '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" / >', '<input name="res['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->result.'" />'];
 			}
 		} else {
 			$form->display('station.company.company_name', __('Company id'));
@@ -132,7 +132,7 @@ class EvalExamController extends AdminController
 			foreach($stds as $item) {
 				$sel = empty($item->result) ? "" : "selected";
 
-				$rows[] = [$item->id, $item->project, $item->weight, $item->standard, '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->real_data.'" / >', '<input name="res['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->result.'" />'];
+				$rows[] = [$item->id, $item->project, $item->weight, '<div style="width:200px;">'.$item->standard.'</div>', '<input class="real" name="real['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->real_data.'" / >', '<input name="res['.$item->id.']" style="padding-right:5px;text-align:right;" value="'.$item->result.'" />'];
 			}
 		}
 		$table = new Table($headers, $rows);
