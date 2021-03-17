@@ -29,7 +29,7 @@
 	"Gas type":"供气方式",
 	"Tube length":"管道长度(千米)",
 	"Cover area":"供气面积(平方米)",
-	"Population":"供气人口(人)",
+	"Population":"用户数量(户)",
 	"Zone status":"状态",
 	"Title":"标题",
 	"Cate name":"类型",

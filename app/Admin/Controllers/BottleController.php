@@ -34,7 +34,7 @@ class BottleController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('bottle_no', __('Bottle no'));
-        $grid->column('station_id', __('Station id'));
+        $grid->column('station_name', __('Station id'));
         $grid->column('volume', __('Volume'));
         $grid->column('guest', __('Guest'));
         $grid->column('flow_time', __('Flow time'));

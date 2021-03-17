@@ -55,7 +55,7 @@ class StationController extends AdminController
 			$str = '';
 			foreach($zones as $item) {
 				if(is_array($item->station_ids) && in_array($this->id, $item->station_ids)) {
-					$str .= $item->zone_range.', ';
+					$str .= $item->zone_name.', ';
 				}
 			}
 			$str = rtrim($str, ', ');
