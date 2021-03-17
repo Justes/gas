@@ -151,7 +151,7 @@ class EvalExamController extends AdminController
 
 		$form->divider();
 		$form->number('score', __('Score'))->default(0);
-		//$form->year('year', '年度')->default(date("Y"));
+		$form->hidden('year', '年度')->default(date("Y"));
 		$form->radio('eval_result', __('Eval result'))->options([0 => '合格', 1 => '不合格']);
 		$form->file('manage_file', __('附件'));
         //$form->radio('exam_status', __('Ck status'))->options(['未审核', '已审核', '驳回']);
