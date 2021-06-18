@@ -82,7 +82,8 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
 
-        return redirect(config('admin.route.prefix'));
+		return redirect(env('LOGIN_URL'));
+        //return redirect(config('admin.route.prefix'));
     }
 
     /**
